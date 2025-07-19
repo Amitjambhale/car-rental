@@ -1,0 +1,112 @@
+.car-list-container {
+  padding: 30px;
+  text-align: center;
+}
+
+.car-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  padding: 20px;
+}
+.car-card {
+  width: 250px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.car-image {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+
+.car-info {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.car-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.car-rent,
+.car-specs {
+  font-size: 14px;
+  color: #444;
+}
+
+.status-badge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.status-badge.available {
+  background-color: #c8f7c5;
+  color: #388e3c;
+}
+
+.status-badge.booked {
+  background-color: #ffcdd2;
+  color: #c62828;
+}
+
+.card-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+}
+
+.car-link {
+  font-size: 14px;
+  text-decoration: underline;
+  color: #007bff;
+}
+
+.custom-btn {
+  background-color: #00bcd4;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.custom-btn:hover {
+  background-color: #0097a7;
+}
+
+@media (max-width: 768px) {
+  .car-grid {
+    gap: 8px;
+  }
+
+  .car-card {
+    width: 90%;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .car-card {
+    width: 45%;
+  }
+}
+
