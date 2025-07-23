@@ -21,7 +21,7 @@
 }
 
 .navbar-logo {
-  height: 40px;
+  height: 36px;
 }
 .navbar-logo.small {
   height: 30px;
@@ -32,6 +32,7 @@
   color: #ddd;
   transition: color 0.3s ease;
   cursor: pointer;
+  margin:0 20px;
 }
 .navbar-phone:hover,
 .mobile-phone:hover {

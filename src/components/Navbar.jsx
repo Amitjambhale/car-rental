@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import logo from "../assets/logo.png";
+
 import "../styles/Navbar.css";
 
 function Navbar() {
@@ -14,8 +14,8 @@ function Navbar() {
         <div className="hamburger" onClick={toggleMenu}>☰</div>
 
         <div className="mobile-logo-phone">
-          <img src={logo} alt="Logo" className="navbar-logo small" />
-          <a href="tel:+919876543210" className="mobile-phone">📞 +91-9876543210</a>
+          <img src="/assets/logo.png" alt="Logo" className="navbar-logo small" />
+          <a href="tel:+919730562424" className="mobile-phone">📞 +91-9730562424</a>
         </div>
 
         <Link to="/login" className="mobile-login">Login</Link>
@@ -24,15 +24,15 @@ function Navbar() {
       {/* Desktop Navbar */}
       <div className="navbar-inner">
         <div className="navbar-left">
-          <img src={logo} alt="Logo" className="navbar-logo" />
-          <span className="navbar-phone">📞 +91-9876543210</span>
-        </div>
+          <img src="/assets/logo.png" className="navbar-logo" alt="Logo" />
+          <span className="navbar-phone">📞 +91-9730562424</span>
 
-        <div className="navbar-links">
-          <Link to="/">Home</Link>
-          <Link to="/about">About</Link>
-          <Link to="/cars">Cars</Link>
-          <Link to="/check-availability">Check Availability</Link>
+          <div className="navbar-links">
+            <Link to="/">Home</Link>
+            <Link to="/about">About</Link>
+            <Link to="/cars">Cars</Link>
+            <Link to="/check-availability">Check Availability</Link>
+          </div>
         </div>
 
         <div className="auth-buttons">

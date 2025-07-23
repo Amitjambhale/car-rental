@@ -1,97 +1,51 @@
 .home-page {
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
 }
 
 .hero-section {
   position: relative;
-  height: 600px;
+  height: 85vh;
   background-size: cover;
   background-position: center;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
-  overflow: hidden;
 }
 
-
-.hero-section .overlay {
+.overlay {
   position: absolute;
   top: 0;
   left: 0;
-  height: 100%;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* 0.4 = 40% dark overlay */
-  z-index: 1;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
 }
 
 .hero-text {
   position: relative;
-  z-index: 2; /* above overlay */
+  color: #fff;
   text-align: center;
+  z-index: 2;
 }
 
-.overlay {
-  background-color: rgba(0, 0, 0, 0.5);
-  padding: 90px 10px;
-  border-radius: 12px;
-  text-align: center;
-  color: white;
-}
-
-.overlay h1 {
-  font-size: 2.5rem;
+.hero-text h1 {
+  font-size: 48px;
   margin-bottom: 10px;
 }
 
-.overlay p {
-  font-size: 1.2rem;
+.hero-text p {
+  font-size: 20px;
 }
 
-.cars-section {
-  padding: 40px 20px;
-  background-color: #f2f2f2;
-  text-align: center;
-}
-
-.cars-section h2 {
-  font-size: 2rem;
-  margin-bottom: 30px;
-}
-
-.car-grid {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-  justify-content: center;
-}
 .section-heading {
-  font-size: 32px;
-  font-weight: 700;
-  color: #222;
+  font-size: 28px;
+  font-weight: bold;
   text-align: center;
-  margin-bottom: 40px;
-  position: relative;
-  padding-bottom: 12px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  margin: 40px 0 20px;
+  color: #2e2e2e;
 }
 
-.section-heading::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80px;
-  height: 4px;
-  background-color: #00bcd4;
-  border-radius: 2px;
+.cars {
+  padding: 0 20px 60px;
 }
-
-.view-all-wrapper {
-  margin-top: 20px;
-  text-align: center;
-  padding: 20px;
-}
-

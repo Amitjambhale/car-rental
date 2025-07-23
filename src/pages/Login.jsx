@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import "../styles/Login.css"; // You can style separately
+import { Link } from "react-router-dom"; // 👈 Import Link
+import "../styles/Login.css";
 
 function Login() {
   const [isRegistering, setIsRegistering] = useState(false);
@@ -26,48 +27,33 @@ function Login() {
   };
 
   return (
-    <div className="login-container">
-      <h2>{isRegistering ? "Register" : "Login"}</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          required
-          onChange={handleChange}
-        />
-        <input
-          type="tel"
-          name="phone"
-          placeholder="Phone Number"
-          required
-          onChange={handleChange}
-        />
-        {isRegistering && (
-          <>
-            <input
-              type="text"
-              name="currentPlace"
-              placeholder="Current Place"
-              required
-              onChange={handleChange}
-            />
-            <input
-              type="file"
-              name="proof"
-              accept=".jpg,.jpeg,.png,.pdf"
-              required
-              onChange={handleChange}
-            />
-          </>
-        )}
-        <button type="submit">{isRegistering ? "Register" : "Login"}</button>
-      </form>
-      <p onClick={() => setIsRegistering(!isRegistering)} className="toggle-text">
-        {isRegistering
-          ? "Already have an account? Login"
-          : "New user? Register here"}
-      </p>
+    <div className="login-container-wrapper">
+      {/* 🔙 Back to Home Button */}
+
+
+      <div className="login-container">
+        <h2>{isRegistering ? "Register" : "Login"}</h2>
+        <form onSubmit={handleSubmit}>
+          <input type="email" name="email" placeholder="Email" required onChange={handleChange} />
+          <input type="tel" name="phone" placeholder="Phone Number" required onChange={handleChange} />
+          {isRegistering && (
+            <>
+              <input type="text" name="currentPlace" placeholder="Current Place" required onChange={handleChange} />
+              <input type="file" name="proof" accept=".jpg,.jpeg,.png,.pdf" required onChange={handleChange} />
+            </>
+          )}
+          <button type="submit">{isRegistering ? "Register" : "Login"}</button>
+        </form>
+        <p onClick={() => setIsRegistering(!isRegistering)} className="toggle-text">
+          {isRegistering ? "Already have an account? Login" : "New user? Register here"}
+        </p>
+        <div className="back-home-wrapper">
+          <Link to="/" className="back-home-btn">
+            ← Back to Home
+          </Link>
+        </div>
+
+      </div>
     </div>
   );
 }

@@ -1,123 +1,75 @@
 .car-card {
-  border: none;
-  border-radius: 12px;
-  background: #fff;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
-  width: 280px;
+  background: white;
+  border-radius: 32px;
+  padding: 8px 24px;
+  text-align: center;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+  height: 100%;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  justify-content: space-between;
+  align-items: center;
+  transition: transform 0.3s ease;
+  margin: 0 6px; /* horizontal spacing between cards */
 }
 
 .car-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
-.car-list-container {
-  padding: 40px 20px;
-}
-
-
-.car-image {
+.image-wrapper {
   width: 100%;
-  height: 160px;
-  object-fit: cover;
+  height: 140px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 6px;
 }
 
-.car-info {
-  padding: 16px;
+.image-wrapper img {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+  padding: 0;       
+  margin: 0;        
+}
+
+
+.car-details {
+  background-color: #f9f9fb;
+  border-radius: 8px;
+  padding: 12px;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 8px;
-}
-
-.car-header {
-  display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 8px;
-    position: relative; 
+  gap: 4px;
 }
 
-.status-badge {
-  position: absolute;
-  top: 0;
-  right: 0;
-  margin: 12px;
-  padding: 4px 8px;
-  border-radius: 12px;
-  font-size: 12px;
-  font-weight: 600;
-  text-transform: capitalize;
+.brand-line {
+  color: #2e2e60;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
 }
 
-.car-header h3 {
-  font-size: 18px;
-  font-weight: 600;
+.car-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: #2e2e60;
   margin: 0;
 }
 
-.car-rent,
-.car-specs {
-  font-size: 14px;
-  margin: 4px 0;
-  color: #444;
-}
-
-.status-badge {
-  padding: 4px 8px;
-  border-radius: 12px;
-  font-size: 12px;
-  font-weight: 600;
-  text-transform: capitalize;
-}
-
-.status-badge.available {
-  background-color: #c8f7c5;
-  color: #388e3c;
-}
-
-.status-badge.booked {
-  background-color: #ffcdd2;
-  color: #c62828;
-}
-
-.card-actions {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: auto;
-}
-
-.car-link {
-  color: #007bff;
+.view-link {
+  font-size: 13px;
+  color: #5c4dff;
   font-weight: 500;
   text-decoration: none;
+  transition: color 0.3s;
 }
 
-.car-link:hover {
-  text-decoration: underline;
+.view-link:hover {
+  color: #3d36d1;
 }
-
-
-.custom-btn {
-   background: linear-gradient(to right, #00c6ff, #0072ff);
-  color: white;
-  font-weight: bold;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 8px;
-  text-decoration: none;
-  cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  transition: background 0.3s ease, transform 0.2s ease;
-}
-
-.custom-btn:hover {
-  transform: scale(1.05);
-}
-
-

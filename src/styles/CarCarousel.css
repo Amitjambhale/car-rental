@@ -1,0 +1,33 @@
+.carousel-wrapper {
+  padding: 40px 60px;
+  background-color: #f4f5fb; /* soft grayish background like your screenshot */
+}
+
+.swiper {
+  padding-bottom: 40px; /* adds space for pagination dots */
+}
+
+.swiper-slide {
+  display: flex;
+  justify-content: center;
+}
+
+.car-card {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+  height: 100%;
+  width: 100%;
+  max-width: 280px; /* limits card width to align uniformly */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  transition: transform 0.3s ease;
+}
+
+.car-card:hover {
+  transform: translateY(-4px);
+}

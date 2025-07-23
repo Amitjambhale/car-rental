@@ -1,34 +1,90 @@
+.login-container-wrapper {
+  display: flex;
+  justify-content: flex-start; /* left side form */
+  align-items: center;
+  height: 100vh;
+  background-image: url('/assets/login-bg5.jpg'); /* replace with your image path */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 0 60px;
+   padding-left: 120px;
+  padding-right: 60px;
+}
+
 .login-container {
-  max-width: 400px;
-  margin: 2rem auto;
-  padding: 2rem;
-  border: 1px solid #ccc;
-  border-radius: 12px;
-  background-color: #f9f9f9;
+   background-color: rgba(255, 255, 255, 0.85); /* translucent white */
+  padding: 40px 32px;
+  border-radius: 20px;
+  backdrop-filter: blur(3px);
+  width: 100%;
+  max-width: 360px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  
+}
+
+.login-container h2 {
+  margin-bottom: 24px;
+  font-size: 24px;
+  color: #2e2e60;
+  text-align: center;
 }
 
 .login-container input {
   width: 100%;
-  padding: 10px;
-  margin: 0.5rem 0;
-  border-radius: 6px;
-  border: 1px solid #999;
+  padding: 12px 14px;
+  margin-bottom: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  transition: border-color 0.2s;
+}
+
+.login-container input:focus {
+  border-color: #5c4dff;
+  outline: none;
 }
 
 .login-container button {
   width: 100%;
-  padding: 10px;
-  background-color: #007bff;
+  padding: 12px;
+  background-color: #5c4dff;
   color: white;
   border: none;
-  margin-top: 1rem;
+  border-radius: 8px;
+  font-size: 16px;
   cursor: pointer;
-  border-radius: 6px;
+  transition: background 0.3s;
+}
+
+.login-container button:hover {
+  background-color: #3d36d1;
 }
 
 .toggle-text {
-  color: #007bff;
-  cursor: pointer;
-  margin-top: 1rem;
+  margin-top: 16px;
+  font-size: 14px;
   text-align: center;
+  color: #5c4dff;
+  cursor: pointer;
 }
+.back-home-wrapper {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.back-home-btn {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #5c4dff;
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.back-home-btn:hover {
+  background-color: #3d36d1;
+}
+

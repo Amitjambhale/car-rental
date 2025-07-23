@@ -1,35 +1,41 @@
 const cars = [
   {
     id: 1,
-    name: "Maruti Swift",
-    rent: 1000,
-    seats: 5,
-    fuel: "Petrol",
-    image: "/src/assets/swift.jpg",
+    name: "Scorpio",
+    brand: "Mahindra",
+    image: "/assets/swift.png", // Use /public/assets path
   },
   {
     id: 2,
-    name: "Hyundai Creta",
-   image: "/src/assets/creata1.jpg",
-    rent: 2200,
-    seats: 5,
-    fuel: "Diesel",
+    name: "TUV 300",
+    brand: "Mahindra",
+    image: "/assets/creata.png",
   },
   {
     id: 3,
-    name: "Tata Nexon",
-    image: "/src/assets/nexon.jpeg",
-    rent: 2000,
-    seats: 5,
-    fuel: "Petrol",
+    name: "Creta",
+    brand: "Hyundai",
+    image: "/assets/swift.png",
   },
   {
     id: 4,
-    name: "Thar",
-    image: "/src/assets/creata.jpeg",
-    rent: 2000,
-    seats: 5,
-    fuel: "Petrol",
+    name: "Innova Crysta",
+    brand: "Toyota",
+    image: "/assets/nexon.png",
   },
+  {
+    id: 5,
+    name: "Innova Crysta",
+    brand: "Toyota",
+    image: "/assets/creata1.png",
+  },
+  {
+    id: 6,
+    name: "Innova Crysta",
+    brand: "Toyota",
+    image: "/assets/nexon.png",
+  },
+  // Add more cars here...
 ];
+
 export default cars;
