@@ -1,33 +1,81 @@
 .carousel-wrapper {
-  padding: 40px 60px;
-  background-color: #f4f5fb; /* soft grayish background like your screenshot */
+  width: 100%;
+  position: relative;
+  padding: 0 100px; /* Add horizontal padding for arrow space */
+  background-color: #f9f9f9;
+  box-sizing: border-box;
 }
 
 .swiper {
-  padding-bottom: 40px; /* adds space for pagination dots */
+  padding: 0;
 }
 
 .swiper-slide {
   display: flex;
   justify-content: center;
+  align-items: stretch;
 }
 
-.car-card {
-  background: white;
-  border-radius: 16px;
-  padding: 20px;
+/* Custom Arrows */
+.custom-arrow {
+  font-size: 0;
+  background-repeat: no-repeat;
+  background-size: 20px;
+  background-position: center;
+  position: absolute;
+  top: 45%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: white;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  z-index: 10;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.custom-arrow:hover {
+  transform: translateY(-50%) scale(1.1);
+  background-color: #f0f8ff; /* Light blueish hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-color: #007BFF;
+}
+
+
+.custom-arrow.prev {
+  background-image: url("/assets/icons/left-arrow.png");
+  left: 25px;
+}
+
+.custom-arrow.next {
+  background-image: url("/assets/icons/right-arrow.png");
+  right: 25px;
+}
+
+/* Pagination Dots */
+.swiper-pagination-bullets {
   text-align: center;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
-  height: 100%;
-  width: 100%;
-  max-width: 280px; /* limits card width to align uniformly */
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  transition: transform 0.3s ease;
+  margin-top: 45px;
+  position: relative;
 }
 
-.car-card:hover {
-  transform: translateY(-4px);
+.swiper-pagination-bullet {
+  background: #ccc;
+  opacity: 1;
+  transition: all 0.3s;
+}
+
+.swiper-pagination-bullet-active {
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  width: 12px;
+  height: 12px;
+  border-radius: 6px;
+}
+
+@media (max-width: 768px) {
+  .carousel-wrapper {
+    padding: 0 10px;
+  }
 }
