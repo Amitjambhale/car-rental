@@ -13,20 +13,14 @@ function Navbar() {
       <div className="mobile-top-row">
         <div className="hamburger" onClick={toggleMenu}>☰</div>
 
-        <div className="mobile-logo-phone">
-          <img src="/assets/logo.png" alt="Logo" className="navbar-logo small" />
-          <a href="tel:+919730562424" className="mobile-phone">📞 +91-9730562424</a>
-        </div>
-
+        {/* Removed mobile logo and phone number */}
+        
         <Link to="/login" className="mobile-login">Login</Link>
       </div>
 
       {/* Desktop Navbar */}
       <div className="navbar-inner">
         <div className="navbar-left">
-          <img src="/assets/logo.png" className="navbar-logo" alt="Logo" />
-          <span className="navbar-phone">📞 +91-9730562424</span>
-
           <div className="navbar-links">
             <Link to="/">Home</Link>
             <Link to="/about">About</Link>

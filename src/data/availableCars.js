@@ -1,10 +1,9 @@
-const cars = [
+const availableCars = [
   {
     id: 1,
     name: "Scorpio",
     rent: 3000,
     fuelType: "Petrol",
-    seats: 7,
     image: "/assets/swift.png",
   },
   {
@@ -12,7 +11,6 @@ const cars = [
     name: "TUV 300",
     rent: 2200,
     fuelType: "CNG",
-    seats: 5,
     image: "/assets/creata1.png",
   },
   {
@@ -20,7 +18,6 @@ const cars = [
     name: "Hyundai Creta",
     rent: 2400,
     fuelType: "Diesel",
-    seats: 5,
     image: "/assets/swift.png",
   },
   {
@@ -28,7 +25,6 @@ const cars = [
     name: "Innova Crysta",
     rent: 2100,
     fuelType: "Petrol",
-    seats: 7,
     image: "/assets/nexon.png",
   },
   {
@@ -36,7 +32,6 @@ const cars = [
     name: "Innova Crysta",
     rent: 2000,
     fuelType: "CNG",
-    seats: 6,
     image: "/assets/creata1.png",
   },
   {
@@ -44,9 +39,8 @@ const cars = [
     name: "Innova Crysta",
     rent: 2700,
     fuelType: "Diesel",
-    seats: 7,
     image: "/assets/nexon.png",
   },
 ];
 
-export default cars;
+export default availableCars;

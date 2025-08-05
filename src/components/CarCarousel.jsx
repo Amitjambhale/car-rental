@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import { useNavigate } from "react-router-dom"; // ✅ Import navigate
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
@@ -10,6 +11,7 @@ import "../styles/CarCarousel.css";
 const CarCarousel = ({ cars }) => {
   const prevRef = useRef(null);
   const nextRef = useRef(null);
+  const navigate = useNavigate(); // ✅ Initialize navigate
 
   return (
     <div className="carousel-wrapper">
@@ -43,13 +45,17 @@ const CarCarousel = ({ cars }) => {
       >
         {cars.map((car) => (
           <SwiperSlide key={car.id}>
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              <CarCard car={car} />
-            </div>
+            <CarCard car={car} />
           </SwiperSlide>
-
         ))}
       </Swiper>
+
+      {/* View All Cars Button */}
+      <div className="view-all-btn-container">
+        <button className="view-all-btn" onClick={() => navigate("/cars")}>
+          View All Cars
+        </button>
+      </div>
     </div>
   );
 };

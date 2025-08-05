@@ -6,6 +6,8 @@ import CarList from "./pages/CarList";
 import Profile from "./pages/Profile";
 import CarDetails from "./pages/CarDetails";
 import Navbar from "./components/Navbar";
+import AvailableCars from "./pages/AvailableCars";
+import AboutUs from "./pages/AboutUs";
 
 function App() {
   const location = useLocation();
@@ -21,6 +23,9 @@ function App() {
         <Route path="/booking" element={<Booking />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/car/:id" element={<CarDetails />} />
+         <Route path="/available-cars" element={<AvailableCars />} />
+         <Route path="/about" element={<AboutUs />} />
+         
       </Routes>
     </>
   );

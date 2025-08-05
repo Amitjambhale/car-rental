@@ -4,7 +4,7 @@
   position: sticky;
   top: 0;
   z-index: 999;
-  padding: 8px 16px;
+  padding: 14px 16px;
 }
 
 .navbar-inner {
@@ -20,24 +20,8 @@
   gap: 10px;
 }
 
-.navbar-logo {
-  height: 36px;
-}
-.navbar-logo.small {
-  height: 30px;
-}
 
-.navbar-phone {
-  font-size: 14px;
-  color: #ddd;
-  transition: color 0.3s ease;
-  cursor: pointer;
-  margin:0 20px;
-}
-.navbar-phone:hover,
-.mobile-phone:hover {
-  color: #00bcd4;
-}
+
 
 .navbar-links {
   display: flex;

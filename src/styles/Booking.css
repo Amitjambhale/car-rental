@@ -1,49 +1,60 @@
 .booking-container {
-  max-width: 450px;
-  margin: 2rem auto;
-  padding: 2rem;
-  border: 1px solid #ddd;
+  max-width: 500px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #ffffff;
   border-radius: 12px;
-  background-color: #fdfdfd;
+  box-shadow: 0 0 12px rgba(0,0,0,0.1);
 }
 
-.booking-container h2 {
-  text-align: center;
-  margin-bottom: 1rem;
+.booking-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-.booking-container input {
-  width: 100%;
+.booking-form input[type="text"],
+.booking-form input[type="number"],
+.booking-form input[type="file"] {
   padding: 10px;
-  margin: 0.6rem 0;
+  border-radius: 6px;
   border: 1px solid #ccc;
-  border-radius: 8px;
+  font-size: 16px;
 }
 
-.booking-container button {
-  width: 100%;
-  padding: 10px;
-  background-color: #28a745;
+.upload-label {
+  margin-top: 10px;
+  font-weight: 600;
+  color: #333;
+}
+
+.btn {
+  padding: 12px;
+  background-color: #0a66c2;
   color: white;
   border: none;
-  border-radius: 8px;
-  margin-top: 1rem;
+  border-radius: 6px;
+  font-size: 16px;
   cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #084c9e;
 }
 
 .thankyou-box {
   text-align: center;
-  margin-top: 100px;
-  padding: 20px;
+  padding: 40px;
 }
 
-.btn {
-  display: inline-block;
-  margin-top: 20px;
-  padding: 10px 20px;
-  background-color: #0d6efd;
-  color: white;
-  text-decoration: none;
-  border-radius: 8px;
-}
+@media (max-width: 600px) {
+  .booking-container {
+    margin: 20px;
+    padding: 16px;
+  }
 
+  .btn {
+    font-size: 14px;
+    padding: 10px;
+  }
+}

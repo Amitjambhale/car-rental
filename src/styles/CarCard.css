@@ -1,14 +1,14 @@
 .car-card {
-  background-color: #ffffff;
-  border-radius: 10px;
+  background-color: #fff;
+  border-radius: 12px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  margin: 0 auto;
   height: 100%;
   width: 100%;
-  max-width: 380px; /* increased width */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  max-width: 340px;
+  margin: auto;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
   transition: transform 0.3s ease;
 }
 
@@ -21,7 +21,6 @@
   width: 100%;
   aspect-ratio: 4 / 3;
   background-color: #f2f2f2;
-  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -35,11 +34,11 @@
 }
 
 .car-card:hover .car-image img {
-  transform: scale(1.04);
+  transform: scale(1.05);
 }
 
 .car-info {
-  padding: 14px 12px;
+  padding: 16px 14px;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -49,43 +48,36 @@
 .car-name {
   font-size: 18px;
   font-weight: 600;
-  margin: 0;
-  color: #222;
   text-align: center;
+  margin: 0;
 }
 
 .car-rent {
-  font-size: 15px;
-  color: #444;
+  font-size: 16px;
   text-align: center;
+  color: #555;
 }
 
 .car-bottom-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: auto;
+  flex-wrap: wrap;
 }
 
 .car-fuel {
-  display: flex;
-  align-items: center;
-  gap: 6px;
   font-size: 14px;
   color: #444;
-}
-
-.fuel-icon {
-  font-size: 16px;
-  color: #007bff;
-  margin-right: 2px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .view-link {
   font-size: 14px;
   color: #007bff;
   text-decoration: none;
-  transition: color 0.2s ease;
+  transition: 0.2s;
 }
 
 .view-link:hover {
@@ -93,21 +85,15 @@
   color: #0056b3;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .car-card {
-    max-width: 95%;
+    max-width: 90%;
   }
 
   .car-bottom-row {
     flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
-}
-
-@media (max-width: 480px) {
-  .car-card {
-    max-width: 100%;
+    align-items: center;
+    gap: 6px;
+    margin-top: 8px;
   }
 }
