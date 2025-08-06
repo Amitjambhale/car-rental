@@ -36,7 +36,8 @@ const CarCard = ({ car }) => {
           </div>
 
 
-          <a href="#" className="view-link">View Details</a>
+        <Link to={`/cars/${car.id}`} className="view-link">View Details</Link>
+
         </div>
       </div>
     </div>

@@ -1,18 +1,17 @@
-/* Home.css */
-
+/* ===== Base Home Page Styling ===== */
 .home-page {
   font-family: 'Segoe UI', sans-serif;
 }
 
+/* ===== Hero Section ===== */
 .hero-section {
-  background-size: cover;
-  background-position: center;
   position: relative;
-  height: 88vh;
+  min-height: 92vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 20px;
+  padding: 20px;
+  color: white;
 }
 
 .overlay {
@@ -21,19 +20,171 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 1;
 }
 
-.hero-text {
+.hero-content {
   position: relative;
   z-index: 2;
+  max-width: 1200px;
   width: 100%;
-  max-width: 1100px;
-  padding: 20px;
-  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-/* Cars Section */
+/* ===== Availability Header ===== */
+.availability-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.availability-logo {
+  max-width: 140px;
+  height: auto;
+  margin-bottom: 8px;
+}
+
+.availability-header h1 {
+  font-size: 32px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.availability-phone {
+  font-size: 16px;
+  margin-top: 4px;
+}
+
+/* ===== Form ===== */
+.check-form-horizontal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 14px;
+  padding: 18px;
+  backdrop-filter: blur(3px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  min-width: 150px;
+  flex: 1;
+}
+
+.field label {
+  font-size: 14px;
+  margin-bottom: 5px;
+  color: #fff;
+  text-align: center;
+}
+
+/* ===== Inputs & Selects ===== */
+.field input,
+.field select {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: none;
+  font-size: 14px;
+  font-weight: 500;
+  background: #fff;
+  color: #000;
+  box-sizing: border-box;
+}
+
+.booking-type select {
+  padding-left: 10px;
+}
+
+/* ===== Button ===== */
+.find-btn {
+  background: linear-gradient(90deg, #ff512f, #dd2476);
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: 0.3s ease;
+  height: 42px;
+  align-self: flex-end;
+}
+
+.find-btn:hover {
+  background: linear-gradient(90deg, #dd2476, #ff512f);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 1024px) {
+  .check-form-horizontal {
+    gap: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 1rem;
+  }
+
+  .availability-logo {
+    max-width: 110px;
+  }
+
+  .availability-header h1 {
+    font-size: 24px;
+  }
+
+  .availability-phone {
+    font-size: 14px;
+  }
+
+  .check-form-horizontal {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    padding: 20px;
+  }
+
+  .field {
+    min-width: 100%;
+  }
+
+  .field input,
+  .field select {
+    padding: 9px 12px;
+    font-size: 15px;
+  }
+
+  .find-btn {
+    width: 100%;
+    padding: 10px;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .availability-logo {
+    max-width: 90px;
+  }
+
+  .availability-header h1 {
+    font-size: 20px;
+  }
+
+  .availability-phone {
+    font-size: 13px;
+  }
+}
+
+
+/* ===== Cars Section ===== */
 .cars {
   padding: 40px 20px;
   background: #f9f9f9;
@@ -44,7 +195,6 @@
 
 .section-spacing-bottom {
   margin-bottom: 0px;
-  /* reduce space below the 'cars' section */
 }
 
 .section-heading {
@@ -57,11 +207,8 @@
   font-family: 'Lato', sans-serif;
   display: inline-block;
   padding: 0 20px;
-
-
 }
 
-/* Underline lines on both sides */
 .section-heading::before,
 .section-heading::after {
   content: "";
@@ -81,16 +228,12 @@
   right: -70px;
 }
 
-
-/* Benefits Section */
+/* ===== Benefits Section ===== */
 .benefits-section {
   padding: 15px 20px;
   background-color: #f9f9f9;
   text-align: center;
-
 }
-
-
 
 .benefits-title {
   position: relative;
@@ -122,10 +265,8 @@
   right: -70px;
 }
 
-
 .benefits-container {
   display: grid;
-  flex-wrap: wrap;
   max-width: 1000px;
   gap: 70px;
   grid-template-columns: repeat(3, 1fr);
@@ -134,9 +275,7 @@
 
 .benefit-card {
   max-width: 300px;
-  flex: 1 1 250px;
   text-align: center;
-
 }
 
 .benefit-icon {
@@ -162,187 +301,169 @@
   font-size: 0.98rem;
   color: #555;
 }
-
+/* ============================
+   REVIEW SECTION
+   ============================ */
 .review-section {
-  padding: 30px 20px;
-  background-color: #f9f9f9;
+  padding: 60px 20px;
+  background: linear-gradient(180deg, #f8f9ff 0%, #ffffff 100%);
   text-align: center;
 }
 
+.review-section .section-heading {
+  font-size: 30px;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 50px;
+  position: relative;
+  display: inline-block;
+}
+
+.review-section .section-heading::before,
+.review-section .section-heading::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 50px;
+  height: 2px;
+  background: #007bff;
+}
+
+.review-section .section-heading::before {
+  left: -60px;
+}
+.review-section .section-heading::after {
+  right: -60px;
+}
+
+/* Review Cards Grid */
 .review-cards-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 30px;
-  max-width: 1050px;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 25px;
+  max-width: 1100px;
   margin: 0 auto;
 }
 
+/* Single Card */
 .review-card {
-  background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-  padding: 25px 20px;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 16px;
+  padding: 25px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(8px);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 340px;
-  position: relative;
-  transition: transform 0.3s ease;
 }
 
 .review-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-6px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
 }
 
-.review-top .trip-label {
-  font-weight: 600;
-  color: #007bff;
+/* Trip label */
+.trip-label {
+  display: inline-block;
+  padding: 4px 10px;
+  background: #007bff;
+  color: white;
+  font-size: 13px;
+  border-radius: 20px;
   margin-bottom: 10px;
-  font-size: 15px;
 }
 
+/* Comment text */
+.review-comment {
+  font-size: 15px;
+  color: #444;
+  line-height: 1.5;
+  margin-bottom: 15px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5; /* Chrome, Safari */
+  line-clamp: 5;         /* Standard property (future support) */
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.review-comment.expanded {
+  -webkit-line-clamp: unset;
+  line-clamp: unset;
+  overflow: visible;
+}
+
+
+/* Read More Button */
 .read-more-btn {
   background: none;
   border: none;
   color: #007bff;
-  margin-top: 8px;
   font-size: 14px;
   cursor: pointer;
-  padding: 0;
   font-weight: 500;
+  padding: 0;
+  margin-top: 5px;
 }
 
 .read-more-btn:hover {
   text-decoration: underline;
 }
 
+/* Bottom Reviewer Info */
 .review-bottom {
   display: flex;
   align-items: center;
   margin-top: 15px;
-  justify-content: center;
 }
 
 .reviewer-img {
-  width: 48px;
-  height: 48px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   object-fit: cover;
   margin-right: 12px;
-
-}
-
-.reviewer-details {
-  display: flex;
-  flex-direction: column;
+  border: 2px solid #007bff;
 }
 
 .reviewer-name {
   font-weight: 600;
+  color: #222;
   font-size: 15px;
-  color: #1a1a1a;
 }
 
-.reviewer-car {
-  font-size: 13px;
-  color: #666;
-}
-
-/* Line clamp fallback for better compatibility */
-.review-comment {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 5;
-  /* For Chrome, Safari */
-  line-clamp: 5;
-  /* Future support */
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* When expanded, remove clamping */
-.review-comment.expanded {
-  display: block;
-  -webkit-line-clamp: unset;
-  line-clamp: unset;
-  overflow: visible;
-  text-overflow: unset;
-
-  .review-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 16px;
-  }
-
-  .add-review-btn {
-    padding: 8px 16px;
-    background-color: #1e90ff;
-    color: white;
-    font-size: 14px;
-    font-weight: 500;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-  }
-
-  .add-review-btn:hover {
-    background-color: #0d6efd;
-  }
-
-}
-
-.review-card-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-/* Right aligned button */
+/* Add Review Button (Right aligned on last card) */
 .add-review-btn-right {
   position: absolute;
-  right: -140px; /* push outside card */
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: #4a00e0;
+  top: 15px;
+  right: 15px;
+  background: #ff5722;
   color: white;
-  padding: 8px 14px;
   border: none;
+  padding: 6px 14px;
   border-radius: 6px;
-  cursor: pointer;
-  font-weight: 500;
-  white-space: nowrap;
-}
-
-.add-review-btn-right:hover {
-  background-color: #3700b3;
-}
-
-
-.add-review-btn {
-  background-color: #4a00e0;
-  color: white;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 6px;
+  font-size: 13px;
   cursor: pointer;
   font-weight: 500;
   transition: background 0.3s ease;
 }
 
-.add-review-btn:hover {
-  background-color: #3700b3;
+.add-review-btn-right:hover {
+  background: #e64a19;
 }
 
-/* Popup form */
+/* Review Form Popup */
 .review-form-popup {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -352,7 +473,7 @@
 .review-form-content {
   background: white;
   padding: 20px;
-  border-radius: 8px;
+  border-radius: 10px;
   width: 350px;
 }
 
@@ -382,7 +503,7 @@
 }
 
 .form-actions button:first-child {
-  background: #4a00e0;
+  background: #007bff;
   color: white;
 }
 
@@ -390,50 +511,53 @@
   background: #ccc;
 }
 
-
-@supports not (-webkit-line-clamp: 1) {
-  .review-comment:not(.expanded) {
-    max-height: calc(1.5em * 5);
-    /* ~5 lines */
-    overflow: hidden;
-    position: relative;
+/* Responsive */
+@media (max-width: 768px) {
+  .review-cards-container {
+    grid-template-columns: 1fr;
   }
 }
 
 
-/* Responsive */
+/* ===== Responsive ===== */
 @media (max-width: 768px) {
-  .hero-section {
-    background-position: center;
-    background-size: cover;
-    padding: 2rem 1rem;
-    text-align: center;
+  .check-form-horizontal {
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
   }
 
-  .hero-text {
-    padding: 1rem;
+  .availability-header h1 {
+    font-size: 24px;
+  }
+
+  .availability-phone {
+    font-size: 14px;
+  }
+
+  .find-btn {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
   }
 
   .benefits-container {
-    display: grid;
     grid-template-columns: 1fr;
     gap: 1rem;
   }
+}
 
-  .review-cards-container {
-    flex-direction: column;
-    gap: 1.5rem;
+@media (max-width: 480px) {
+  .availability-logo {
+    max-width: 90px;
+    margin-bottom: -4px;
   }
 
-  .review-card {
-    width: 100%;
+  .availability-header h1 {
+    font-size: 18px;
   }
 
-  .section-heading {
-    text-align: center;
-  }
-
-  .cars {
-    padding: 1rem;
+  .availability-phone {
+    font-size: 12px;
   }
 }

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "../styles/Home.css";
-import CheckAvailability from "../components/CheckAvailability";
 import cars from "../data/cars";
 import bgImage from "/assets/bg-car.jpg";
 import { useNavigate } from "react-router-dom";
@@ -40,9 +39,19 @@ const Home = () => {
     comment: "",
   });
 
-  const handleSearch = (formData) => {
+  // Form state for CheckAvailability
+  const [formData, setFormData] = useState({
+    bookingType: "",
+    pickupDate: "",
+    pickupTime: "",
+    dropDate: "",
+    dropTime: "",
+  });
+
+  const handleSearch = (e) => {
+    e.preventDefault();
     navigate("/available-cars", {
-      state: { availableCars: cars, formData },
+      state: { availableCars: cars, formData: { ...formData, city: "Pune" } },
     });
   };
 
@@ -55,14 +64,106 @@ const Home = () => {
 
   return (
     <div className="home-page">
-      {/* Hero Section */}
+      {/* Hero Section with CheckAvailability form */}
       <div
         className="hero-section"
-        style={{ backgroundImage: `url(${bgImage})` }}
+        style={{
+          backgroundImage: `url(${bgImage})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
       >
         <div className="overlay" />
-        <div className="hero-text">
-          <CheckAvailability onSearch={handleSearch} />
+        <div className="hero-content">
+          <div className="availability-header">
+            <img src="/assets/logo.png" alt="Logo" className="availability-logo" />
+            <h1>Welcome to Malhar Car Rental</h1>
+            <p className="availability-phone">
+              📞 <strong>Contact:</strong> +91-9730562424
+            </p>
+          </div>
+
+          <form className="check-form-horizontal" onSubmit={handleSearch}>
+            <div className="field">
+              <label>City</label>
+              <select name="city" disabled>
+                <option value="Pune">Pune</option>
+              </select>
+            </div>
+
+            <div className="field booking-type">
+              <label>Book at</label>
+              <select
+                name="bookingType"
+                value={formData.bookingType}
+                onChange={(e) =>
+                  setFormData((prev) => ({ ...prev, bookingType: e.target.value }))
+                }
+                required
+              >
+                <option value="">-- select --</option>
+                <option value="Daily">Daily</option>
+                <option value="Weekly">Weekly</option>
+                <option value="Monthly">Monthly</option>
+              </select>
+            </div>
+
+            <div className="field">
+              <label>Pick Up Date</label>
+              <input
+                type="date"
+                name="pickupDate"
+                value={formData.pickupDate}
+                onChange={(e) =>
+                  setFormData((prev) => ({ ...prev, pickupDate: e.target.value }))
+                }
+                required
+              />
+            </div>
+
+            <div className="field">
+              <label>Pick Time</label>
+              <input
+                type="time"
+                name="pickupTime"
+                value={formData.pickupTime}
+                onChange={(e) =>
+                  setFormData((prev) => ({ ...prev, pickupTime: e.target.value }))
+                }
+                required
+              />
+            </div>
+
+            <div className="field">
+              <label>Drop Off Date</label>
+              <input
+                type="date"
+                name="dropDate"
+                value={formData.dropDate}
+                onChange={(e) =>
+                  setFormData((prev) => ({ ...prev, dropDate: e.target.value }))
+                }
+                required
+              />
+            </div>
+
+            <div className="field">
+              <label>Drop Time</label>
+              <input
+                type="time"
+                name="dropTime"
+                value={formData.dropTime}
+                onChange={(e) =>
+                  setFormData((prev) => ({ ...prev, dropTime: e.target.value }))
+                }
+                required
+              />
+            </div>
+
+            <button type="submit" className="find-btn">
+              Find Car
+            </button>
+          </form>
         </div>
       </div>
 
@@ -72,11 +173,10 @@ const Home = () => {
         <CarCarousel cars={cars} />
       </section>
 
-        {/* Benefits Section */}
+      {/* Benefits Section */}
       <section className="benefits-section">
         <h2 className="benefits-title">Top Benefits of Renting from Us</h2>
         <div className="benefits-container">
-          {/* Repeat this benefit-card block for all 6 cards */}
           <div className="benefit-card">
             <img src="/assets/icons/secure-payment.png" alt="Secure" className="benefit-icon" />
             <h3>Secure Payments</h3>
@@ -125,9 +225,8 @@ const Home = () => {
                       Trip to {review.tripLocation}
                     </div>
                     <p
-                      className={`review-comment ${
-                        isExpanded ? "expanded" : ""
-                      }`}
+                      className={`review-comment ${isExpanded ? "expanded" : ""
+                        }`}
                     >
                       {isExpanded || !isLong
                         ? review.comment

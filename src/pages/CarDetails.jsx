@@ -1,53 +1,111 @@
-import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+// src/pages/CarDetails.jsx
+import React from "react";
+import { useParams, Link } from "react-router-dom";
+import { FaGasPump, FaUserFriends, FaRupeeSign, FaArrowLeft } from "react-icons/fa";
+import { GiSteeringWheel } from "react-icons/gi";
+import cars from "../data/cars";
 import "../styles/CarDetails.css";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import CarCard from "../components/CarCard"; // ✅ tumhara Home wala card
 
-function CarDetails() {
+
+const CarDetails = () => {
   const { id } = useParams();
-  const [car, setCar] = useState(null);
-  const [error, setError] = useState("");
+  const car = cars.find((c) => c.id === parseInt(id));
 
-  useEffect(() => {
-    const fetchCar = async () => {
-      try {
-        const res = await fetch(`http://localhost:8000/api/cars/${id}`);
-        if (!res.ok) throw new Error("Car not found");
-        const data = await res.json();
-        setCar(data);
-      } catch (err) {
-        console.error("Failed to fetch car", err);
-        setError("Could not load car details.");
-      }
-    };
+  if (!car) {
+    return <h2 style={{ textAlign: "center", marginTop: "50px" }}>Car not found</h2>;
+  }
 
-    fetchCar();
-  }, [id]);
+ const similarCars = cars.filter(
+  (c) => c.id !== car.id // Sirf apne alawa sab cars dikhao
+);
 
-  if (error) return <p className="error">{error}</p>;
-  if (!car) return <p className="loading">Loading...</p>;
 
   return (
-    <div className="car-details">
-      <h2>{car.name}</h2>
+    <div className="car-details-page">
+      {/* Hero Section */}
+      {/* Hero Section */}
+      <div className="car-hero">
+        <img src={car.image} alt={car.name} className="car-hero-img" />
+        <div className="car-hero-overlay" />
+        <div className="hero-text">
+          <h1>{car.name}</h1>
+          <p>₹{car.rent} / day</p>
+        </div>
+      </div>
 
-      <img
-        src={car.image || "/fallback-car.jpg"} // use a fallback image if needed
-        alt={car.name}
-        className="car-detail-image"
-      />
+      {/* Specs Section */}
+      <div className="car-specs">
+        <div className="spec-card">
+          <FaGasPump /> <span>{car.fuelType}</span>
+        </div>
+        <div className="spec-card">
+          <GiSteeringWheel /> <span>Manual</span>
+        </div>
+        <div className="spec-card">
+          <FaUserFriends /> <span>{car.seats} Seater</span>
+        </div>
+        <div className="spec-card">
+          <FaRupeeSign /> <span>{car.rent} / day</span>
+        </div>
+      </div>
 
-      <p className="car-description">{car.description}</p>
+      {/* Description */}
+      <div className="car-description">
+        <h2>About {car.name}</h2>
+        <p>
+          Experience comfort and performance with our {car.name}. Perfect for
+          both city rides and long trips, this car offers great mileage,
+          spacious interiors, and a smooth driving experience. Book now to
+          enjoy a hassle-free self-drive rental experience.
+        </p>
+      </div>
 
-      <p className="car-status">
-        Status:{" "}
-        <span className={car.status === "available" ? "status-available" : "status-booked"}>
-          {car.status}
-        </span>
-      </p>
+      {/* Actions */}
+      <div className="car-actions">
+        <Link to="/" className="back-btn">
+          <FaArrowLeft /> Back
+        </Link>
+        <button className="book-now-btn">Book Now →</button>
+      </div>
 
-      <button className="btn">Book Now</button>
+      {similarCars.length > 0 && (
+        <div className="similar-cars">
+          <h2>Similar Cars</h2>
+          <Swiper
+            modules={[Navigation, Pagination, Autoplay]}
+            spaceBetween={20}
+            slidesPerView={4}
+            pagination={{ clickable: true }}
+            autoplay={{
+              delay: 2500,
+              disableOnInteraction: false,
+            }}
+            loop={true}
+            speed={800}
+            breakpoints={{
+              1024: { slidesPerView: 3 },
+              768: { slidesPerView: 2 },
+              480: { slidesPerView: 1 },
+              0: { slidesPerView: 1 },
+            }}
+          >
+            {similarCars.map((sc) => (
+              <SwiperSlide key={sc.id}>
+                <CarCard car={sc} />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
+      )}
+
     </div>
   );
-}
+};
 
 export default CarDetails;
