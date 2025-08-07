@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import "../styles/Home.css";
 import cars from "../data/cars";
-import bgImage from "/assets/bg-car.jpg";
+import bgImage from "../../public/assets/bg-car.jpg";
+import logo from "../../public/assets/logo.png";
+import location from "../../public/assets/location1.png";
 import { useNavigate } from "react-router-dom";
 import CarCarousel from "../components/CarCarousel";
+import arrowDown from "../../public/assets/dropdown-arrow.svg";
+
 
 const reviews = [
   {
@@ -39,6 +43,8 @@ const Home = () => {
     comment: "",
   });
 
+
+
   // Form state for CheckAvailability
   const [formData, setFormData] = useState({
     bookingType: "",
@@ -62,110 +68,107 @@ const Home = () => {
     setNewReview({ name: "", tripLocation: "", comment: "" });
   };
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+
   return (
     <div className="home-page">
-      {/* Hero Section with CheckAvailability form */}
-      <div
+      <section
         className="hero-section"
         style={{
           backgroundImage: `url(${bgImage})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
         }}
       >
-        <div className="overlay" />
-        <div className="hero-content">
-          <div className="availability-header">
-            <img src="/assets/logo.png" alt="Logo" className="availability-logo" />
-            <h1>Welcome to Malhar Car Rental</h1>
-            <p className="availability-phone">
-              📞 <strong>Contact:</strong> +91-9730562424
-            </p>
-          </div>
+        <div className="overlay">
+          <div className="content-wrapper">
+            <div className="center-header">
+              <img src={logo} alt="Malhar Logo" className="logo" />
+              <h1 className="hero-title">Welcome to Malhar Car Rental</h1>
+              <p className="hero-subtitle">📞 +91-9730562424</p>
+              <p className="hero-location">
+                <img src={location} alt="Location Logo" className="location-icon" />
 
-          <form className="check-form-horizontal" onSubmit={handleSearch}>
-            <div className="field">
-              <label>City</label>
-              <select name="city" disabled>
-                <option value="Pune">Pune</option>
-              </select>
+                Available only in Pune
+              </p>
+
             </div>
 
-            <div className="field booking-type">
-              <label>Book at</label>
+            <form className="check-form" onSubmit={handleSearch}>
               <select
                 name="bookingType"
                 value={formData.bookingType}
                 onChange={(e) =>
-                  setFormData((prev) => ({ ...prev, bookingType: e.target.value }))
+                  setFormData({ ...formData, bookingType: e.target.value })
                 }
                 required
+                style={{
+                  backgroundImage: `url(${arrowDown})`,
+                  backgroundRepeat: "no-repeat",
+                  backgroundPosition: "right 17px center",
+                  backgroundSize: "22px",
+                  appearance: "none",
+                  WebkitAppearance: "none",
+                  MozAppearance: "none"
+                }}
               >
-                <option value="">-- select --</option>
-                <option value="Daily">Daily</option>
-                <option value="Weekly">Weekly</option>
-                <option value="Monthly">Monthly</option>
+                <option value="">Select Booking Type</option>
+                <option>Daily</option>
+                <option>Weekly</option>
+                <option>Monthly</option>
               </select>
-            </div>
-
-            <div className="field">
-              <label>Pick Up Date</label>
               <input
                 type="date"
                 name="pickupDate"
-                value={formData.pickupDate}
+                value={formData.dropDate}
                 onChange={(e) =>
-                  setFormData((prev) => ({ ...prev, pickupDate: e.target.value }))
+                  setFormData({ ...formData, pickupDate: e.target.value })
                 }
                 required
               />
-            </div>
 
-            <div className="field">
-              <label>Pick Time</label>
               <input
                 type="time"
                 name="pickupTime"
                 value={formData.pickupTime}
                 onChange={(e) =>
-                  setFormData((prev) => ({ ...prev, pickupTime: e.target.value }))
+                  setFormData({ ...formData, pickupTime: e.target.value })
                 }
                 required
               />
-            </div>
 
-            <div className="field">
-              <label>Drop Off Date</label>
               <input
                 type="date"
                 name="dropDate"
                 value={formData.dropDate}
                 onChange={(e) =>
-                  setFormData((prev) => ({ ...prev, dropDate: e.target.value }))
+                  setFormData({ ...formData, dropDate: e.target.value })
                 }
                 required
               />
-            </div>
 
-            <div className="field">
-              <label>Drop Time</label>
               <input
                 type="time"
                 name="dropTime"
                 value={formData.dropTime}
                 onChange={(e) =>
-                  setFormData((prev) => ({ ...prev, dropTime: e.target.value }))
+                  setFormData({ ...formData, dropTime: e.target.value })
                 }
                 required
               />
-            </div>
 
-            <button type="submit" className="find-btn">
-              Find Car
-            </button>
-          </form>
+              <button type="submit">Find Car</button>
+            </form>
+          </div>
         </div>
-      </div>
+      </section>
+
+
 
       {/* Car Carousel */}
       <section className="cars section-spacing-bottom">
@@ -174,41 +177,42 @@ const Home = () => {
       </section>
 
       {/* Benefits Section */}
-      <section className="benefits-section">
-        <h2 className="benefits-title">Top Benefits of Renting from Us</h2>
-        <div className="benefits-container">
-          <div className="benefit-card">
-            <img src="/assets/icons/secure-payment.png" alt="Secure" className="benefit-icon" />
+      <section class="benefits-section">
+        <h2 class="section-heading">Top Benefits of Renting from Us</h2>
+        <div class="benefits-container">
+          <div class="benefit-card">
+            <img src="/assets/icons/secure-payment.png" alt="Secure" class="benefit-icon" />
             <h3>Secure Payments</h3>
             <p>Our Payment Partners are Industry Leaders.</p>
           </div>
-          <div className="benefit-card">
-            <img src="/assets/icons/verified-dealer.png" alt="Verified" className="benefit-icon" />
+          <div class="benefit-card">
+            <img src="/assets/icons/verified-dealer.png" alt="Verified" class="benefit-icon" />
             <h3>Verified Dealers</h3>
             <p>Only trusted & verified dealers onboarded.</p>
           </div>
-          <div className="benefit-card">
-            <img src="/assets/icons/clock.png" alt="No Bullshit" className="benefit-icon" />
+          <div class="benefit-card">
+            <img src="/assets/icons/clock.png" alt="No Bullshit" class="benefit-icon" />
             <h3>No Bullshit</h3>
             <p>A Day Rent is simply for 24 hrs. We mean it.</p>
           </div>
-          <div className="benefit-card">
-            <img src="/assets/icons/instant-booking.png" alt="Instant Booking" className="benefit-icon" />
+          <div class="benefit-card">
+            <img src="/assets/icons/instant-booking.png" alt="Instant Booking" class="benefit-icon" />
             <h3>Instant Booking</h3>
             <p>Book instantly with real-time availability.</p>
           </div>
-          <div className="benefit-card">
-            <img src="/assets/icons/customer-service_5432364.png" alt="Support" className="benefit-icon" />
+          <div class="benefit-card">
+            <img src="/assets/icons/customer-service_5432364.png" alt="Support" class="benefit-icon" />
             <h3>24/7 Support</h3>
             <p>Round-the-clock customer support.</p>
           </div>
-          <div className="benefit-card">
-            <img src="/assets/icons/car-selection.png" alt="Car Selection" className="benefit-icon" />
+          <div class="benefit-card">
+            <img src="/assets/icons/car-selection.png" alt="Car Selection" class="benefit-icon" />
             <h3>Wide Car Selection</h3>
             <p>Choose from hatchbacks, sedans, SUVs & more.</p>
           </div>
         </div>
       </section>
+
 
       {/* Review Section */}
       <section className="review-section">

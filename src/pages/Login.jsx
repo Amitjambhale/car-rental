@@ -8,17 +8,12 @@ function Login() {
     email: "",
     password: "",
     phone: "",
-    currentPlace: "",
-    proof: null,
+    currentPlace: ""
   });
 
   const handleChange = (e) => {
-    const { name, value, files } = e.target;
-    if (name === "proof") {
-      setFormData({ ...formData, proof: files[0] });
-    } else {
-      setFormData({ ...formData, [name]: value });
-    }
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = (e) => {
@@ -30,6 +25,7 @@ function Login() {
   return (
     <div className="login-container-wrapper">
       <div className="login-container">
+        
         <h2>{isRegistering ? "Register" : "Login"}</h2>
         <form onSubmit={handleSubmit}>
           <input
@@ -62,22 +58,15 @@ function Login() {
                 required
                 onChange={handleChange}
               />
-              <input
-                type="file"
-                name="proof"
-                accept=".jpg,.jpeg,.png,.pdf"
-                required
-                onChange={handleChange}
-              />
             </>
           )}
-          <button type="submit">{isRegistering ? "Register" : "Login"}</button>
+          <button type="submit">
+            {isRegistering ? "Register" : "Login"}
+          </button>
         </form>
 
         <p onClick={() => setIsRegistering(!isRegistering)} className="toggle-text">
-          {isRegistering
-            ? "Already have an account? Login"
-            : "New user? Register here"}
+          {isRegistering ? "Already have an account? Login" : "New user? Register here"}
         </p>
 
         <div className="back-home-wrapper">

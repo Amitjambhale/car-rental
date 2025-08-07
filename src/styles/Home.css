@@ -1,188 +1,236 @@
-/* ===== Base Home Page Styling ===== */
 .home-page {
-  font-family: 'Segoe UI', sans-serif;
+  width: 100%;
 }
 
-/* ===== Hero Section ===== */
 .hero-section {
+  background-size: cover;
+  background-position: center;
+  height: 91vh;
   position: relative;
-  min-height: 92vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
-  color: white;
+  padding: 2rem 1rem;
 }
 
 .overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.55);
-  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.55);
+  padding: 2.5rem 2rem;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 1200px;
+  text-align: center;
 }
 
-.hero-content {
-  position: relative;
-  z-index: 2;
-  max-width: 1200px;
-  width: 100%;
+.content-wrapper {
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.center-header {
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 0.3rem;
+  margin-bottom: 0.2rem;
 }
 
-/* ===== Availability Header ===== */
-.availability-header {
-  text-align: center;
-  margin-bottom: 20px;
+.logo {
+  height: 130px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.9));
+  margin-bottom: 0;
 }
 
-.availability-logo {
-  max-width: 140px;
-  height: auto;
-  margin-bottom: 8px;
+.hero-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 10px;
+  line-height: 1.2;
 }
 
-.availability-header h1 {
-  font-size: 32px;
-  font-weight: bold;
+.hero-subtitle {
+  font-size: 1.1rem;
+  color: #ffc107;
+  font-weight: 600;
+  border: 1px solid #ffc107;
+  padding: 8px 14px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
   margin: 0;
+  line-height: 1.3;
 }
 
-.availability-phone {
-  font-size: 16px;
-  margin-top: 4px;
+.hero-subtitle:hover {
+  background-color: #ffc107;
+  color: black;
+  box-shadow: 0 0 8px #ffc107;
+  cursor: pointer;
 }
 
-/* ===== Form ===== */
-.check-form-horizontal {
+.hero-location {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: #fff;
+  font-size: 1.08rem;
+  margin-bottom: 0.1rem;
+  font-weight: 500;
+}
+
+.location-icon {
+  width: 17px;
+  height: 17px;
+  object-fit: contain;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+}
+
+.check-form {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
+  gap: 1.2rem 1rem;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.4);
-  border-radius: 14px;
-  padding: 18px;
-  backdrop-filter: blur(3px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-.field {
-  display: flex;
-  flex-direction: column;
-  min-width: 150px;
+.check-form select,
+.check-form input {
+  padding: 10px 14px;
+  border: none;
+  border-radius: 8px;
   flex: 1;
+  min-width: 180px;
+  background-color: #fff;
+  font-size: 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
-.field label {
-  font-size: 14px;
-  margin-bottom: 5px;
-  color: #fff;
-  text-align: center;
-}
-
-/* ===== Inputs & Selects ===== */
-.field input,
-.field select {
-  padding: 10px 12px;
-  border-radius: 8px;
-  border: none;
-  font-size: 14px;
-  font-weight: 500;
-  background: #fff;
-  color: #000;
-  box-sizing: border-box;
-}
-
-.booking-type select {
-  padding-left: 10px;
-}
-
-/* ===== Button ===== */
-.find-btn {
-  background: linear-gradient(90deg, #ff512f, #dd2476);
-  color: white;
-  padding: 12px 20px;
+.check-form button {
+  padding: 12px 24px;
+  background-color: #ffc107;
   border: none;
   border-radius: 8px;
-  font-size: 16px;
-  font-weight: bold;
+  color: black;
+  font-weight: 600;
+  font-size: 1rem;
   cursor: pointer;
+  transition: background-color 0.3s ease;
   white-space: nowrap;
-  transition: 0.3s ease;
-  height: 42px;
-  align-self: flex-end;
 }
 
-.find-btn:hover {
-  background: linear-gradient(90deg, #dd2476, #ff512f);
+.check-form button:hover {
+  background-color: #e6ac00;
 }
 
-/* ===== Responsive ===== */
-@media (max-width: 1024px) {
-  .check-form-horizontal {
-    gap: 12px;
-  }
+.check-form select,
+.check-form input[type="date"],
+.check-form input[type="time"] {
+  padding: 12px 16px;
+  border: none;
+  border-radius: 8px;
+  flex: 1;
+  min-width: 160px;
+  background-color: #fff;
+  font-size: 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  appearance: none;
+  /* Remove default arrow styling */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  position: relative;
 }
 
+.check-form select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding: 12px 16px;
+  padding-right: 40px;
+  /* enough space for icon */
+  border: none;
+  border-radius: 8px;
+  background-color: #fff;
+  font-size: 1rem;
+  background-image: url("/assets/dropdown-arrow.svg");
+  /* ✅ path to your arrow icon */
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+.check-form input[type="date"]::-webkit-calendar-picker-indicator,
+.check-form input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: brightness(0.3);
+  margin-left: 4px;
+  cursor: pointer;
+}
+
+
+/* ✅ Mobile Responsive */
 @media (max-width: 768px) {
-  .hero-section {
-    padding: 1rem;
+  .overlay {
+    padding: 2rem 1rem;
   }
 
-  .availability-logo {
-    max-width: 110px;
+  .content-wrapper {
+    gap: 1.5rem;
   }
 
-  .availability-header h1 {
-    font-size: 24px;
+  .logo {
+    height: 110px;
   }
 
-  .availability-phone {
-    font-size: 14px;
+  .hero-title {
+    font-size: 1.7rem;
+    margin: 8px 0;
   }
 
-  .check-form-horizontal {
+  .hero-subtitle {
+    font-size: 0.95rem;
+    padding: 6px 12px;
+    border-radius: 6px;
+  }
+
+  .hero-location {
+    font-size: 0.95rem;
+    gap: 6px;
+  }
+
+  .location-icon {
+    width: 15px;
+    height: 15px;
+  }
+
+  .check-form {
     flex-direction: column;
+    gap: 1rem;
     align-items: stretch;
-    gap: 10px;
-    padding: 20px;
   }
 
-  .field {
-    min-width: 100%;
-  }
+  .check-form select {
+  background-position: right 12px center;
+  background-repeat: no-repeat;
+  background-size: 14px;
+}
 
-  .field input,
-  .field select {
-    padding: 9px 12px;
-    font-size: 15px;
-  }
+select {
+  max-width: 100%;
+  overflow-x: hidden;
+}
 
-  .find-btn {
+  
+  .check-form select,
+  .check-form input,
+  .check-form button {
     width: 100%;
-    padding: 10px;
-    font-size: 15px;
+    font-size: 0.95rem;
+    padding: 10px 14px;
   }
 }
-
-@media (max-width: 480px) {
-  .availability-logo {
-    max-width: 90px;
-  }
-
-  .availability-header h1 {
-    font-size: 20px;
-  }
-
-  .availability-phone {
-    font-size: 13px;
-  }
-}
-
 
 /* ===== Cars Section ===== */
 .cars {
@@ -200,7 +248,7 @@
 .section-heading {
   position: relative;
   font-size: 30px;
-  font-weight: 500;
+  font-weight: 600;
   text-align: center;
   color: #222;
   margin-bottom: 60px;
@@ -221,91 +269,91 @@
 }
 
 .section-heading::before {
-  left: -70px;
+  left: -80px;
 }
 
 .section-heading::after {
-  right: -70px;
+  right: -80px;
 }
 
 /* ===== Benefits Section ===== */
 .benefits-section {
-  padding: 15px 20px;
-  background-color: #f9f9f9;
+  padding: 20px;
+  /* background-color: #f9f9f9; */
   text-align: center;
 }
 
 .benefits-title {
+  font-size: 28px;
+  margin-bottom: 40px;
   position: relative;
-  font-size: 30px;
-  margin-bottom: 70px;
-  color: #222;
-  font-weight: 400;
-  text-align: center;
   display: inline-block;
-  padding: 0 20px;
-}
-
-.benefits-title::before,
-.benefits-title::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  width: 60px;
-  height: 0.6px;
-  background-color: #007BFF;
-  transform: translateY(-50%);
-}
-
-.benefits-title::before {
-  left: -70px;
-}
-
-.benefits-title::after {
-  right: -70px;
+  color: #222;
 }
 
 .benefits-container {
   display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
   max-width: 1000px;
-  gap: 70px;
-  grid-template-columns: repeat(3, 1fr);
   margin: 0 auto;
+  padding:  1rem;
 }
 
 .benefit-card {
-  max-width: 300px;
-  text-align: center;
+  /* background: white; */
+  padding: 25px;
+  border-radius: 8px;
+  /* box-shadow: 0 2px 10px rgba(0,0,0,0.08); */
 }
 
 .benefit-icon {
-  width: 70px;
-  height: 70px;
-  margin-bottom: 11px;
-  transition: transform 0.3s ease, filter 0.3s ease;
+  width: 60px;
+  height: 60px;
+  margin-bottom: 10px;
 }
 
-.benefit-icon:hover {
-  transform: scale(1.1);
-  filter: brightness(1.2);
-  cursor: pointer;
+.benefit-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 5px;
 }
 
-.benefit-title {
-  font-size: 1.5rem;
-  font-weight: 500;
-  margin: 10px 0;
-}
-
-.benefit-desc {
-  font-size: 0.98rem;
+.benefit-card p {
+  font-size: 0.95rem;
   color: #555;
 }
+
+/* ✅ MOBILE: 2 Cards in One Row */
+@media (max-width: 600px) {
+  .benefits-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .benefit-card {
+    padding: 10px;
+  }
+
+  .benefit-icon {
+    width: 50px;
+    height: 50px;
+  }
+
+  .benefit-card h3 {
+    font-size: 1rem;
+  }
+
+  .benefit-card p {
+    font-size: 0.85rem;
+  }
+}
+
+
 /* ============================
    REVIEW SECTION
    ============================ */
 .review-section {
-  padding: 60px 20px;
+  padding: 20px 20px;
   background: linear-gradient(180deg, #f8f9ff 0%, #ffffff 100%);
   text-align: center;
 }
@@ -332,6 +380,7 @@
 .review-section .section-heading::before {
   left: -60px;
 }
+
 .review-section .section-heading::after {
   right: -60px;
 }
@@ -384,8 +433,10 @@
   margin-bottom: 15px;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 5; /* Chrome, Safari */
-  line-clamp: 5;         /* Standard property (future support) */
+  -webkit-line-clamp: 5;
+  /* Chrome, Safari */
+  line-clamp: 5;
+  /* Standard property (future support) */
 
   overflow: hidden;
   text-overflow: ellipsis;

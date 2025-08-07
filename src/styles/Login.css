@@ -1,90 +1,110 @@
+/* ===== Wrapper with background image ===== */
 .login-container-wrapper {
+  min-height: 100vh;
+  background: url('../assets/login-bg5.jpg') no-repeat center center/cover;
   display: flex;
-  justify-content: flex-start; /* left side form */
+  justify-content: flex-start;  /* align left */
   align-items: center;
-  height: 100vh;
-  background-image: url('/assets/login-bg5.jpg'); /* replace with your image path */
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  padding: 0 60px;
-   padding-left: 120px;
-  padding-right: 60px;
+  padding: 20px;
+  position: relative;
 }
 
+/* ===== Container shifted to left side ===== */
 .login-container {
-   background-color: rgba(255, 255, 255, 0.85); /* translucent white */
-  padding: 40px 32px;
+  background: linear-gradient(135deg, rgba(30,30,60,0.7), rgba(60,60,90,0.7));
   border-radius: 20px;
-  backdrop-filter: blur(3px);
-  width: 100%;
-  max-width: 360px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  
+  padding: 40px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+  max-width: 420px;
+  margin-left: 10%;
+  position: relative;
 }
 
+.login-container::before {
+  content: '🔐';
+  font-size: 32px;
+  position: absolute;
+  top: -20px;
+  left: 20px;
+  background: #007bff;
+  color: white;
+  padding: 10px;
+  border-radius: 50%;
+  box-shadow: 0 0 15px rgba(0,123,255,0.6);
+}
+
+
+/* Form & UI (no change needed) */
 .login-container h2 {
-  margin-bottom: 24px;
-  font-size: 24px;
-  color: #2e2e60;
   text-align: center;
+  margin-bottom: 25px;
+  font-size: 28px;
+  font-weight: 600;
+  color: #fff;
 }
 
-.login-container input {
+.login-container form input {
   width: 100%;
-  padding: 12px 14px;
-  margin-bottom: 16px;
+  padding: 12px;
+  margin-bottom: 17px;
+  border: none;
   border-radius: 8px;
-  border: 1px solid #ccc;
-  font-size: 14px;
-  transition: border-color 0.2s;
+  background-color: rgba(255, 255, 255, 0.15);
+  color: white;
+  font-size: 15px;
 }
 
-.login-container input:focus {
-  border-color: #5c4dff;
-  outline: none;
+.login-container form input::placeholder {
+  color: #e0e0e0;
 }
 
 .login-container button {
   width: 100%;
   padding: 12px;
-  background-color: #5c4dff;
-  color: white;
+  background-color: #007bff;
   border: none;
   border-radius: 8px;
+  color: white;
   font-size: 16px;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: 0.3s;
 }
 
 .login-container button:hover {
-  background-color: #3d36d1;
+  background-color: #0056b3;
 }
 
+/* Text toggle + back */
 .toggle-text {
-  margin-top: 16px;
-  font-size: 14px;
+  margin-top: 15px;
   text-align: center;
-  color: #5c4dff;
+  color: #ddd;
   cursor: pointer;
+  font-size: 14px;
 }
+
 .back-home-wrapper {
-  text-align: center;
   margin-top: 20px;
+  text-align: center;
 }
 
 .back-home-btn {
-  display: inline-block;
-  padding: 8px 16px;
-  background-color: #5c4dff;
-  color: white;
-  border-radius: 8px;
+  color: #ccc;
   text-decoration: none;
-  font-weight: 500;
-  transition: background-color 0.3s ease;
+  font-size: 14px;
 }
 
-.back-home-btn:hover {
-  background-color: #3d36d1;
-}
+/* ===== Responsive (on mobile - recenters form) ===== */
+@media (max-width: 768px) {
+  .login-container-wrapper {
+    justify-content: center; /* center for small screen */
+  }
 
+  .login-container {
+    margin-left: 0;
+    padding: 25px 20px;
+  }
+}
