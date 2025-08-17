@@ -24,19 +24,20 @@ const AvailableCars = () => {
     setFilters({ fuel: [], transmission: [], rent: [] });
   };
 
-  // Filter logic
   const filteredCars = carsData.filter((car) => {
-    // Fuel filter
-    if (filters.fuel.length && !filters.fuel.includes(car.fuelType)) {
+    const carTransmission = car.transmission.toLowerCase();
+    const carFuel = car.fuelType;
+    const rent = car.rent;
+
+    if (filters.fuel.length && !filters.fuel.includes(carFuel)) {
       return false;
     }
-    // Transmission filter
-    if (filters.transmission.length && !filters.transmission.includes(car.transmission)) {
+
+    if (filters.transmission.length && !filters.transmission.includes(carTransmission)) {
       return false;
     }
-    // Rent filter
+
     if (filters.rent.length) {
-      const rent = car.rent;
       if (
         (filters.rent.includes("under2000") && rent >= 2000) ||
         (filters.rent.includes("2000-3000") && (rent < 2000 || rent > 3000)) ||
@@ -45,6 +46,7 @@ const AvailableCars = () => {
         return false;
       }
     }
+
     return true;
   });
 
@@ -55,7 +57,7 @@ const AvailableCars = () => {
       </div>
 
       <div className="available-cars-container">
-        {/* Filters sidebar */}
+        {/* Filters */}
         <div className="filters-sidebar">
           <div className="filters-header">
             <h4 className="filters-heading">Filters</h4>
@@ -67,56 +69,33 @@ const AvailableCars = () => {
           {/* Fuel Type */}
           <div className="filter-group">
             <h5>Fuel Type</h5>
-            <label>
-              <FaGasPump className="filter-icon petrol" />
-              <input
-                type="checkbox"
-                checked={filters.fuel.includes("Petrol")}
-                onChange={() => handleCheckboxChange("fuel", "Petrol")}
-              />
-              <span>Petrol</span>
-            </label>
-            <label>
-              <FaGasPump className="filter-icon diesel" />
-              <input
-                type="checkbox"
-                checked={filters.fuel.includes("Diesel")}
-                onChange={() => handleCheckboxChange("fuel", "Diesel")}
-              />
-              <span>Diesel</span>
-            </label>
-            <label>
-              <FaGasPump className="filter-icon cng" />
-              <input
-                type="checkbox"
-                checked={filters.fuel.includes("CNG")}
-                onChange={() => handleCheckboxChange("fuel", "CNG")}
-              />
-              <span>CNG</span>
-            </label>
+            {['Petrol', 'Diesel', 'CNG'].map((fuel) => (
+              <label key={fuel}>
+                <FaGasPump className={`filter-icon ${fuel.toLowerCase()}`} />
+                <input
+                  type="checkbox"
+                  checked={filters.fuel.includes(fuel)}
+                  onChange={() => handleCheckboxChange("fuel", fuel)}
+                />
+                <span>{fuel}</span>
+              </label>
+            ))}
           </div>
 
           {/* Transmission */}
           <div className="filter-group">
             <h5>Transmission</h5>
-            <label>
-              <FaCogs className="filter-icon" />
-              <input
-                type="checkbox"
-                checked={filters.transmission.includes("Manual")}
-                onChange={() => handleCheckboxChange("transmission", "Manual")}
-              />
-              <span>Manual</span>
-            </label>
-            <label>
-              <FaCogs className="filter-icon" />
-              <input
-                type="checkbox"
-                checked={filters.transmission.includes("Automatic")}
-                onChange={() => handleCheckboxChange("transmission", "Automatic")}
-              />
-              <span>Automatic</span>
-            </label>
+            {['manual', 'automatic'].map((trans) => (
+              <label key={trans}>
+                <FaCogs className="filter-icon" />
+                <input
+                  type="checkbox"
+                  checked={filters.transmission.includes(trans)}
+                  onChange={() => handleCheckboxChange("transmission", trans)}
+                />
+                <span>{trans.charAt(0).toUpperCase() + trans.slice(1)}</span>
+              </label>
+            ))}
           </div>
 
           {/* Rent Range */}
@@ -151,38 +130,38 @@ const AvailableCars = () => {
 
         {/* Car List */}
         <div className="car-list-horizontal">
-          {filteredCars.map((car) => (
-            <div className="car-card-horizontal" key={car.id}>
-              <div className="car-image-horizontal">
-                <img src={car.image} alt={car.name} />
+          {filteredCars.length > 0 ? (
+            filteredCars.map((car) => (
+              <div className="car-card-horizontal" key={car.id}>
+                <div className="car-image-horizontal">
+                  <img src={car.image} alt={car.name} />
+                </div>
+                <div className="car-info-horizontal">
+                  <div className="top-row">
+                    <h3 className="car-name-gradient">{car.name}</h3>
+                    <p className="car-type">{car.category}</p>
+                  </div>
+                  <div className="rent-kms-row">
+                    <p className="price">₹ {car.rent}</p>
+                    <p className="kms">(300 kms/day)</p>
+                  </div>
+                  <div className="features">
+                    <span className={`transmission ${car.transmission.toLowerCase()}`}><FaCogs /> {car.transmission}</span>
+                    <span><FaGasPump /> {car.fuelType}</span>
+                    <span><FaSuitcase /> 2 Baggage</span>
+                    <span><FaUserFriends /> 5 Seater</span>
+                  </div>
+                  <p className="extra">Extra kms charged at ₹9/km</p>
+                  <div className="actions">
+                    <span className="view-details">View Details</span>
+                    <Link to="/booking">
+                      <button className="book-now">Book Now →</button>
+                    </Link>
+                  </div>
+                </div>
               </div>
-              <div className="car-info-horizontal">
-                <div className="top-row">
-                  <h3 className="car-name-gradient">{car.name}</h3>
-                  <p className="car-type">{car.category}</p>
-                </div>
-                <div className="rent-kms-row">
-                  <p className="price">₹ {car.rent}</p>
-                  <p className="kms">(300 kms/day)</p>
-                </div>
-                <div className="features">
-                  <span><FaCogs /> {car.transmission}</span>
-                  <span><FaGasPump /> {car.fuelType}</span>
-                  <span><FaSuitcase /> 2 Baggage</span>
-                  <span><FaUserFriends /> 5 Seater</span>
-                </div>
-                <p className="extra">Extra kms charged at ₹9/km</p>
-                <div className="actions">
-                  <span className="view-details">View Details</span>
-                  <Link to="/booking">
-                    <button className="book-now">Book Now →</button>
-                  </Link>
-                </div>
-              </div>
-            </div>
-          ))}
-
-          {filteredCars.length === 0 && (
+            ))
+          ) : (
             <p className="no-results">No cars match your filters.</p>
           )}
         </div>

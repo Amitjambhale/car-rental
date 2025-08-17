@@ -1,0 +1,33 @@
+.admin-navbar {
+background: linear-gradient(90deg, #1a2980, #26d0ce);
+  color: white;
+  padding: 12px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.admin-navbar-left a {
+  margin-right: 15px;
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+}
+
+.admin-navbar-left a:hover {
+  text-decoration: underline;
+}
+
+.admin-navbar-right button {
+  background: red;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.admin-navbar-right button:hover {
+  background: darkred;
+}

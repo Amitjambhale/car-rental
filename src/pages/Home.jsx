@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 import CarCarousel from "../components/CarCarousel";
 import arrowDown from "../../public/assets/dropdown-arrow.svg";
 
-
 const reviews = [
   {
     name: "Amit Verma",
@@ -43,7 +42,23 @@ const Home = () => {
     comment: "",
   });
 
+  // Contact form state
+  const [contactForm, setContactForm] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
 
+  const handleContactChange = (e) => {
+    const { name, value } = e.target;
+    setContactForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleContactSubmit = (e) => {
+    e.preventDefault();
+    alert(`Message Sent:\n${JSON.stringify(contactForm, null, 2)}`);
+    setContactForm({ name: "", email: "", message: "" });
+  };
 
   // Form state for CheckAvailability
   const [formData, setFormData] = useState({
@@ -68,17 +83,9 @@ const Home = () => {
     setNewReview({ name: "", tripLocation: "", comment: "" });
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
-
   return (
     <div className="home-page">
+      {/* Hero Section */}
       <section
         className="hero-section"
         style={{
@@ -93,10 +100,8 @@ const Home = () => {
               <p className="hero-subtitle">📞 +91-9730562424</p>
               <p className="hero-location">
                 <img src={location} alt="Location Logo" className="location-icon" />
-
                 Available only in Pune
               </p>
-
             </div>
 
             <form className="check-form" onSubmit={handleSearch}>
@@ -114,7 +119,7 @@ const Home = () => {
                   backgroundSize: "22px",
                   appearance: "none",
                   WebkitAppearance: "none",
-                  MozAppearance: "none"
+                  MozAppearance: "none",
                 }}
               >
                 <option value="">Select Booking Type</option>
@@ -125,13 +130,12 @@ const Home = () => {
               <input
                 type="date"
                 name="pickupDate"
-                value={formData.dropDate}
+                value={formData.pickupDate}
                 onChange={(e) =>
                   setFormData({ ...formData, pickupDate: e.target.value })
                 }
                 required
               />
-
               <input
                 type="time"
                 name="pickupTime"
@@ -141,7 +145,6 @@ const Home = () => {
                 }
                 required
               />
-
               <input
                 type="date"
                 name="dropDate"
@@ -151,7 +154,6 @@ const Home = () => {
                 }
                 required
               />
-
               <input
                 type="time"
                 name="dropTime"
@@ -161,14 +163,11 @@ const Home = () => {
                 }
                 required
               />
-
               <button type="submit">Find Car</button>
             </form>
           </div>
         </div>
       </section>
-
-
 
       {/* Car Carousel */}
       <section className="cars section-spacing-bottom">
@@ -177,42 +176,41 @@ const Home = () => {
       </section>
 
       {/* Benefits Section */}
-      <section class="benefits-section">
-        <h2 class="section-heading">Top Benefits of Renting from Us</h2>
-        <div class="benefits-container">
-          <div class="benefit-card">
-            <img src="/assets/icons/secure-payment.png" alt="Secure" class="benefit-icon" />
+      <section className="benefits-section">
+        <h2 className="section-heading">Top Benefits of Renting from Us</h2>
+        <div className="benefits-container">
+          <div className="benefit-card">
+            <img src="/assets/icons/secure-payment.png" alt="Secure" className="benefit-icon" />
             <h3>Secure Payments</h3>
             <p>Our Payment Partners are Industry Leaders.</p>
           </div>
-          <div class="benefit-card">
-            <img src="/assets/icons/verified-dealer.png" alt="Verified" class="benefit-icon" />
+          <div className="benefit-card">
+            <img src="/assets/icons/verified-dealer.png" alt="Verified" className="benefit-icon" />
             <h3>Verified Dealers</h3>
             <p>Only trusted & verified dealers onboarded.</p>
           </div>
-          <div class="benefit-card">
-            <img src="/assets/icons/clock.png" alt="No Bullshit" class="benefit-icon" />
+          <div className="benefit-card">
+            <img src="/assets/icons/clock.png" alt="No Bullshit" className="benefit-icon" />
             <h3>No Bullshit</h3>
             <p>A Day Rent is simply for 24 hrs. We mean it.</p>
           </div>
-          <div class="benefit-card">
-            <img src="/assets/icons/instant-booking.png" alt="Instant Booking" class="benefit-icon" />
+          <div className="benefit-card">
+            <img src="/assets/icons/instant-booking.png" alt="Instant Booking" className="benefit-icon" />
             <h3>Instant Booking</h3>
             <p>Book instantly with real-time availability.</p>
           </div>
-          <div class="benefit-card">
-            <img src="/assets/icons/customer-service_5432364.png" alt="Support" class="benefit-icon" />
+          <div className="benefit-card">
+            <img src="/assets/icons/customer-service_5432364.png" alt="Support" className="benefit-icon" />
             <h3>24/7 Support</h3>
             <p>Round-the-clock customer support.</p>
           </div>
-          <div class="benefit-card">
-            <img src="/assets/icons/car-selection.png" alt="Car Selection" class="benefit-icon" />
+          <div className="benefit-card">
+            <img src="/assets/icons/car-selection.png" alt="Car Selection" className="benefit-icon" />
             <h3>Wide Car Selection</h3>
             <p>Choose from hatchbacks, sedans, SUVs & more.</p>
           </div>
         </div>
       </section>
-
 
       {/* Review Section */}
       <section className="review-section">
@@ -225,13 +223,8 @@ const Home = () => {
               <div className="review-card-wrapper" key={index}>
                 <div className="review-card">
                   <div className="review-top">
-                    <div className="trip-label">
-                      Trip to {review.tripLocation}
-                    </div>
-                    <p
-                      className={`review-comment ${isExpanded ? "expanded" : ""
-                        }`}
-                    >
+                    <div className="trip-label">Trip to {review.tripLocation}</div>
+                    <p className={`review-comment ${isExpanded ? "expanded" : ""}`}>
                       {isExpanded || !isLong
                         ? review.comment
                         : review.comment.substring(0, 200) + "..."}
@@ -240,9 +233,7 @@ const Home = () => {
                       <button
                         className="read-more-btn"
                         onClick={() =>
-                          setExpandedReviewIndex(
-                            isExpanded ? null : index
-                          )
+                          setExpandedReviewIndex(isExpanded ? null : index)
                         }
                       >
                         {isExpanded ? "Read Less" : "Read More"}
@@ -250,18 +241,12 @@ const Home = () => {
                     )}
                   </div>
                   <div className="review-bottom">
-                    <img
-                      src={review.image}
-                      alt={review.name}
-                      className="reviewer-img"
-                    />
+                    <img src={review.image} alt={review.name} className="reviewer-img" />
                     <div className="reviewer-details">
                       <div className="reviewer-name">{review.name}</div>
                     </div>
                   </div>
                 </div>
-
-                {/* Show Add Review Button only next to 3rd card */}
                 {index === 2 && (
                   <div className="add-review-wrapper">
                     <button
@@ -277,7 +262,6 @@ const Home = () => {
           })}
         </div>
 
-        {/* Review Form Modal */}
         {showForm && (
           <div className="review-form-popup">
             <div className="review-form-content">
@@ -297,10 +281,7 @@ const Home = () => {
                   placeholder="Trip Location"
                   value={newReview.tripLocation}
                   onChange={(e) =>
-                    setNewReview({
-                      ...newReview,
-                      tripLocation: e.target.value,
-                    })
+                    setNewReview({ ...newReview, tripLocation: e.target.value })
                   }
                   required
                 />
@@ -309,10 +290,7 @@ const Home = () => {
                   rows="4"
                   value={newReview.comment}
                   onChange={(e) =>
-                    setNewReview({
-                      ...newReview,
-                      comment: e.target.value,
-                    })
+                    setNewReview({ ...newReview, comment: e.target.value })
                   }
                   required
                 />
@@ -326,6 +304,55 @@ const Home = () => {
             </div>
           </div>
         )}
+      </section>
+
+      {/* Blog Section */}
+      <section className="blog-section">
+        <h2 className="section-heading">Latest Blog</h2>
+        <div className="blog-container">
+          <div className="blog-card">
+            <img src="/assets/blogs/roadtrip.jpg" alt="Roadtrip" className="blog-img" />
+            <h3>Top 5 Weekend Getaways from Pune</h3>
+            <p>Discover scenic drives near Pune for a perfect short trip with our self-drive cars.</p>
+          </div>
+          <div className="blog-card">
+            <img src="/assets/blogs/safety.jpg" alt="Safety" className="blog-img" />
+            <h3>Self-Drive Car Safety Tips</h3>
+            <p>Follow these tips to make your ride safe, fun, and hassle-free every time.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section className="contact-section">
+        <h2 className="section-heading">Contact Us</h2>
+        <form className="contact-form" onSubmit={handleContactSubmit}>
+          <input
+            type="text"
+            name="name"
+            placeholder="Your Name"
+            value={contactForm.name}
+            onChange={handleContactChange}
+            required
+          />
+          <input
+            type="email"
+            name="email"
+            placeholder="Your Email"
+            value={contactForm.email}
+            onChange={handleContactChange}
+            required
+          />
+          <textarea
+            name="message"
+            placeholder="Your Message"
+            rows="4"
+            value={contactForm.message}
+            onChange={handleContactChange}
+            required
+          />
+          <button type="submit">Send Message</button>
+        </form>
       </section>
     </div>
   );

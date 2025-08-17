@@ -1,40 +1,43 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axiosInstance from "../utils/axiosInstance";
 import "../styles/Profile.css";
 
-const userInfo = {
-  name: "Amit Jambhale",
-  email: "amit@example.com",
-  phone: "9876543210",
-  currentPlace: "Pune",
-};
-
-const bookingHistory = [
-  {
-    id: 1,
-    car: "Maruti Swift",
-    date: "2025-07-10",
-    status: "Booked",
-  },
-  {
-    id: 2,
-    car: "Hyundai i20",
-    date: "2025-06-22",
-    status: "Completed",
-  },
-];
-
 function Profile() {
+  const [userInfo, setUserInfo] = useState(null);
+  const [bookingHistory, setBookingHistory] = useState([]);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const res = await axiosInstance.get("profile/", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+        setUserInfo(res.data.user);
+        setBookingHistory(res.data.bookings || []);
+      } catch (err) {
+        console.error("Error fetching profile:", err);
+      }
+    };
+    fetchProfile();
+  }, []);
+
   return (
     <div className="profile-container">
       <h2>User Profile</h2>
 
-      <div className="profile-section">
-        <h3>Personal Info</h3>
-        <p><strong>Name:</strong> {userInfo.name}</p>
-        <p><strong>Email:</strong> {userInfo.email}</p>
-        <p><strong>Phone:</strong> {userInfo.phone}</p>
-        <p><strong>Current Place:</strong> {userInfo.currentPlace}</p>
-      </div>
+      {userInfo ? (
+        <div className="profile-section">
+          <h3>Personal Info</h3>
+          <p><strong>Name:</strong> {userInfo.name}</p>
+          <p><strong>Email:</strong> {userInfo.email}</p>
+          <p><strong>Phone:</strong> {userInfo.phone}</p>
+          <p><strong>Current Place:</strong> {userInfo.currentPlace}</p>
+        </div>
+      ) : (
+        <p>Loading profile...</p>
+      )}
 
       <div className="profile-section">
         <h3>Booking History</h3>
@@ -42,9 +45,9 @@ function Profile() {
           <p>No bookings yet.</p>
         ) : (
           <ul>
-            {bookingHistory.map((booking) => (
-              <li key={booking.id}>
-                <strong>{booking.car}</strong> - {booking.date} - {booking.status}
+            {bookingHistory.map((b) => (
+              <li key={b.id}>
+                <strong>{b.car}</strong> - {b.date} - {b.status}
               </li>
             ))}
           </ul>

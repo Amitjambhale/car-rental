@@ -5,13 +5,33 @@
 .hero-section {
   background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed; /* optional parallax effect */
   height: 91vh;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 2rem 1rem;
+  overflow: hidden;
 }
+
+/* Optional: Add a dark overlay for text/form contrast */
+.hero-section::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.3); 
+  z-index: 1;
+}
+
+/* Ensure content inside appears above overlay */
+.hero-section > * {
+  position: relative;
+  z-index: 2;
+}
+
 
 .overlay {
   background-color: rgba(0, 0, 0, 0.55);
@@ -610,5 +630,95 @@ select {
 
   .availability-phone {
     font-size: 12px;
+  }
+}
+
+/* ===== Blog Section ===== */
+.blog-section {
+  padding: 40px 20px;
+  background: #fafafa;
+  text-align: center;
+}
+.blog-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  max-width: 1000px;
+  margin: auto;
+}
+.blog-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: transform 0.3s;
+}
+.blog-card:hover {
+  transform: translateY(-5px);
+}
+.blog-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+.blog-card h3 {
+  margin: 15px 0 8px;
+  font-size: 1.2rem;
+}
+.blog-card p {
+  padding: 0 15px;
+  color: #555;
+  font-size: 0.95rem;
+}
+.blog-btn {
+  margin: 15px;
+  padding: 8px 16px;
+  background: #007bff;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+}
+.blog-btn:hover {
+  background: #0056b3;
+}
+
+/* ===== Contact Section ===== */
+.contact-section {
+  padding: 50px 20px;
+  background: linear-gradient(180deg, #f9f9f9, #fff);
+  text-align: center;
+}
+.contact-form {
+  max-width: 500px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.contact-form input,
+.contact-form textarea {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+.contact-form button {
+  background: #ffc107;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.contact-form button:hover {
+  background: #e6ac00;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .blog-container {
+    grid-template-columns: 1fr;
   }
 }

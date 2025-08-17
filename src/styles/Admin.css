@@ -1,0 +1,68 @@
+.admin-page {
+  padding: 20px;
+}
+
+.admin-form {
+  display: grid;
+  gap: 10px;
+  max-width: 400px;
+  margin-bottom: 20px;
+}
+
+.admin-form input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.admin-form button {
+  padding: 10px;
+  border: none;
+  background: #007bff;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.admin-car-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.admin-car-card {
+  width: 200px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+}
+
+.admin-car-card img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+}
+
+.admin-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.admin-buttons button {
+  padding: 5px 8px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.admin-buttons button:first-child {
+  background: orange;
+  color: white;
+}
+
+.admin-buttons button:last-child {
+  background: red;
+  color: white;
+}
