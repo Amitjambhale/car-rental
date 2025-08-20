@@ -1,5 +1,6 @@
 .navbar {
-  background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+ background: linear-gradient(to right, #0f2027, #2c5364, #00c6ff);
+
   color: white;
   position: sticky;
   top: 0;
@@ -22,7 +23,8 @@
 
 .navbar-links {
   display: flex;
-  gap: 40px; /* increased spacing */
+  gap: 40px;
+  /* increased spacing */
   align-items: center;
 }
 

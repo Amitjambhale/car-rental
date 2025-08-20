@@ -1,11 +1,26 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import "../styles/Navbar.css";
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const toggleMenu = () => setMenuOpen(!menuOpen);
+
+  // ✅ check login status whenever route changes
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setIsLoggedIn(!!token);
+  }, [location]); // 👈 ab har navigation par check hoga
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setIsLoggedIn(false);
+    navigate("/login");
+  };
 
   return (
     <nav className="navbar">
@@ -13,9 +28,11 @@ function Navbar() {
       <div className="mobile-top-row">
         <div className="hamburger" onClick={toggleMenu}>☰</div>
 
-        {/* Removed mobile logo and phone number */}
-        
-        <Link to="/login" className="mobile-login">Login</Link>
+        {isLoggedIn ? (
+          <button onClick={handleLogout} className="mobile-login">Logout</button>
+        ) : (
+          <Link to="/login" className="mobile-login">Login</Link>
+        )}
       </div>
 
       {/* Desktop Navbar */}
@@ -25,12 +42,16 @@ function Navbar() {
             <Link to="/">Home</Link>
             <Link to="/about">About</Link>
             <Link to="/cars">Cars</Link>
-            <Link to="/check-availability">Check Availability</Link>
+            
           </div>
         </div>
 
         <div className="auth-buttons">
-          <Link to="/login">Login</Link>
+          {isLoggedIn ? (
+            <button onClick={handleLogout} className="logout-btn">Logout</button>
+          ) : (
+            <Link to="/login">Login</Link>
+          )}
         </div>
       </div>
 
@@ -40,7 +61,7 @@ function Navbar() {
         <Link to="/" onClick={toggleMenu}>Home</Link>
         <Link to="/about" onClick={toggleMenu}>About</Link>
         <Link to="/cars" onClick={toggleMenu}>Cars</Link>
-        <Link to="/check-availability" onClick={toggleMenu}>Check Availability</Link>
+       
       </div>
     </nav>
   );

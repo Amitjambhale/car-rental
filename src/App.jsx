@@ -11,6 +11,7 @@ import CarDetails from "./pages/CarDetails";
 import AvailableCars from "./pages/AvailableCars";
 import AboutUs from "./pages/AboutUs";
 
+
 // User Navbar
 import Navbar from "./components/Navbar";
 
@@ -44,6 +45,7 @@ function App() {
       <Routes>
         {/* User Routes */}
         <Route path="/" element={<Home />} />
+       
         <Route path="/cars" element={<CarList />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

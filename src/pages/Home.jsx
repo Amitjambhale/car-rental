@@ -1,39 +1,49 @@
 import React, { useState } from "react";
 import "../styles/Home.css";
 import cars from "../data/cars";
-import bgImage from "../../public/assets/bg-car.jpg";
+import { useNavigate } from "react-router-dom";
+
+
+// Components
+import CarCarousel from "../components/CarCarousel";
+
+// React Icons
+import { FaPhoneAlt } from "react-icons/fa";
+import { MdOutlineDirectionsCar } from "react-icons/md";
+
+// Images
 import logo from "../../public/assets/logo.png";
 import location from "../../public/assets/location1.png";
-import { useNavigate } from "react-router-dom";
-import CarCarousel from "../components/CarCarousel";
-import arrowDown from "../../public/assets/dropdown-arrow.svg";
+import mumbaiImg from "../../public/assets/blogs/mumbai.jpg";
 
+// Dummy reviews
 const reviews = [
   {
     name: "Amit Verma",
     tripLocation: "Lonavala",
     comment:
-      "Had an amazing weekend getaway to Lonavala with the Hyundai i20. The car was in top condition, super comfortable for long drives, and the music system made the ride even more enjoyable. Loved the handling on the ghats, and pickup was smooth. Will definitely book again!",
+      "Had an amazing weekend getaway to Lonavala with the Hyundai i20. The car was in top condition, super comfortable for long drives, and the music system made the ride even more enjoyable.",
     image: "/assets/users/amit.jpg",
   },
   {
     name: "Priya Sharma",
     tripLocation: "Mahabaleshwar",
     comment:
-      "We took the Maruti Baleno for a 3-day family trip to Mahabaleshwar and it was a fantastic experience. The car was spotless, had great boot space for our luggage, and gave excellent mileage. Booking was instant, and the support team helped with route suggestions too.",
+      "We took the Maruti Baleno for a 3-day family trip to Mahabaleshwar and it was a fantastic experience. The car was spotless, had great boot space for our luggage, and gave excellent mileage.",
     image: "/assets/users/priya.jpg",
   },
   {
     name: "Rahul Mehta",
     tripLocation: "Mumbai Business Trip",
     comment:
-      "Rented the Honda Amaze for a two-day work trip to Mumbai. The car was clean, fuel-efficient, and smooth in traffic. AC cooling was fast, and Bluetooth worked perfectly for my calls. A hassle-free, professional experience from start to finish.",
+      "Rented the Honda Amaze for a two-day work trip to Mumbai. The car was clean, fuel-efficient, and smooth in traffic. AC cooling was fast, and Bluetooth worked perfectly for my calls.",
     image: "/assets/users/rahul.jpg",
   },
 ];
 
 const Home = () => {
   const navigate = useNavigate();
+
   const [expandedReviewIndex, setExpandedReviewIndex] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [newReview, setNewReview] = useState({
@@ -60,7 +70,7 @@ const Home = () => {
     setContactForm({ name: "", email: "", message: "" });
   };
 
-  // Form state for CheckAvailability
+  // Booking Form state
   const [formData, setFormData] = useState({
     bookingType: "",
     pickupDate: "",
@@ -68,6 +78,10 @@ const Home = () => {
     dropDate: "",
     dropTime: "",
   });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -86,85 +100,117 @@ const Home = () => {
   return (
     <div className="home-page">
       {/* Hero Section */}
-      <section
-        className="hero-section"
-        style={{
-          backgroundImage: `url(${bgImage})`,
-        }}
-      >
-        <div className="overlay">
-          <div className="content-wrapper">
-            <div className="center-header">
-              <img src={logo} alt="Malhar Logo" className="logo" />
-              <h1 className="hero-title">Welcome to Malhar Car Rental</h1>
-              <p className="hero-subtitle">📞 +91-9730562424</p>
-              <p className="hero-location">
-                <img src={location} alt="Location Logo" className="location-icon" />
-                Available only in Pune
-              </p>
+      <section className="luxury-hero">
+        <div className="hero-content-wrapper">
+          <div className="hero-content-grid">
+
+            {/* Branding Section */}
+            <div className="branding-section">
+              <div className="logo-container">
+                <img src={logo} alt="Malhar Logo" className="brand-logo" />
+              </div>
+              <h1 className="hero-headline gradient-text">
+                Welcome to Malhar Car Rental
+              </h1>
+              <p className="sub-headline">Available only in Pune</p>
+
+              <div className="contact-info">
+                <div className="phone">
+                  <FaPhoneAlt className="contact-icon" />
+                  +91-9730562424
+                </div>
+                <div className="location">
+                  <img src={location} alt="Location" className="location-icon" />
+                  Pune, India
+                </div>
+              </div>
             </div>
 
-            <form className="check-form" onSubmit={handleSearch}>
-              <select
-                name="bookingType"
-                value={formData.bookingType}
-                onChange={(e) =>
-                  setFormData({ ...formData, bookingType: e.target.value })
-                }
-                required
-                style={{
-                  backgroundImage: `url(${arrowDown})`,
-                  backgroundRepeat: "no-repeat",
-                  backgroundPosition: "right 17px center",
-                  backgroundSize: "22px",
-                  appearance: "none",
-                  WebkitAppearance: "none",
-                  MozAppearance: "none",
-                }}
-              >
-                <option value="">Select Booking Type</option>
-                <option>Daily</option>
-                <option>Weekly</option>
-                <option>Monthly</option>
-              </select>
-              <input
-                type="date"
-                name="pickupDate"
-                value={formData.pickupDate}
-                onChange={(e) =>
-                  setFormData({ ...formData, pickupDate: e.target.value })
-                }
-                required
-              />
-              <input
-                type="time"
-                name="pickupTime"
-                value={formData.pickupTime}
-                onChange={(e) =>
-                  setFormData({ ...formData, pickupTime: e.target.value })
-                }
-                required
-              />
-              <input
-                type="date"
-                name="dropDate"
-                value={formData.dropDate}
-                onChange={(e) =>
-                  setFormData({ ...formData, dropDate: e.target.value })
-                }
-                required
-              />
-              <input
-                type="time"
-                name="dropTime"
-                value={formData.dropTime}
-                onChange={(e) =>
-                  setFormData({ ...formData, dropTime: e.target.value })
-                }
-                required
-              />
-              <button type="submit">Find Car</button>
-            </form>
+            {/* Booking Section */}
+            <div className="booking-section">
+              <div className="luxury-booking-card">
+
+                {/* Heading */}
+                <div className="form-header">
+                  <MdOutlineDirectionsCar className="form-header-icon" />
+                  <h2>Book Your Luxury Ride</h2>
+                  <span className="underline"></span>
+                </div>
+
+                {/* Form */}
+                <form className="booking-form" onSubmit={handleSearch}>
+                  {/* Booking Type - Full Width */}
+                  <div className="form-row single">
+                    <div className="floating-label">
+                      <select
+                        name="bookingType"
+                        value={formData.bookingType}
+                        onChange={handleChange}
+                        required
+                      >
+                        <option value="">Select Booking Type</option>
+                        <option>Daily</option>
+                        <option>Weekly</option>
+                        <option>Monthly</option>
+                      </select>
+                      <label>Booking Type</label>
+                    </div>
+                  </div>
+
+                  {/* Pickup */}
+                  <div className="form-row">
+                    <div className="floating-label">
+                      <input
+                        type="date"
+                        name="pickupDate"
+                        value={formData.pickupDate}
+                        onChange={handleChange}
+                        required
+                      />
+                      <label>Pickup Date</label>
+                    </div>
+                    <div className="floating-label">
+                      <input
+                        type="time"
+                        name="pickupTime"
+                        value={formData.pickupTime}
+                        onChange={handleChange}
+                        required
+                      />
+                      <label>Pickup Time</label>
+                    </div>
+                  </div>
+
+                  {/* Drop */}
+                  <div className="form-row">
+                    <div className="floating-label">
+                      <input
+                        type="date"
+                        name="dropDate"
+                        value={formData.dropDate}
+                        onChange={handleChange}
+                        required
+                      />
+                      <label>Drop Date</label>
+                    </div>
+                    <div className="floating-label">
+                      <input
+                        type="time"
+                        name="dropTime"
+                        value={formData.dropTime}
+                        onChange={handleChange}
+                        required
+                      />
+                      <label>Drop Time</label>
+                    </div>
+                  </div>
+
+                  <button type="submit" className="book-now-button">
+                    Find Car
+                  </button>
+                </form>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -212,54 +258,34 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Review Section */}
       <section className="review-section">
         <h2 className="section-heading">Customer Experiences</h2>
+
         <div className="review-cards-container">
-          {reviews.map((review, index) => {
-            const isExpanded = expandedReviewIndex === index;
-            const isLong = review.comment.length > 200;
-            return (
-              <div className="review-card-wrapper" key={index}>
-                <div className="review-card">
-                  <div className="review-top">
-                    <div className="trip-label">Trip to {review.tripLocation}</div>
-                    <p className={`review-comment ${isExpanded ? "expanded" : ""}`}>
-                      {isExpanded || !isLong
-                        ? review.comment
-                        : review.comment.substring(0, 200) + "..."}
-                    </p>
-                    {isLong && (
-                      <button
-                        className="read-more-btn"
-                        onClick={() =>
-                          setExpandedReviewIndex(isExpanded ? null : index)
-                        }
-                      >
-                        {isExpanded ? "Read Less" : "Read More"}
-                      </button>
-                    )}
-                  </div>
-                  <div className="review-bottom">
-                    <img src={review.image} alt={review.name} className="reviewer-img" />
-                    <div className="reviewer-details">
-                      <div className="reviewer-name">{review.name}</div>
-                    </div>
-                  </div>
+          {reviews.map((review, index) => (
+            <div className="review-card" key={index}>
+              <div className="card-top-strip"></div>
+              <div className="review-header">
+                <img src={review.image} alt={review.name} className="reviewer-img" />
+                <div>
+                  <h3 className="reviewer-name">{review.name}</h3>
+                  <p className="trip-label">Trip to {review.tripLocation}</p>
                 </div>
-                {index === 2 && (
-                  <div className="add-review-wrapper">
-                    <button
-                      className="add-review-btn-right"
-                      onClick={() => setShowForm(true)}
-                    >
-                      + Add Review
-                    </button>
-                  </div>
-                )}
               </div>
-            );
-          })}
+              <div className="review-stars">
+                {"★".repeat(review.rating)}
+                {"☆".repeat(5 - review.rating)}
+              </div>
+              <p className="review-comment">{review.comment}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* 👇 Centered Add Review Button */}
+        <div className="add-review-wrapper">
+          <button className="add-review-btn" onClick={() => setShowForm(true)}>
+            + Add Review
+          </button>
         </div>
 
         {showForm && (
@@ -294,6 +320,28 @@ const Home = () => {
                   }
                   required
                 />
+
+                {/* ⭐ Star Rating instead of Select */}
+                <div className="star-rating">
+                  {[5, 4, 3, 2, 1].map((star) => (
+                    <React.Fragment key={star}>
+                      <input
+                        type="radio"
+                        id={`star${star}`}
+                        name="rating"
+                        value={star}
+                        checked={newReview.rating === star}
+                        onChange={(e) =>
+                          setNewReview({ ...newReview, rating: Number(e.target.value) })
+                        }
+                      />
+                      <label htmlFor={`star${star}`}>★</label>
+                    </React.Fragment>
+                  ))}
+                </div>
+
+
+
                 <div className="form-actions">
                   <button type="submit">Submit</button>
                   <button type="button" onClick={() => setShowForm(false)}>
@@ -304,56 +352,24 @@ const Home = () => {
             </div>
           </div>
         )}
+
       </section>
 
-      {/* Blog Section */}
-      <section className="blog-section">
-        <h2 className="section-heading">Latest Blog</h2>
-        <div className="blog-container">
-          <div className="blog-card">
-            <img src="/assets/blogs/roadtrip.jpg" alt="Roadtrip" className="blog-img" />
-            <h3>Top 5 Weekend Getaways from Pune</h3>
-            <p>Discover scenic drives near Pune for a perfect short trip with our self-drive cars.</p>
-          </div>
-          <div className="blog-card">
-            <img src="/assets/blogs/safety.jpg" alt="Safety" className="blog-img" />
-            <h3>Self-Drive Car Safety Tips</h3>
-            <p>Follow these tips to make your ride safe, fun, and hassle-free every time.</p>
-          </div>
-        </div>
-      </section>
+
 
       {/* Contact Section */}
       <section className="contact-section">
         <h2 className="section-heading">Contact Us</h2>
-        <form className="contact-form" onSubmit={handleContactSubmit}>
-          <input
-            type="text"
-            name="name"
-            placeholder="Your Name"
-            value={contactForm.name}
-            onChange={handleContactChange}
-            required
-          />
-          <input
-            type="email"
-            name="email"
-            placeholder="Your Email"
-            value={contactForm.email}
-            onChange={handleContactChange}
-            required
-          />
-          <textarea
-            name="message"
-            placeholder="Your Message"
-            rows="4"
-            value={contactForm.message}
-            onChange={handleContactChange}
-            required
-          />
-          <button type="submit">Send Message</button>
-        </form>
+        <div className="contact-container">
+          <form className="contact-form" onSubmit={handleContactSubmit}>
+            <input type="text" name="name" placeholder="Your Name" required />
+            <input type="email" name="email" placeholder="Your Email" required />
+            <textarea name="message" placeholder="Your Message" rows="4" required />
+            <button type="submit">Send Message</button>
+          </form>
+        </div>
       </section>
+
     </div>
   );
 };
