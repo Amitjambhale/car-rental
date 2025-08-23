@@ -117,13 +117,14 @@ const Home = () => {
               <div className="contact-info">
                 <div className="phone">
                   <FaPhoneAlt className="contact-icon" />
-                  +91-9730562424
+                  <span>+91-9730562424</span>
                 </div>
                 <div className="location">
                   <img src={location} alt="Location" className="location-icon" />
-                  Pune, India
+                  <span>Pune, India</span>
                 </div>
               </div>
+
             </div>
 
             {/* Booking Section */}

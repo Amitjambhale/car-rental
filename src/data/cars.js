@@ -1,4 +1,4 @@
-const cars = [
+const initialCars = [
   {
     id: 1,
     name: "Aura",
@@ -17,7 +17,6 @@ const cars = [
     seats: 5,
     image: "/assets/cars/baleno.png",
   },
-
   {
     id: 3,
     name: "Ciaz",
@@ -25,10 +24,9 @@ const cars = [
     fuelType: "CNG",
     transmission: "Manual",
     seats: 5,
-    image: "/assets/cars/Ciaz.png",
+    image: "/assets/cars/ciaz.png",
   },
-
-    {
+  {
     id: 4,
     name: "Ertiga 2022",
     rent: 3300,
@@ -46,8 +44,6 @@ const cars = [
     seats: 7,
     image: "/assets/cars/ertiga_2023.png",
   },
-  
-
   {
     id: 6,
     name: "Innova Crysta",
@@ -129,7 +125,6 @@ const cars = [
     seats: 5,
     image: "/assets/cars/wagonr.png",
   },
-  
 ];
 
-export default cars;
+export default initialCars;

@@ -1,7 +1,7 @@
 // src/admin/pages/AdminDashboard.jsx
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import initialCars from "../../data/cars"; // fallback initial data
+import { saveCarsToStorage } from "../../utils/storage";
+import initialCars from "../../data/cars";
 import "../../styles/AdminDashboard.css";
 
 const storageKey = "malhar_cars_v1";
@@ -15,9 +15,8 @@ const loadCarsFromStorage = () => {
 
 const AdminDashboard = () => {
   const [cars, setCars] = useState([]);
-  const [search, setSearch] = useState("");
-  const [filterFuel, setFilterFuel] = useState("All");
   const [showForm, setShowForm] = useState(false);
+  const [editMode, setEditMode] = useState(false);
   const [newCar, setNewCar] = useState({
     id: "",
     name: "",
@@ -25,6 +24,7 @@ const AdminDashboard = () => {
     fuelType: "Petrol",
     seats: "",
     transmission: "Manual",
+    image: "",
   });
 
   useEffect(() => {
@@ -33,22 +33,42 @@ const AdminDashboard = () => {
 
   const save = (next) => {
     setCars(next);
-    localStorage.setItem(storageKey, JSON.stringify(next));
+    saveCarsToStorage(next);
   };
 
-  const handleDelete = (id) => {
-    if (!window.confirm("Are you sure you want to delete this car?")) return;
-    save(cars.filter((c) => c.id !== id));
+  // File to Base64
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setNewCar({ ...newCar, image: reader.result });
+    };
+    reader.readAsDataURL(file);
   };
 
-  const handleAddCar = (e) => {
+  // Add / Update Car
+  const handleSaveCar = (e) => {
     e.preventDefault();
     if (!newCar.id || !newCar.name || !newCar.rent) {
       alert("Please fill all required fields!");
       return;
     }
-    const next = [...cars, { ...newCar, id: parseInt(newCar.id) }];
+
+    let next;
+    if (editMode) {
+      next = cars.map((c) => (c.id === newCar.id ? newCar : c));
+      setEditMode(false);
+    } else {
+      next = [...cars, { ...newCar, id: parseInt(newCar.id) }];
+    }
+
     save(next);
+    resetForm();
+  };
+
+  const resetForm = () => {
     setNewCar({
       id: "",
       name: "",
@@ -56,18 +76,22 @@ const AdminDashboard = () => {
       fuelType: "Petrol",
       seats: "",
       transmission: "Manual",
+      image: "",
     });
     setShowForm(false);
+    setEditMode(false);
   };
 
-  // Filter + search
-  const filteredCars = cars.filter((car) => {
-    const matchesSearch =
-      car.name.toLowerCase().includes(search.toLowerCase()) ||
-      car.id.toString().includes(search);
-    const matchesFuel = filterFuel === "All" || car.fuelType === filterFuel;
-    return matchesSearch && matchesFuel;
-  });
+  const handleDelete = (id) => {
+    if (!window.confirm("Are you sure you want to delete this car?")) return;
+    save(cars.filter((c) => c.id !== id));
+  };
+
+  const handleEdit = (car) => {
+    setNewCar(car);
+    setEditMode(true);
+    setShowForm(true);
+  };
 
   return (
     <div className="admin-dashboard">
@@ -78,15 +102,16 @@ const AdminDashboard = () => {
         </button>
       </div>
 
-      {/* Add Car Form */}
+      {/* Add/Edit Form */}
       {showForm && (
-        <form className="add-car-form" onSubmit={handleAddCar}>
+        <form className="add-car-form" onSubmit={handleSaveCar}>
           <input
             type="number"
             placeholder="Car ID"
             value={newCar.id}
-            onChange={(e) => setNewCar({ ...newCar, id: e.target.value })}
+            onChange={(e) => setNewCar({ ...newCar, id: parseInt(e.target.value) })}
             required
+            disabled={editMode} // Edit mode me ID change nahi hoga
           />
           <input
             type="text"
@@ -119,45 +144,38 @@ const AdminDashboard = () => {
           />
           <select
             value={newCar.transmission}
-            onChange={(e) =>
-              setNewCar({ ...newCar, transmission: e.target.value })
-            }
+            onChange={(e) => setNewCar({ ...newCar, transmission: e.target.value })}
           >
             <option>Manual</option>
             <option>Automatic</option>
           </select>
+
+          {/* Image Upload */}
+          <input type="file" accept="image/*" onChange={handleImageUpload} />
+          {newCar.image && (
+            <img
+              src={newCar.image}
+              alt="preview"
+              style={{ width: "100px", marginTop: "10px", borderRadius: "6px" }}
+            />
+          )}
+
           <button type="submit" className="btn btn-add">
-            Save Car
+            {editMode ? "Update Car" : "Save Car"}
           </button>
         </form>
       )}
 
-      {/* Controls */}
-      <div className="controls">
-        <input
-          type="text"
-          placeholder="Search by ID or Name..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-        <select value={filterFuel} onChange={(e) => setFilterFuel(e.target.value)}>
-          <option value="All">All Fuel Types</option>
-          <option value="Petrol">Petrol</option>
-          <option value="Diesel">Diesel</option>
-          <option value="CNG">CNG</option>
-          <option value="Electric">Electric</option>
-        </select>
-      </div>
-
       {/* Cars Table */}
       <div className="table-container">
-        {filteredCars.length === 0 ? (
+        {cars.length === 0 ? (
           <p>No cars found.</p>
         ) : (
           <table className="car-table">
             <thead>
               <tr>
                 <th>ID</th>
+                <th>Image</th>
                 <th>Name</th>
                 <th>Rent</th>
                 <th>Fuel</th>
@@ -167,26 +185,35 @@ const AdminDashboard = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredCars.map((car) => (
+              {cars.map((car) => (
                 <tr key={car.id}>
-                  <td data-label="ID">{car.id}</td>
-                  <td data-label="Name">{car.name}</td>
-                  <td data-label="Rent">₹{car.rent}</td>
-                  <td data-label="Fuel">{car.fuelType}</td>
-                  <td data-label="Seats">{car.seats}</td>
-                  <td data-label="Transmission">{car.transmission}</td>
-                  <td data-label="Actions">
-                    <div className="action-buttons">
-                    <Link to={`/admin/edit/${car.id}`}>
-                      <button className="btn btn-edit">Edit</button>
-                    </Link>
+                  <td>{car.id}</td>
+                  <td>
+                    {car.image ? (
+                      <img
+                        src={car.image}
+                        alt={car.name}
+                        style={{ width: "80px", borderRadius: "6px" }}
+                      />
+                    ) : (
+                      <span>No Image</span>
+                    )}
+                  </td>
+                  <td>{car.name}</td>
+                  <td>₹{car.rent}</td>
+                  <td>{car.fuelType}</td>
+                  <td>{car.seats}</td>
+                  <td>{car.transmission}</td>
+                  <td>
+                    <button className="btn btn-edit" onClick={() => handleEdit(car)}>
+                      Edit
+                    </button>
                     <button
                       className="btn btn-delete"
                       onClick={() => handleDelete(car.id)}
                     >
                       Delete
                     </button>
-                    </div>
                   </td>
                 </tr>
               ))}
