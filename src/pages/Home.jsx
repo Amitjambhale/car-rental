@@ -14,7 +14,7 @@ import { MdOutlineDirectionsCar } from "react-icons/md";
 // Images
 import logo from "../../public/assets/logo.png";
 import location from "../../public/assets/location1.png";
-import mumbaiImg from "../../public/assets/blogs/mumbai.jpg";
+
 
 // Dummy reviews
 const reviews = [

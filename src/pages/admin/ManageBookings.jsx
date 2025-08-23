@@ -1,4 +1,5 @@
 import React from "react";
+import "../../styles/ManageBookings.css";
 
 const ManageBookings = () => {
   const bookings = [
@@ -7,26 +8,36 @@ const ManageBookings = () => {
   ];
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>Manage Bookings</h2>
-      <table border="1" cellPadding="10" style={{ width: "100%" }}>
-        <thead>
-          <tr>
-            <th>Customer</th>
-            <th>Car</th>
-            <th>Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          {bookings.map((b) => (
-            <tr key={b.id}>
-              <td>{b.customer}</td>
-              <td>{b.car}</td>
-              <td>{b.date}</td>
+    <div className="manage-bookings">
+      <h2 className="page-title">Manage Bookings</h2>
+      <div className="table-wrapper">
+        <table className="bookings-table">
+          <thead>
+            <tr>
+              <th>Customer</th>
+              <th>Car</th>
+              <th>Date</th>
+              <th>Action</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {bookings.map((b) => (
+              <tr key={b.id}>
+                <td>{b.customer}</td>
+                <td>{b.car}</td>
+                <td>{new Date(b.date).toLocaleDateString()}</td>
+                <td>
+                  <div className="action-buttons">
+                    <button className="btn edit">Edit</button>
+                    <button className="btn delete">Delete</button>
+                  </div>
+                </td>
+
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

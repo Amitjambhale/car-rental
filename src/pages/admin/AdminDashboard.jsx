@@ -2,19 +2,30 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import initialCars from "../../data/cars"; // fallback initial data
+import "../../styles/AdminDashboard.css";
 
 const storageKey = "malhar_cars_v1";
 
 const loadCarsFromStorage = () => {
   const raw = localStorage.getItem(storageKey);
   if (raw) return JSON.parse(raw);
-  // first time: seed localStorage
   localStorage.setItem(storageKey, JSON.stringify(initialCars));
   return initialCars;
 };
 
 const AdminDashboard = () => {
   const [cars, setCars] = useState([]);
+  const [search, setSearch] = useState("");
+  const [filterFuel, setFilterFuel] = useState("All");
+  const [showForm, setShowForm] = useState(false);
+  const [newCar, setNewCar] = useState({
+    id: "",
+    name: "",
+    rent: "",
+    fuelType: "Petrol",
+    seats: "",
+    transmission: "Manual",
+  });
 
   useEffect(() => {
     setCars(loadCarsFromStorage());
@@ -30,47 +41,152 @@ const AdminDashboard = () => {
     save(cars.filter((c) => c.id !== id));
   };
 
+  const handleAddCar = (e) => {
+    e.preventDefault();
+    if (!newCar.id || !newCar.name || !newCar.rent) {
+      alert("Please fill all required fields!");
+      return;
+    }
+    const next = [...cars, { ...newCar, id: parseInt(newCar.id) }];
+    save(next);
+    setNewCar({
+      id: "",
+      name: "",
+      rent: "",
+      fuelType: "Petrol",
+      seats: "",
+      transmission: "Manual",
+    });
+    setShowForm(false);
+  };
+
+  // Filter + search
+  const filteredCars = cars.filter((car) => {
+    const matchesSearch =
+      car.name.toLowerCase().includes(search.toLowerCase()) ||
+      car.id.toString().includes(search);
+    const matchesFuel = filterFuel === "All" || car.fuelType === filterFuel;
+    return matchesSearch && matchesFuel;
+  });
+
   return (
-    <div style={{ padding: 20 }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+    <div className="admin-dashboard">
+      <div className="admin-header">
         <h2>Admin - Manage Cars</h2>
-        <Link to="/admin/add">
-          <button style={{ padding: "8px 12px" }}>+ Add New Car</button>
-        </Link>
+        <button className="btn btn-add" onClick={() => setShowForm(!showForm)}>
+          {showForm ? "Close Form" : "+ Add New Car"}
+        </button>
       </div>
 
-      <div style={{ marginTop: 16 }}>
-        {cars.length === 0 ? (
-          <p>No cars in collection.</p>
+      {/* Add Car Form */}
+      {showForm && (
+        <form className="add-car-form" onSubmit={handleAddCar}>
+          <input
+            type="number"
+            placeholder="Car ID"
+            value={newCar.id}
+            onChange={(e) => setNewCar({ ...newCar, id: e.target.value })}
+            required
+          />
+          <input
+            type="text"
+            placeholder="Car Name"
+            value={newCar.name}
+            onChange={(e) => setNewCar({ ...newCar, name: e.target.value })}
+            required
+          />
+          <input
+            type="number"
+            placeholder="Rent (₹)"
+            value={newCar.rent}
+            onChange={(e) => setNewCar({ ...newCar, rent: e.target.value })}
+            required
+          />
+          <select
+            value={newCar.fuelType}
+            onChange={(e) => setNewCar({ ...newCar, fuelType: e.target.value })}
+          >
+            <option>Petrol</option>
+            <option>Diesel</option>
+            <option>CNG</option>
+            <option>Electric</option>
+          </select>
+          <input
+            type="number"
+            placeholder="Seats"
+            value={newCar.seats}
+            onChange={(e) => setNewCar({ ...newCar, seats: e.target.value })}
+          />
+          <select
+            value={newCar.transmission}
+            onChange={(e) =>
+              setNewCar({ ...newCar, transmission: e.target.value })
+            }
+          >
+            <option>Manual</option>
+            <option>Automatic</option>
+          </select>
+          <button type="submit" className="btn btn-add">
+            Save Car
+          </button>
+        </form>
+      )}
+
+      {/* Controls */}
+      <div className="controls">
+        <input
+          type="text"
+          placeholder="Search by ID or Name..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        <select value={filterFuel} onChange={(e) => setFilterFuel(e.target.value)}>
+          <option value="All">All Fuel Types</option>
+          <option value="Petrol">Petrol</option>
+          <option value="Diesel">Diesel</option>
+          <option value="CNG">CNG</option>
+          <option value="Electric">Electric</option>
+        </select>
+      </div>
+
+      {/* Cars Table */}
+      <div className="table-container">
+        {filteredCars.length === 0 ? (
+          <p>No cars found.</p>
         ) : (
-          <table style={{ width: "100%", borderCollapse: "collapse" }}>
+          <table className="car-table">
             <thead>
               <tr>
-                <th style={{ textAlign: "left", padding: 8 }}>ID</th>
-                <th style={{ textAlign: "left", padding: 8 }}>Name</th>
-                <th style={{ textAlign: "left", padding: 8 }}>Rent</th>
-                <th style={{ textAlign: "left", padding: 8 }}>Fuel</th>
-                <th style={{ textAlign: "left", padding: 8 }}>Seats</th>
-                <th style={{ textAlign: "left", padding: 8 }}>Transmission</th>
-                <th style={{ textAlign: "left", padding: 8 }}>Actions</th>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Rent</th>
+                <th>Fuel</th>
+                <th>Seats</th>
+                <th>Transmission</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              {cars.map((car) => (
-                <tr key={car.id} style={{ borderTop: "1px solid #eee" }}>
-                  <td style={{ padding: 8 }}>{car.id}</td>
-                  <td style={{ padding: 8 }}>{car.name}</td>
-                  <td style={{ padding: 8 }}>₹{car.rent}</td>
-                  <td style={{ padding: 8 }}>{car.fuelType}</td>
-                  <td style={{ padding: 8 }}>{car.seats}</td>
-                  <td style={{ padding: 8 }}>{car.transmission}</td>
-                  <td style={{ padding: 8 }}>
+              {filteredCars.map((car) => (
+                <tr key={car.id}>
+                  <td data-label="ID">{car.id}</td>
+                  <td data-label="Name">{car.name}</td>
+                  <td data-label="Rent">₹{car.rent}</td>
+                  <td data-label="Fuel">{car.fuelType}</td>
+                  <td data-label="Seats">{car.seats}</td>
+                  <td data-label="Transmission">{car.transmission}</td>
+                  <td data-label="Actions">
+                    <div className="action-buttons">
                     <Link to={`/admin/edit/${car.id}`}>
-                      <button style={{ marginRight: 8 }}>Edit</button>
+                      <button className="btn btn-edit">Edit</button>
                     </Link>
-                    <button onClick={() => handleDelete(car.id)} style={{ background: "#e74c3c", color: "#fff", border: "none", padding: "6px 10px" }}>
+                    <button
+                      className="btn btn-delete"
+                      onClick={() => handleDelete(car.id)}
+                    >
                       Delete
                     </button>
+                    </div>
                   </td>
                 </tr>
               ))}

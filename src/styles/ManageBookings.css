@@ -1,0 +1,95 @@
+.manage-bookings {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.page-title {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #222;
+}
+
+.table-wrapper {
+  overflow-x: auto; /* Mobile responsive */
+}
+
+.bookings-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.bookings-table th,
+.bookings-table td {
+  padding: 12px 15px;
+  text-align: left;
+}
+
+.bookings-table th {
+  background: #3a3dff;
+  color: #fff;
+  font-weight: 600;
+}
+
+.bookings-table tr:nth-child(even) {
+  background: #f9f9f9;
+}
+
+.bookings-table tr:hover {
+  background: #f1f1ff;
+  transition: 0.3s;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 15px; /* yahan se gap control hoga */
+}
+
+.btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  margin-right: 6px;
+  cursor: pointer;
+  font-size: 14px;
+   margin: 0 4px; 
+}
+
+.btn.edit {
+  background: #4caf50;
+  color: white;
+}
+
+.btn.delete {
+  background: #f44336;
+  color: white;
+}
+
+.btn.edit:hover {
+  background: #45a049;
+}
+
+.btn.delete:hover {
+  background: #d32f2f;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .page-title {
+    font-size: 20px;
+  }
+
+  .bookings-table th,
+  .bookings-table td {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .btn {
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+}

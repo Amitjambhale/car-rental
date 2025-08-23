@@ -9,12 +9,15 @@
   max-width: 340px;
   margin: auto;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
-  transition: transform 0.3s ease;
+  transition: box-shadow 0.3s ease, border 0.3s ease;
+  border: 1px solid transparent;
+  position: relative;
 }
 
+/* Hover effect without moving card */
 .car-card:hover {
-  transform: translateY(-4px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  border: 1px solid #007bff;
 }
 
 .car-image {
@@ -24,6 +27,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  
 }
 
 .car-image img {
@@ -34,7 +38,7 @@
 }
 
 .car-card:hover .car-image img {
-  transform: scale(1.05);
+  transform: scale(1.04);
 }
 
 .car-info {
