@@ -1,3 +1,4 @@
+// src/pages/admin/AdminLogin.jsx
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../../styles/AdminLogin.css";
@@ -5,12 +6,9 @@ import "../../styles/AdminLogin.css";
 function AdminLogin() {
   const navigate = useNavigate();
 
-  const [isRegistering, setIsRegistering] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
-    password: "",
-    phone: "",
-    adminCode: ""
+    password: ""
   });
 
   const handleChange = (e) => {
@@ -21,32 +19,31 @@ function AdminLogin() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (isRegistering) {
-      console.log("Admin Registration Data:", formData);
-      alert("Admin Registered!");
-    } else {
-      // ✅ Hardcoded login credentials
-      const adminEmail = "admin@example.com";
-      const adminPass = "123456";
+    // ✅ Hardcoded login credentials
+    const adminEmail = "admin@gmail.com";
+    const adminPass = "123456";
 
-      if (formData.email === adminEmail && formData.password === adminPass) {
-        alert("Admin Logged In!");
-        navigate("/admin"); // ✅ Navigate to AdminHome
-      } else {
-        alert("Invalid Admin Email or Password!");
-      }
+    if (formData.email === adminEmail && formData.password === adminPass) {
+      localStorage.setItem("adminToken", "true"); // ✅ Admin token save
+      alert("Admin Logged In!");
+      navigate("/admin/home");
+
+
+    } else {
+      alert("❌ Invalid Admin Email or Password!");
     }
   };
 
   return (
     <div className="admin-login-container-wrapper">
       <div className="admin-login-container">
-        <h2>{isRegistering ? "Admin Register" : "Admin Login"}</h2>
+        <h2>Admin Login</h2>
         <form onSubmit={handleSubmit}>
           <input
             type="email"
             name="email"
             placeholder="Admin Email"
+            value={formData.email}
             required
             onChange={handleChange}
           />
@@ -54,40 +51,12 @@ function AdminLogin() {
             type="password"
             name="password"
             placeholder="Password"
+            value={formData.password}
             required
             onChange={handleChange}
           />
-          {isRegistering && (
-            <>
-              <input
-                type="tel"
-                name="phone"
-                placeholder="Phone Number"
-                required
-                onChange={handleChange}
-              />
-              <input
-                type="text"
-                name="adminCode"
-                placeholder="Secret Admin Code"
-                required
-                onChange={handleChange}
-              />
-            </>
-          )}
-          <button type="submit">
-            {isRegistering ? "Register" : "Login"}
-          </button>
+          <button type="submit">Login</button>
         </form>
-
-        <p
-          onClick={() => setIsRegistering(!isRegistering)}
-          className="toggle-text"
-        >
-          {isRegistering
-            ? "Already an admin? Login"
-            : "New admin? Register here"}
-        </p>
 
         <div className="back-home-wrapper">
           <Link to="/" className="back-home-btn">

@@ -100,121 +100,124 @@ const Home = () => {
   return (
     <div className="home-page">
       {/* Hero Section */}
-      <section className="luxury-hero">
-        <div className="hero-content-wrapper">
-          <div className="hero-content-grid">
+     <section className="luxury-hero">
+  <div className="hero-content-wrapper">
+    <div className="hero-content-grid">
 
-            {/* Branding Section */}
-            <div className="branding-section">
-              <div className="logo-container">
-                <img src={logo} alt="Malhar Logo" className="brand-logo" />
-              </div>
-              <h1 className="hero-headline gradient-text">
-                Welcome to Malhar Car Rental
-              </h1>
-              <p className="sub-headline">Available only in Pune</p>
+      {/* Branding Section */}
+      <div className="branding-section">
+        <div className="logo-container">
+          <img src={logo} alt="Malhar Logo" className="brand-logo" />
+        </div>
+        <h1 className="hero-headline gradient-text">
+          Welcome to Malhar Car Rental
+        </h1>
+        <p className="sub-headline">Available only in Pune</p>
 
-              <div className="contact-info">
-                <div className="phone">
-                  <FaPhoneAlt className="contact-icon" />
-                  <span>+91-9730562424</span>
-                </div>
-                <div className="location">
-                  <img src={location} alt="Location" className="location-icon" />
-                  <span>Pune, India</span>
-                </div>
-              </div>
-
-            </div>
-
-            {/* Booking Section */}
-            <div className="booking-section">
-              <div className="luxury-booking-card">
-
-                {/* Heading */}
-                <div className="form-header">
-                  <MdOutlineDirectionsCar className="form-header-icon" />
-                  <h2>Book Your Luxury Ride</h2>
-                  <span className="underline"></span>
-                </div>
-
-                {/* Form */}
-                <form className="booking-form" onSubmit={handleSearch}>
-                  {/* Booking Type - Full Width */}
-                  <div className="form-row single">
-                    <div className="floating-label">
-                      <select
-                        name="bookingType"
-                        value={formData.bookingType}
-                        onChange={handleChange}
-                        required
-                      >
-                        <option value="">Select Booking Type</option>
-                        <option>Daily</option>
-                        <option>Weekly</option>
-                        <option>Monthly</option>
-                      </select>
-                      <label>Booking Type</label>
-                    </div>
-                  </div>
-
-                  {/* Pickup */}
-                  <div className="form-row">
-                    <div className="floating-label">
-                      <input
-                        type="date"
-                        name="pickupDate"
-                        value={formData.pickupDate}
-                        onChange={handleChange}
-                        required
-                      />
-                      <label>Pickup Date</label>
-                    </div>
-                    <div className="floating-label">
-                      <input
-                        type="time"
-                        name="pickupTime"
-                        value={formData.pickupTime}
-                        onChange={handleChange}
-                        required
-                      />
-                      <label>Pickup Time</label>
-                    </div>
-                  </div>
-
-                  {/* Drop */}
-                  <div className="form-row">
-                    <div className="floating-label">
-                      <input
-                        type="date"
-                        name="dropDate"
-                        value={formData.dropDate}
-                        onChange={handleChange}
-                        required
-                      />
-                      <label>Drop Date</label>
-                    </div>
-                    <div className="floating-label">
-                      <input
-                        type="time"
-                        name="dropTime"
-                        value={formData.dropTime}
-                        onChange={handleChange}
-                        required
-                      />
-                      <label>Drop Time</label>
-                    </div>
-                  </div>
-
-                  <button type="submit" className="book-now-button">
-                    Find Car
-                  </button>
-                </form>
-              </div>
-            </div>
+        {/* Contact Info */}
+        <div className="contact-info">
+          <div className="phone">
+            <FaPhoneAlt className="contact-icon" />
+            <a href="tel:+919730562424" className="phone-link">
+              +91-9730562424
+            </a>
+          </div>
+          <div className="location">
+            <img src={location} alt="Location" className="location-icon" />
+            <span>Pune, India</span>
           </div>
         </div>
-      </section>
+      </div>
+
+      {/* Booking Section */}
+      <div className="booking-section">
+        <div className="luxury-booking-card">
+
+          {/* Heading */}
+          <div className="form-header">
+            <MdOutlineDirectionsCar className="form-header-icon" />
+            <h2>Book Your Luxury Ride</h2>
+            <span className="underline"></span>
+          </div>
+
+          {/* Form */}
+          <form className="booking-form" onSubmit={handleSearch}>
+            {/* Booking Type */}
+            <div className="form-row single">
+              <div className="floating-label">
+                <select
+                  name="bookingType"
+                  value={formData.bookingType}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="">Select Booking Type</option>
+                  <option>Daily</option>
+                  <option>Weekly</option>
+                  <option>Monthly</option>
+                </select>
+                <label>Booking Type</label>
+              </div>
+            </div>
+
+            {/* Pickup */}
+            <div className="form-row">
+              <div className="floating-label">
+                <input
+                  type="date"
+                  name="pickupDate"
+                  value={formData.pickupDate}
+                  onChange={handleChange}
+                  required
+                />
+                <label>Pickup Date</label>
+              </div>
+              <div className="floating-label">
+                <input
+                  type="time"
+                  name="pickupTime"
+                  value={formData.pickupTime}
+                  onChange={handleChange}
+                  required
+                />
+                <label>Pickup Time</label>
+              </div>
+            </div>
+
+            {/* Drop */}
+            <div className="form-row">
+              <div className="floating-label">
+                <input
+                  type="date"
+                  name="dropDate"
+                  value={formData.dropDate}
+                  onChange={handleChange}
+                  required
+                />
+                <label>Drop Date</label>
+              </div>
+              <div className="floating-label">
+                <input
+                  type="time"
+                  name="dropTime"
+                  value={formData.dropTime}
+                  onChange={handleChange}
+                  required
+                />
+                <label>Drop Time</label>
+              </div>
+            </div>
+
+            <button type="submit" className="book-now-button">
+              Find Car
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 
       {/* Car Carousel */}
       <section className="cars section-spacing-bottom">

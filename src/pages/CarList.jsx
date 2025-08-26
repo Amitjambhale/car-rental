@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import CarCard from "../components/CarCard";
 import "../styles/CarList.css";
-import { loadCarsFromStorage } from "../utils/storage";
+import initialCars from "../data/cars"; // ✅ import initialCars
 
 const CarList = () => {
   const [cars, setCars] = useState([]);
 
   useEffect(() => {
-    setCars(loadCarsFromStorage());
+    setCars(initialCars); // ✅ directly initialCars set
   }, []);
 
   return (

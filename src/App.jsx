@@ -19,11 +19,13 @@ import Navbar from "./components/Navbar";
 import AdminHome from "./pages/admin/AdminHome";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
-import ManageCars from "./pages/admin/ManageCars";
+
 import ManageBookings from "./pages/admin/ManageBookings";
 
 // Admin Navbar
 import AdminNavbar from "./components/AdminNavbar";
+import RequireAdmin from "./components/RequireAdmin";
+
 
 function App() {
   const location = useLocation();
@@ -55,11 +57,35 @@ function App() {
         <Route path="/about" element={<AboutUs />} />
 
         {/* Admin Routes */}
-        <Route path="/admin" element={<AdminHome />} />
+
         <Route path="/admin/login" element={<AdminLogin />} />
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
-        <Route path="/admin/manage-cars" element={<ManageCars />} />
-        <Route path="/admin/manage-bookings" element={<ManageBookings />} />
+        <Route
+          path="/admin/home"
+          element={
+            <RequireAdmin>
+              <AdminHome />
+            </RequireAdmin>
+          }
+        />
+
+        <Route
+          path="/admin/dashboard"
+          element={
+            <RequireAdmin>
+              <AdminDashboard />
+            </RequireAdmin>
+          }
+        />
+
+        <Route
+          path="/admin/manage-bookings"
+          element={
+            <RequireAdmin>
+              <ManageBookings />
+            </RequireAdmin>
+          }
+        />
+
       </Routes>
     </>
   );

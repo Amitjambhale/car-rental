@@ -1,7 +1,7 @@
-// src/admin/pages/AdminDashboard.jsx
+// src/admin/pages/CarsAdmin.jsx
 import React, { useEffect, useState } from "react";
-import { saveCarsToStorage } from "../../utils/storage";
 import initialCars from "../../data/cars";
+import { saveCarsToStorage } from "../../utils/storage";
 import "../../styles/AdminDashboard.css";
 
 const storageKey = "malhar_cars_v1";
@@ -13,7 +13,7 @@ const loadCarsFromStorage = () => {
   return initialCars;
 };
 
-const AdminDashboard = () => {
+const CarsAdmin = () => {
   const [cars, setCars] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [editMode, setEditMode] = useState(false);
@@ -51,7 +51,7 @@ const AdminDashboard = () => {
   // Add / Update Car
   const handleSaveCar = (e) => {
     e.preventDefault();
-    if (!newCar.id || !newCar.name || !newCar.rent) {
+    if (!newCar.name || !newCar.rent) {
       alert("Please fill all required fields!");
       return;
     }
@@ -61,7 +61,8 @@ const AdminDashboard = () => {
       next = cars.map((c) => (c.id === newCar.id ? newCar : c));
       setEditMode(false);
     } else {
-      next = [...cars, { ...newCar, id: parseInt(newCar.id) }];
+      const newId = Date.now();
+      next = [...cars, { ...newCar, id: newId }];
     }
 
     save(next);
@@ -105,14 +106,6 @@ const AdminDashboard = () => {
       {/* Add/Edit Form */}
       {showForm && (
         <form className="add-car-form" onSubmit={handleSaveCar}>
-          <input
-            type="number"
-            placeholder="Car ID"
-            value={newCar.id}
-            onChange={(e) => setNewCar({ ...newCar, id: parseInt(e.target.value) })}
-            required
-            disabled={editMode} // Edit mode me ID change nahi hoga
-          />
           <input
             type="text"
             placeholder="Car Name"
@@ -174,7 +167,6 @@ const AdminDashboard = () => {
           <table className="car-table">
             <thead>
               <tr>
-                <th>ID</th>
                 <th>Image</th>
                 <th>Name</th>
                 <th>Rent</th>
@@ -187,7 +179,6 @@ const AdminDashboard = () => {
             <tbody>
               {cars.map((car) => (
                 <tr key={car.id}>
-                  <td>{car.id}</td>
                   <td>
                     {car.image ? (
                       <img
@@ -225,4 +216,4 @@ const AdminDashboard = () => {
   );
 };
 
-export default AdminDashboard;
+export default CarsAdmin;

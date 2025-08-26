@@ -12,14 +12,6 @@ const AdminHome = () => {
 
       <div className="admin-actions">
         <div className="admin-card">
-          <h3>Manage Cars</h3>
-          <p>Add, edit, or remove cars from the collection.</p>
-          <button onClick={() => alert("Navigate to Manage Cars page")}>
-            Go to Cars
-          </button>
-        </div>
-
-        <div className="admin-card">
           <h3>Manage Bookings</h3>
           <p>View and update customer bookings.</p>
           <button onClick={() => alert("Navigate to Manage Bookings page")}>
@@ -40,3 +32,4 @@ const AdminHome = () => {
 };
 
 export default AdminHome;
+    

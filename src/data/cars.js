@@ -24,7 +24,7 @@ const initialCars = [
     fuelType: "CNG",
     transmission: "Manual",
     seats: 5,
-    image: "/assets/cars/ciaz.png",
+    image: "/assets/cars/Ciaz.png",
   },
   {
     id: 4,
