@@ -1,7 +1,7 @@
 .carousel-wrapper {
   width: 100%;
   position: relative;
-  padding: 0 100px; /* Add horizontal padding for arrow space */
+  padding: 0 60px; /* reduce arrow padding */
   background-color: #f9f9f9;
   box-sizing: border-box;
 }
@@ -20,13 +20,13 @@
 .custom-arrow {
   font-size: 0;
   background-repeat: no-repeat;
-  background-size: 20px;
+  background-size: 16px; /* smaller icons */
   background-position: center;
   position: absolute;
   top: 40%;
   transform: translateY(-50%);
-  width: 40px;
-  height: 40px;
+  width: 39px; /* smaller button size */
+  height: 39px;
   border-radius: 50%;
   background-color: white;
   border: 1px solid rgba(0, 0, 0, 0.15);
@@ -37,49 +37,26 @@
 }
 
 .custom-arrow:hover {
-  transform: translateY(-50%) scale(1.1);
-  background-color: #f0f8ff; /* Light blueish hover */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  border-color: #007BFF;
+  transform: translateY(-50%) scale(1.05);
+  background-color: #f0f8ff; 
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+  border-color: #007bff;
 }
-
 
 .custom-arrow.prev {
   background-image: url("/assets/icons/left-arrow.png");
-  left: 25px;
+  left: 5px; /* closer to edge */
 }
 
 .custom-arrow.next {
   background-image: url("/assets/icons/right-arrow.png");
-  right: 25px;
+  right: 5px; /* closer to edge */
 }
-.view-all-btn-container {
-  margin-top: 20px;
-  text-align: center;
-}
-
-.view-all-btn {
-  background: linear-gradient(90deg, #004e92, #000428);
-  color: white;
-  padding: 9px 21px;
-  font-weight: 600;
-  font-size: 16px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: 0.3s ease;
-}
-
-.view-all-btn:hover {
-  opacity: 0.9;
-}
-
-
 
 /* Pagination Dots */
 .swiper-pagination-bullets {
   text-align: center;
-  margin-top: 45px;
+  margin-top: 30px; /* reduce gap */
   position: relative;
 }
 
@@ -91,13 +68,44 @@
 
 .swiper-pagination-bullet-active {
   background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-  width: 12px;
-  height: 12px;
-  border-radius: 6px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
 }
 
+/* View All Button */
+.view-all-btn-container {
+  margin-top: 15px;
+  text-align: center;
+}
+
+.view-all-btn {
+  background: linear-gradient(90deg, #004e92, #000428);
+  color: white;
+  padding: 8px 18px;
+  font-weight: 600;
+  font-size: 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.view-all-btn:hover {
+  opacity: 0.9;
+}
+
+/* ✅ Mobile Responsive */
 @media (max-width: 768px) {
   .carousel-wrapper {
-    padding: 0 10px;
+    padding: 0 35px; /* give less padding on small devices */
+  }
+  .custom-arrow {
+    width: 27px;   /* even smaller arrows */
+    height: 27px;
+    background-size: 12px;
+  }
+  .swiper-pagination-bullets {
+    margin-top: 20px;
   }
 }

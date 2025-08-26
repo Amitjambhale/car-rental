@@ -22,47 +22,47 @@ export default function Register() {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  if (formData.password !== formData.password2) {
-    setMessage("Passwords do not match!");
-    return;
-  }
-
-  try {
-    const payload = {
-      Email: formData.Email,
-      Name: formData.Name,
-      Date_Of_Birth: formData.Date_Of_Birth,
-      Mobile_no: formData.Mobile_no,
-      password: formData.password,
-      password2: formData.password2
-    };
-
-    const res = await axios.post("http://192.168.0.108:8000/api/register/", payload, {
-      headers: { "Content-Type": "application/json" },
-    });
-
-    if (res.status === 200 || res.status === 201) {
-      setMessage(res.data.message || "Registration successful!");
-      navigate("/login");
-    } else {
-      setMessage(res.data.message || "Something went wrong.");
+    if (formData.password !== formData.password2) {
+      setMessage("Passwords do not match!");
+      return;
     }
-  }
-  
-  catch (err) {
-  if (err.response) {
-    console.error("Backend status:", err.response.status);
-    console.error("Backend data:", JSON.stringify(err.response.data, null, 2)); // 👈 JSON format me dekhne ke liye
-    setMessage("Registration failed. Check inputs.");
-  } else {
-    console.error("Request error:", err);
-    setMessage("Network or server is down.");
-  }
-}
 
-};
+    try {
+      const payload = {
+        Email: formData.Email,
+        Name: formData.Name,
+        Date_Of_Birth: formData.Date_Of_Birth,
+        Mobile_no: formData.Mobile_no,
+        password: formData.password,
+        password2: formData.password2
+      };
+
+      const res = await axios.post("http://192.168.0.108:8000/api/register/", payload, {
+        headers: { "Content-Type": "application/json" },
+      });
+
+      if (res.status === 200 || res.status === 201) {
+        setMessage(res.data.message || "Registration successful!");
+        navigate("/login");
+      } else {
+        setMessage(res.data.message || "Something went wrong.");
+      }
+    }
+
+    catch (err) {
+      if (err.response) {
+        console.error("Backend status:", err.response.status);
+        console.error("Backend data:", JSON.stringify(err.response.data, null, 2)); // 👈 JSON format me dekhne ke liye
+        setMessage("Registration failed. Check inputs.");
+      } else {
+        console.error("Request error:", err);
+        setMessage("Network or server is down.");
+      }
+    }
+
+  };
 
 
   return (
@@ -90,6 +90,7 @@ export default function Register() {
           <input
             type="date"
             name="Date_Of_Birth"
+            placeholder="Date of Birth"
             value={formData.Date_Of_Birth}
             onChange={handleChange}
             required
