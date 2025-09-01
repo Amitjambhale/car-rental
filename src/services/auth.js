@@ -27,6 +27,9 @@ export async function loginUser({ email, password }) {
     localStorage.setItem("refresh_token", data.refresh);
   }
 
+  // 🔥 Trigger event so Navbar updates everywhere
+  window.dispatchEvent(new Event("storageChange"));
+
   return data;
 }
 
@@ -36,4 +39,7 @@ export async function loginUser({ email, password }) {
 export function logoutUser() {
   localStorage.removeItem("access_token");
   localStorage.removeItem("refresh_token");
+
+  // 🔥 Trigger event so Navbar updates everywhere
+  window.dispatchEvent(new Event("storageChange"));
 }

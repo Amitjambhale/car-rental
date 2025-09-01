@@ -19,17 +19,17 @@ export default function Login() {
     e.preventDefault();
 
     try {
-      const res = await axios.post("http://192.168.0.108:8000/api/login/", formData, {
+      const res = await axios.post("http://192.168.1.46:8000/api/login/", formData, {
         headers: { "Content-Type": "application/json" },
       });
-
       if (res.status === 200) {
-        // ✅ Save token if backend sends it
-        if (res.data.token) {
-          localStorage.setItem("token", res.data.token);
-        }
+        localStorage.setItem("authToken", res.data.Token.access);
+        localStorage.setItem("refresh_token", res.data.Token.Refresh);
+
+        window.dispatchEvent(new Event("storageChange"));
         setMessage("Login successful!");
-        navigate("/"); // redirect to home/dashboard
+        navigate("/");
+
       } else {
         setMessage(res.data.message || "Invalid login credentials.");
       }

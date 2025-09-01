@@ -24,7 +24,7 @@ export const refreshToken = async () => {
     if (!refresh) throw new Error("No refresh token found");
 
     const response = await axios.post(
-      "http://192.168.0.108:8000/api/token/refresh/",
+      "http://192.168.1.46:8000/api/token/refresh/",
       { refresh }
     );
 

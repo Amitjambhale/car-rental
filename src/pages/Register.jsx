@@ -39,7 +39,7 @@ export default function Register() {
         password2: formData.password2
       };
 
-      const res = await axios.post("http://192.168.0.108:8000/api/register/", payload, {
+      const res = await axios.post("http://192.168.1.46:8000/api/register/", payload, {
         headers: { "Content-Type": "application/json" },
       });
 

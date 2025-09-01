@@ -1,40 +1,62 @@
 import React, { useState } from "react";
-import "../styles/Booking.css";
 import { Link } from "react-router-dom";
+import axiosInstance from "../../src/utils/axiosInstance"; // ✅ Use our interceptor axios
+import "../styles/Booking.css";
 
 function Booking() {
   const [bookingSuccess, setBookingSuccess] = useState(false);
+  const [message, setMessage] = useState("");
+
   const [formData, setFormData] = useState({
-    name: "",
-    age: "",
-    residency: "",
-    aadhaarFile: null,
-    panFile: null,
-    licenseFile: null,
+    car_id: "",
+    pick_up_date: "",
+    pick_time: "",
+    drop_off_date: "",
+    drop_time: "",
+    driving_licence: null,
+    residence_proof: null,
+    pan_card: null,
+    payment_screenshot: null,
+    aadhaar_card: null,
   });
 
+  // ✅ handle form field changes
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-
-    if (e.target.type === "file") {
-      setFormData((prev) => ({ ...prev, [name]: files[0] }));
-    } else {
-      setFormData((prev) => ({ ...prev, [name]: value }));
-    }
+    setFormData((prev) => ({
+      ...prev,
+      [name]: files ? files[0] : value,
+    }));
   };
 
-  const handleSubmit = (e) => {
+  // ✅ submit handler
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (formData.residency.toLowerCase() !== "pune") {
-      alert("Booking allowed only for Pune residents.");
-      return;
-    }
+    try {
+      const data = new FormData();
+      Object.keys(formData).forEach((key) => {
+        if (formData[key] !== null && formData[key] !== "") {
+          data.append(key, formData[key]);
+        }
+      });
 
-    // Simulate a successful booking
-    setTimeout(() => {
-      setBookingSuccess(true);
-    }, 500);
+      const res = await axiosInstance.post("bookcar/", data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      if (res.status === 201 || res.status === 200) {
+        setBookingSuccess(true);
+        setMessage("Booking successful!");
+      }
+    } catch (err) {
+      console.error("Booking error:", err.response?.data || err.message);
+      setMessage(
+        err.response?.data?.message || "Booking failed. Please check your details."
+      );
+    }
   };
 
   return (
@@ -43,63 +65,105 @@ function Booking() {
         <div className="thankyou-box">
           <h2>🎉 Booking Confirmed!</h2>
           <p>You’ll receive a WhatsApp confirmation shortly.</p>
-          <Link to="/" className="btn">🏠 Go to Home</Link>
+          <Link to="/" className="btn">
+            🏠 Go to Home
+          </Link>
         </div>
       ) : (
         <form onSubmit={handleSubmit} className="booking-form">
+          {message && <p className="form-message">{message}</p>}
+
           <input
             type="text"
-            name="name"
-            placeholder="Full Name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
-          <input
-            type="number"
-            name="age"
-            placeholder="Age"
-            value={formData.age}
-            onChange={handleChange}
-            required
-          />
-          <input
-            type="text"
-            name="residency"
-            placeholder="Current City (Only Pune allowed)"
-            value={formData.residency}
+            name="car_id"
+            placeholder="Car ID"
+            value={formData.car_id}
             onChange={handleChange}
             required
           />
 
-          <label className="upload-label">Upload Aadhaar Card:</label>
+          <div className="form-row">
+            <input
+              type="date"
+              name="pick_up_date"
+              value={formData.pick_up_date}
+              onChange={handleChange}
+              required
+            />
+            <input
+              type="time"
+              name="pick_time"
+              value={formData.pick_time}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="form-row">
+            <input
+              type="date"
+              name="drop_off_date"
+              value={formData.drop_off_date}
+              onChange={handleChange}
+              required
+            />
+            <input
+              type="time"
+              name="drop_time"
+              value={formData.drop_time}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <label>Driving Licence:</label>
           <input
             type="file"
-            name="aadhaarFile"
-            accept="image/*,application/pdf"
+            name="driving_licence"
+            accept="image/*"
             onChange={handleChange}
             required
           />
 
-          <label className="upload-label">Upload PAN Card:</label>
+          <label>Residence Proof:</label>
           <input
             type="file"
-            name="panFile"
-            accept="image/*,application/pdf"
+            name="residence_proof"
+            accept="image/*"
             onChange={handleChange}
             required
           />
 
-          <label className="upload-label">Upload Driving License:</label>
+          <label>PAN Card:</label>
           <input
             type="file"
-            name="licenseFile"
-            accept="image/*,application/pdf"
+            name="pan_card"
+            accept="image/*"
             onChange={handleChange}
             required
           />
 
-          <button type="submit" className="btn">Book Now</button>
+          <label>Payment Screenshot:</label>
+          <input
+            type="file"
+            name="payment_screenshot"
+            accept="image/*"
+            onChange={handleChange}
+            required
+          />
+
+          <label>Aadhaar Card:</label>
+          <input
+            type="file"
+            name="aadhaar_card"
+            accept="image/*"
+            onChange={handleChange}
+            required
+          />
+
+          <button type="submit" className="btn">
+            🚗 Book Now
+          </button>
         </form>
       )}
     </div>
