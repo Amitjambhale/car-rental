@@ -7,27 +7,68 @@
   align-items: center;
 }
 
+
 .admin-navbar-left a {
-  margin-right: 15px;
-  text-decoration: none;
-  color: white;
+  position: relative;
+  color: #fff;
   font-weight: 500;
+  text-decoration: none;
+  padding: 9px 12px;
+  transition: color 0.3s ease;
+  margin: 0 8px;
+  font-size: 17px;
+}
+.Admin-header{
+  font-size: 25px;
+  font-weight: 700;
+  margin-right: 20px;}
+
+.admin-navbar-left a::after {
+  content: "";
+  position: absolute;
+  left: 12px;
+  bottom: 4px;
+  width: 0%;
+  height: 3px;
+  background: linear-gradient(90deg, #ff7e5f, #feb47b);
+  border-radius: 4px;
+  transition: width 0.3s ease;
 }
 
 .admin-navbar-left a:hover {
-  text-decoration: underline;
+  color: #ff7e5f;
 }
 
+.admin-navbar-left a:hover::after {
+  width: calc(100% - 24px);
+}
+
+
+/* ✅ Active link ke liye underline permanent */
+.admin-navbar-left a.active {
+  color: #ff7e5f; /* active text color */
+}
+
+.admin-navbar-left a.active::after {
+  width: calc(100% - 24px);
+}
+
+
 .admin-navbar-right button {
-  background: red;
-  color: white;
+  background: linear-gradient(135deg, #e74c3c, #c0392b); /* red gradient */
   border: none;
-  padding: 8px 14px;
-  border-radius: 4px;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 8px;
   cursor: pointer;
-  font-weight: bold;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
 }
 
 .admin-navbar-right button:hover {
-  background: darkred;
+  background: linear-gradient(135deg, #ff6b6b, #e74c3c);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 10px rgba(0,0,0,0.3);
 }

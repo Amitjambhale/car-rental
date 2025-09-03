@@ -1,7 +1,9 @@
 // src/pages/admin/AdminLogin.jsx
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 import "../../styles/AdminLogin.css";
+import { getCookie } from "../../utils/csrf";
 
 function AdminLogin() {
   const navigate = useNavigate();
@@ -16,23 +18,49 @@ function AdminLogin() {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+ const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    // ✅ Hardcoded login credentials
-    const adminEmail = "admin@gmail.com";
-    const adminPass = "123456";
+  try {
+    const csrfToken = getCookie("csrftoken");
 
-    if (formData.email === adminEmail && formData.password === adminPass) {
-      localStorage.setItem("adminToken", "true"); // ✅ Admin token save
-      alert("Admin Logged In!");
+    // ✅ backend ke hisaab se payload
+    const payload = {
+      Email: formData.email,   // 👈 Capital "E"
+      password: formData.password,
+    };
+
+    const res = await axios.post(
+      "http://192.168.1.46:8000/api/token/",
+      payload,
+      {
+        headers: {
+          "X-CSRFToken": csrfToken,
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      }
+    );
+
+    if (res.status === 200) {
+      // ✅ Save JWT access token
+      localStorage.setItem("adminToken", res.data.access);
+
+      alert("✅ Admin Logged In!");
       navigate("/admin/home");
-
-
     } else {
       alert("❌ Invalid Admin Email or Password!");
     }
-  };
+  } catch (error) {
+    console.error("Login error:", error.response?.data || error.message);
+    alert(
+      `⚠️ Login failed: ${
+        error.response?.data?.detail || "Please check your credentials!"
+      }`
+    );
+  }
+};
+
 
   return (
     <div className="admin-login-container-wrapper">

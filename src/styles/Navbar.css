@@ -1,55 +1,144 @@
+/* 🔹 Navbar Base */
 .navbar {
- background: linear-gradient(to right, #0f2027, #2c5364, #00c6ff);
-
-  color: white;
+  backdrop-filter: blur(10px);
+  background: linear-gradient(to right, #0f2027, #2c5364, #00c6ff);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+  padding: 14px 28px;
   position: sticky;
   top: 0;
-  z-index: 999;
-  padding: 14px 16px;
+  z-index: 1000;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 }
 
+/* 🔹 Inner Structure */
 .navbar-inner {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
 }
 
 .navbar-left {
   display: flex;
   align-items: center;
-  gap: 10px;
 }
 
-.navbar-links {
-  display: flex;
-  gap: 40px;
-  /* increased spacing */
-  align-items: center;
+.navbar-logo {
+  font-size: 22px;
+  font-weight: 700;
+  margin-right: 24px;
+
+  background: linear-gradient(90deg, #ffd700, #ff8c00);
+
+  /* 🔹 Standard property */
+  background-clip: text;
+
+  /* 🔹 Vendor prefixes for WebKit browsers */
+  -webkit-background-clip: text;
+
+  /* 🔹 Text transparent to reveal gradient */
+  color: transparent;
+  -webkit-text-fill-color: transparent; /* Safari / Chrome fix */
 }
 
 
+/* 🔹 Links */
 .navbar-links a {
-  color: white;
-  text-decoration: none;
+  position: relative;
+  color: #fff;
   font-weight: 500;
-}
-
-.auth-buttons a {
-  color: white;
   text-decoration: none;
-  border: 1px solid #fff;
-  padding: 4px 10px;
-  border-radius: 4px;
-  font-size: 14px;
+  padding: 8px 12px;
+  margin: 0 6px;
+  font-size: 16px;
+  transition: all 0.3s ease;
 }
 
-/* Mobile */
+/* Hover underline */
+.navbar-links a::after {
+  content: "";
+  position: absolute;
+  left: 12px;
+  bottom: 2px;
+  width: 0%;
+  height: 3px;
+  background: linear-gradient(90deg, #ff7e5f, #feb47b);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+/* Hover state (non-active) */
+.navbar-links a:hover {
+  color: #feb47b;
+}
+
+.navbar-links a:hover::after {
+  width: calc(100% - 24px);
+}
+
+/* ✅ Active Link */
+.navbar-links a.active {
+  color: #ff7e5f;
+  font-weight: 600;
+}
+
+.navbar-links a.active::after {
+  width: calc(100% - 24px);
+}
+
+/* 🔹 Right Section */
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.profile-icon {
+  font-size: 27px;
+  color: white;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.profile-icon:hover {
+  color: #000;
+}
+
+.login-btn {
+  color: white;
+  border: 1px solid #fff;
+  padding: 6px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.login-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.navbar-right button {
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
+  border: none;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.navbar-right button:hover {
+  background: linear-gradient(135deg, #ff6b6b, #e74c3c);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+/* 🔹 Mobile */
 .mobile-top-row {
   display: none;
   justify-content: space-between;
   align-items: center;
-  padding: 6px 0;
 }
 
 .hamburger {
@@ -61,32 +150,33 @@
 
 .mobile-login {
   color: white;
-  text-decoration: none;
   font-weight: bold;
-}
-
-.mobile-logo-phone {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.mobile-phone {
-  font-size: 14px;
-  color: #eee;
   text-decoration: none;
-  transition: color 0.3s ease;
 }
 
-/* Slide-out mobile menu */
+.mobile-logout {
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  font-size: 13px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.mobile-logout:hover {
+  background: linear-gradient(135deg, #ff6b6b, #e74c3c);
+  transform: scale(1.05);
+}
+
+/* Mobile Menu (slide out) */
 .mobile-menu {
   position: fixed;
   top: 0;
   left: -100%;
   width: 240px;
   height: 100vh;
-  background-color: #203a43;
-  color: white;
+  background: #1e2a38;
   display: flex;
   flex-direction: column;
   padding: 20px;
@@ -98,98 +188,48 @@
   left: 0;
 }
 
+/* 🔹 Mobile menu links */
 .mobile-menu a {
-  color: white;
+  display: block;
+  padding: 12px 20px;
+  font-size: 18px;
+  color: #fff;
   text-decoration: none;
-  margin: 12px 0;
-  font-size: 16px;
+  transition: all 0.2s ease-in-out;
 }
 
-.mobile-close {
-  align-self: flex-end;
-  font-size: 24px;
-  cursor: pointer;
-  margin-bottom: 10px;
+/* 🔹 Active link (current page) */
+.mobile-menu a.active-link {
+  font-weight: 600;
+  border-bottom: 2px solid #ff8c00; /* Active underline */
+  color: #ff8c00;
 }
 
-.profile-icon {
-  font-size: 26px;
-  color: white;
-  margin-right: 12px;
-  cursor: pointer;
-  transition: color 0.3s ease;
-}
-
-.profile-icon:hover {
-  color: #00c6ff;
-}
-
-.hamburger {
-  display: none;
-  font-size: 24px;
-  cursor: pointer;
-  color: white;
+/* 🔹 Hover effect (only underline) */
+.mobile-menu a:hover {
+  
+  background: none;           /* ❌ No background */
+  color: inherit;             /* ✅ Keep same color */
 }
 
 
-/* Mobile dots */
-.mobile-dots {
-  position: relative;
-  cursor: pointer;
-  color: white;
+/* Active */
+.mobile-menu a.active {
+  color: #ff7e5f;
+  font-weight: 600;
+}
+.mobile-menu a.active::after {
+  width: 100%;
 }
 
-.dot-dropdown {
-  position: absolute;
-  right: 0;
-  top: 28px;
-  background: #2c5364;
-  padding: 8px 12px;
-  border-radius: 6px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  z-index: 10000;
-}
-
-.dot-dropdown a,
-.dot-dropdown span {
-  color: white;
-  text-decoration: none;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-.dot-dropdown a:hover,
-.dot-dropdown span:hover {
-  color: #00c6ff;
-}
-
-/* Hide dots in desktop */
-@media (min-width: 769px) {
-  .mobile-dots {
-    display: none;
-  }
-}
-
-/* Hide profile icon in mobile */
-@media (max-width: 768px) {
-  .profile-icon {
-    display: none;
-  }
-}
-
-
-/* Responsive */
+/* 🔹 Responsive */
 @media (max-width: 768px) {
   .navbar-inner {
     display: none;
   }
-
   .mobile-top-row {
     display: flex;
   }
-
   .hamburger {
     display: block;
   }

@@ -1,8 +1,14 @@
 import React from "react";
 import "../styles/About.css";
 import aboutImage from "/assets/about-hero.jpg"; // apna image path
+import { useNavigate } from "react-router-dom";
 
 const AboutUs = () => {
+ const navigate = useNavigate();
+    const handleBookNow = () => {
+    // ✅ Navigate to Home page
+    navigate("/");
+  };
     return (
         <div className="about-page">
             {/* Hero Section */}
@@ -75,7 +81,7 @@ const AboutUs = () => {
             <section className="cta-section">
                 <h2>Ready to Start Your Journey?</h2>
                 <p>Book your self-drive car today and experience the freedom of travel.</p>
-                <button className="book-btn">Book Now</button>
+                <button onClick={handleBookNow} className="book-btn">Book Now</button>
             </section>
         </div>
     );

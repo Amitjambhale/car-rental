@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../styles/Home.css";
+import axios from "axios";
 import cars from "../data/cars";
 import { useNavigate } from "react-router-dom";
 
@@ -19,25 +20,52 @@ import location from "../../public/assets/location1.png";
 // Dummy reviews
 const reviews = [
   {
-    name: "Amit Verma",
-    tripLocation: "Lonavala",
+    name: "Amit Jambhale",
+    tripLocation: "Nashik",
     comment:
-      "Had an amazing weekend getaway to Lonavala with the Hyundai i20. The car was in top condition, super comfortable for long drives, and the music system made the ride even more enjoyable.",
+      "Booked a Swift Dzire for a weekend trip to Nashik. The car was clean, well-maintained, and super smooth on the highway. Pickup and drop were hassle-free.",
     image: "/assets/users/amit.jpg",
+     rating: 4,
   },
   {
-    name: "Priya Sharma",
+    name: "Vaibhav Sagar",
     tripLocation: "Mahabaleshwar",
     comment:
-      "We took the Maruti Baleno for a 3-day family trip to Mahabaleshwar and it was a fantastic experience. The car was spotless, had great boot space for our luggage, and gave excellent mileage.",
+      "Our Mahabaleshwar trip was amazing with the Innova Crysta. Comfortable seats, good mileage, and enough space for all our luggage. Totally worth it.",
     image: "/assets/users/priya.jpg",
+    rating: 5,
   },
   {
-    name: "Rahul Mehta",
-    tripLocation: "Mumbai Business Trip",
+    name: "Rohit Shelke",
+    tripLocation: "Kokan",
     comment:
-      "Rented the Honda Amaze for a two-day work trip to Mumbai. The car was clean, fuel-efficient, and smooth in traffic. AC cooling was fast, and Bluetooth worked perfectly for my calls.",
+      "We drove down to Kokan with a Maruti Baleno. The ride was super smooth on coastal roads, AC worked great even in the afternoon heat, and mileage was excellent.",
     image: "/assets/users/rahul.jpg",
+    rating: 4,
+  },
+  {
+    name: "Abhi Kate",
+    tripLocation: "Latur",
+    comment:
+      "Rented a Honda Ciaz for my Latur trip. The car was neat, Bluetooth was handy for music, and overall it was a stress-free drive. Would definitely recommend.",
+    image: "/assets/users/amit.jpg",
+    rating: 5,
+  },
+  {
+    name: "Tohid Inamdar",
+    tripLocation: "Mumbai",
+    comment:
+      "Booked a Polo for a business trip to Mumbai. The car was powerful in traffic, very comfortable, and gave a premium feel. Great service experience as well.",
+    image: "/assets/users/rahul.jpg",
+    rating: 3,
+  },
+  {
+    name: "Subodh Shelke",
+    tripLocation: "Ganpatipule",
+    comment:
+      "We took an Ertiga for a group trip to Ganpatipule and Diveagar. Perfect for long drives with friends, spacious enough, and smooth ride throughout the coastal journey.",
+    image: "/assets/users/priya.jpg",
+    rating: 4,
   },
 ];
 
@@ -45,12 +73,7 @@ const Home = () => {
   const navigate = useNavigate();
 
   const [expandedReviewIndex, setExpandedReviewIndex] = useState(null);
-  const [showForm, setShowForm] = useState(false);
-  const [newReview, setNewReview] = useState({
-    name: "",
-    tripLocation: "",
-    comment: "",
-  });
+
 
   // Contact form state
   const [contactForm, setContactForm] = useState({
@@ -70,7 +93,6 @@ const Home = () => {
     setContactForm({ name: "", email: "", message: "" });
   };
 
-  // Booking Form state
   const [formData, setFormData] = useState({
     bookingType: "",
     pickupDate: "",
@@ -83,140 +105,161 @@ const Home = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    navigate("/available-cars", {
-      state: { availableCars: cars, formData: { ...formData, city: "Pune" } },
-    });
+  // helper: convert YYYY-MM-DD → DD-MM-YYYY
+  const formatDate = (dateStr) => {
+    const [year, month, day] = dateStr.split("-");
+    return `${day}-${month}-${year}`;
   };
 
-  const handleSubmit = (e) => {
+  const handleSearch = async (e) => {
     e.preventDefault();
-    alert(`Review Submitted:\n${JSON.stringify(newReview, null, 2)}`);
-    setShowForm(false);
-    setNewReview({ name: "", tripLocation: "", comment: "" });
+
+    const payload = {
+      pick_up_date: formatDate(formData.pickupDate),   // ✅ correct key + format
+      pick_time: formData.pickupTime,
+      drop_off_date: formatDate(formData.dropDate),
+      drop_time: formData.dropTime,
+    };
+
+    console.log("🔍 Sending payload:", payload);
+
+    try {
+      const response = await axios.post(
+        "http://192.168.1.46:8000/api/findcar/",
+        payload
+      );
+
+      console.log("✅ API response:", response.data);
+      navigate("/available-cars", {
+        state: { availableCars: response.data, formData },
+      });
+    } catch (error) {
+      console.error("❌ Error fetching cars:", error.response?.data || error.message);
+      alert("Error: " + JSON.stringify(error.response?.data || error.message));
+    }
   };
+
 
   return (
     <div className="home-page">
       {/* Hero Section */}
-     <section className="luxury-hero">
-  <div className="hero-content-wrapper">
-    <div className="hero-content-grid">
+      <section className="luxury-hero">
+        <div className="hero-content-wrapper">
+          <div className="hero-content-grid">
 
-      {/* Branding Section */}
-      <div className="branding-section">
-        <div className="logo-container">
-          <img src={logo} alt="Malhar Logo" className="brand-logo" />
-        </div>
-        <h1 className="hero-headline gradient-text">
-          Welcome to Malhar Car Rental
-        </h1>
-        <p className="sub-headline">Available only in Pune</p>
+            {/* Branding Section */}
+            <div className="branding-section">
+              <div className="logo-container">
+                <img src={logo} alt="Malhar Logo" className="brand-logo" />
+              </div>
+              <h1 className="hero-headline gradient-text">
+                Welcome to Malhar Car Rental
+              </h1>
+              <p className="sub-headline">Available only in Pune</p>
 
-        {/* Contact Info */}
-        <div className="contact-info">
-          <div className="phone">
-            <FaPhoneAlt className="contact-icon" />
-            <a href="tel:+919730562424" className="phone-link">
-              +91-9730562424
-            </a>
-          </div>
-          <div className="location">
-            <img src={location} alt="Location" className="location-icon" />
-            <span>Pune, India</span>
-          </div>
-        </div>
-      </div>
-
-      {/* Booking Section */}
-      <div className="booking-section">
-        <div className="luxury-booking-card">
-
-          {/* Heading */}
-          <div className="form-header">
-            <MdOutlineDirectionsCar className="form-header-icon" />
-            <h2>Book Your Luxury Ride</h2>
-            <span className="underline"></span>
-          </div>
-
-          {/* Form */}
-          <form className="booking-form" onSubmit={handleSearch}>
-            {/* Booking Type */}
-            <div className="form-row single">
-              <div className="floating-label">
-                <select
-                  name="bookingType"
-                  value={formData.bookingType}
-                  onChange={handleChange}
-                  required
-                >
-                  <option value="">Select Booking Type</option>
-                  <option>Daily</option>
-                  <option>Weekly</option>
-                  <option>Monthly</option>
-                </select>
-                <label>Booking Type</label>
+              {/* Contact Info */}
+              <div className="contact-info">
+                <div className="phone">
+                  <FaPhoneAlt className="contact-icon" />
+                  <a href="tel:+919730562424" className="phone-link">
+                    +91-9730562424
+                  </a>
+                </div>
+                <div className="location">
+                  <img src={location} alt="Location" className="location-icon" />
+                  <span>Pune, India</span>
+                </div>
               </div>
             </div>
 
-            {/* Pickup */}
-            <div className="form-row">
-              <div className="floating-label">
-                <input
-                  type="date"
-                  name="pickupDate"
-                  value={formData.pickupDate}
-                  onChange={handleChange}
-                  required
-                />
-                <label>Pickup Date</label>
-              </div>
-              <div className="floating-label">
-                <input
-                  type="time"
-                  name="pickupTime"
-                  value={formData.pickupTime}
-                  onChange={handleChange}
-                  required
-                />
-                <label>Pickup Time</label>
+            {/* Booking Section */}
+            <div className="booking-section">
+              <div className="luxury-booking-card">
+
+                {/* Heading */}
+                <div className="form-header">
+                  <MdOutlineDirectionsCar className="form-header-icon" />
+                  <h2>Book Your Luxury Ride</h2>
+                  <span className="underline"></span>
+                </div>
+
+                {/* Form */}
+                <form className="booking-form" onSubmit={handleSearch}>
+                  {/* Booking Type */}
+                  <div className="form-row single">
+                    <div className="floating-label">
+                      <select
+                        name="bookingType"
+                        value={formData.bookingType}
+                        onChange={handleChange}
+                        required
+                      >
+                        <option value="">Select Booking Type</option>
+                        <option>Daily</option>
+                        <option>Weekly</option>
+                        <option>Monthly</option>
+                      </select>
+                      <label>Booking Type</label>
+                    </div>
+                  </div>
+
+                  {/* Pickup */}
+                  <div className="form-row">
+                    <div className="floating-label">
+                      <input
+                        type="date"
+                        name="pickupDate"
+                        value={formData.pickupDate}
+                        onChange={handleChange}
+                        required
+                      />
+                      <label>Pickup Date</label>
+                    </div>
+                    <div className="floating-label">
+                      <input
+                        type="time"
+                        name="pickupTime"
+                        value={formData.pickupTime}
+                        onChange={handleChange}
+                        required
+                      />
+                      <label>Pickup Time</label>
+                    </div>
+                  </div>
+
+                  {/* Drop */}
+                  <div className="form-row">
+                    <div className="floating-label">
+                      <input
+                        type="date"
+                        name="dropDate"
+                        value={formData.dropDate}
+                        onChange={handleChange}
+                        required
+                      />
+                      <label>Drop Date</label>
+                    </div>
+                    <div className="floating-label">
+                      <input
+                        type="time"
+                        name="dropTime"
+                        value={formData.dropTime}
+                        onChange={handleChange}
+                        required
+                      />
+                      <label>Drop Time</label>
+                    </div>
+                  </div>
+
+                  <button type="submit" className="book-now-button">
+                    Find Car
+                  </button>
+                </form>
               </div>
             </div>
-
-            {/* Drop */}
-            <div className="form-row">
-              <div className="floating-label">
-                <input
-                  type="date"
-                  name="dropDate"
-                  value={formData.dropDate}
-                  onChange={handleChange}
-                  required
-                />
-                <label>Drop Date</label>
-              </div>
-              <div className="floating-label">
-                <input
-                  type="time"
-                  name="dropTime"
-                  value={formData.dropTime}
-                  onChange={handleChange}
-                  required
-                />
-                <label>Drop Time</label>
-              </div>
-            </div>
-
-            <button type="submit" className="book-now-button">
-              Find Car
-            </button>
-          </form>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
+      </section>
 
 
       {/* Car Carousel */}
@@ -262,102 +305,38 @@ const Home = () => {
         </div>
       </section>
 
-      <section className="review-section">
-        <h2 className="section-heading">Customer Experiences</h2>
 
-        <div className="review-cards-container">
+      {/* // Review Section */}
+      <section className="review-section">
+        <h2 className="section-heading">Happy Customers</h2>
+
+        <div className="review-carousel">
           {reviews.map((review, index) => (
-            <div className="review-card" key={index}>
+            <div className="review-slide" key={index}>
+              {/* Decorative Top Strip */}
               <div className="card-top-strip"></div>
-              <div className="review-header">
-                <img src={review.image} alt={review.name} className="reviewer-img" />
-                <div>
-                  <h3 className="reviewer-name">{review.name}</h3>
-                  <p className="trip-label">Trip to {review.tripLocation}</p>
-                </div>
-              </div>
+
+              <img src={review.image} alt={review.name} className="review-avatar" />
+
               <div className="review-stars">
                 {"★".repeat(review.rating)}
                 {"☆".repeat(5 - review.rating)}
               </div>
-              <p className="review-comment">{review.comment}</p>
+
+
+              <p className="review-comment">“{review.comment}”</p>
+
+              {/* Footer Section */}
+              <div className="review-footer">
+                <h3 className="reviewer-name">{review.name}</h3>
+                <span className="trip-badge">🚘 Trip to {review.tripLocation}</span>
+              </div>
+
             </div>
           ))}
         </div>
-
-        {/* 👇 Centered Add Review Button */}
-        <div className="add-review-wrapper">
-          <button className="add-review-btn" onClick={() => setShowForm(true)}>
-            + Add Review
-          </button>
-        </div>
-
-        {showForm && (
-          <div className="review-form-popup">
-            <div className="review-form-content">
-              <h3>Add Your Review</h3>
-              <form onSubmit={handleSubmit}>
-                <input
-                  type="text"
-                  placeholder="Your Name"
-                  value={newReview.name}
-                  onChange={(e) =>
-                    setNewReview({ ...newReview, name: e.target.value })
-                  }
-                  required
-                />
-                <input
-                  type="text"
-                  placeholder="Trip Location"
-                  value={newReview.tripLocation}
-                  onChange={(e) =>
-                    setNewReview({ ...newReview, tripLocation: e.target.value })
-                  }
-                  required
-                />
-                <textarea
-                  placeholder="Your Review"
-                  rows="4"
-                  value={newReview.comment}
-                  onChange={(e) =>
-                    setNewReview({ ...newReview, comment: e.target.value })
-                  }
-                  required
-                />
-
-                {/* ⭐ Star Rating instead of Select */}
-                <div className="star-rating">
-                  {[5, 4, 3, 2, 1].map((star) => (
-                    <React.Fragment key={star}>
-                      <input
-                        type="radio"
-                        id={`star${star}`}
-                        name="rating"
-                        value={star}
-                        checked={newReview.rating === star}
-                        onChange={(e) =>
-                          setNewReview({ ...newReview, rating: Number(e.target.value) })
-                        }
-                      />
-                      <label htmlFor={`star${star}`}>★</label>
-                    </React.Fragment>
-                  ))}
-                </div>
-
-
-
-                <div className="form-actions">
-                  <button type="submit">Submit</button>
-                  <button type="button" onClick={() => setShowForm(false)}>
-                    Cancel
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        )}
-
       </section>
+
 
 
 
@@ -366,7 +345,15 @@ const Home = () => {
         <h2 className="section-heading">Contact Us</h2>
         <div className="contact-container">
           <form className="contact-form" onSubmit={handleContactSubmit}>
-            <input type="text" name="name" placeholder="Your Name" required />
+            <input
+              type="text"
+              name="name"
+              value={contactForm.name}
+              onChange={handleContactChange}
+              placeholder="Your Name"
+              required
+            />
+
             <input type="email" name="email" placeholder="Your Email" required />
             <textarea name="message" placeholder="Your Message" rows="4" required />
             <button type="submit">Send Message</button>

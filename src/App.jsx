@@ -16,21 +16,22 @@ import AboutUs from "./pages/AboutUs";
 import Navbar from "./components/Navbar";
 
 // Admin pages
-import AdminHome from "./pages/admin/AdminHome";
+import AdminHome from "./pages/admin/Home";
 import AdminLogin from "./pages/admin/AdminLogin";
-import AdminDashboard from "./pages/admin/AdminDashboard";
+import Cars from "./pages/admin/Cars";
 
-import ManageBookings from "./pages/admin/ManageBookings";
+import Bookings from "./pages/admin/Bookings";
+import Registermodels from "./pages/admin/Registermodels";
 
 // Admin Navbar
 import AdminNavbar from "./components/AdminNavbar";
 import RequireAdmin from "./components/RequireAdmin";
+import ScrollToTop from "./components/ScrollToTop";
 
 
 function App() {
   const location = useLocation();
 
-  // Conditions
   const isAdminRoute = location.pathname.startsWith("/admin");
   const isAdminLogin = location.pathname === "/admin/login";
   const isUserLogin = location.pathname === "/login";
@@ -43,6 +44,9 @@ function App() {
 
       {/* Show Admin Navbar for admin routes except login */}
       {isAdminRoute && !isAdminLogin && <AdminNavbar />}
+
+      {/* ✅ Place ScrollToTop here */}
+      <ScrollToTop />
 
       <Routes>
         {/* User Routes */}
@@ -57,7 +61,6 @@ function App() {
         <Route path="/about" element={<AboutUs />} />
 
         {/* Admin Routes */}
-
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route
           path="/admin/home"
@@ -67,28 +70,34 @@ function App() {
             </RequireAdmin>
           }
         />
-
         <Route
-          path="/admin/dashboard"
+          path="/admin/cars"
           element={
             <RequireAdmin>
-              <AdminDashboard />
+              <Cars />
             </RequireAdmin>
           }
         />
-
         <Route
-          path="/admin/manage-bookings"
+          path="/admin/bookings"
           element={
             <RequireAdmin>
-              <ManageBookings />
+              <Bookings />
             </RequireAdmin>
           }
         />
-
+        <Route
+          path="/admin/registermodels"
+          element={
+            <RequireAdmin>
+              <Registermodels />
+            </RequireAdmin>
+          }
+        />
       </Routes>
     </>
   );
 }
+
 
 export default App;

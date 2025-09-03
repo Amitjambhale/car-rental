@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
-import { FaUserCircle, FaBars } from "react-icons/fa"; // Corrected import
+import { Link, useNavigate, useLocation, NavLink } from "react-router-dom";
+import { FaUserCircle, FaBars } from "react-icons/fa";
 import "../styles/Navbar.css";
 
 function Navbar() {
@@ -13,9 +13,7 @@ function Navbar() {
 
   useEffect(() => {
     const checkLogin = () => setIsLoggedIn(!!localStorage.getItem("authToken"));
-
     checkLogin();
-
     window.addEventListener("storage", checkLogin);
     window.addEventListener("storageChange", checkLogin);
 
@@ -40,17 +38,17 @@ function Navbar() {
       navigate("/login");
     }
   };
-console.log(isLoggedIn)
+
   return (
     <nav className="navbar">
-      {/* Mobile Top Row */}
+      {/* ✅ Mobile Top Row */}
       <div className="mobile-top-row">
         <div className="hamburger" onClick={toggleMenu}>
           <FaBars />
         </div>
 
         {isLoggedIn ? (
-          <button onClick={handleLogout} className="mobile-login">
+          <button onClick={handleLogout} className="mobile-logout">
             Logout
           </button>
         ) : (
@@ -60,39 +58,56 @@ console.log(isLoggedIn)
         )}
       </div>
 
-      {/* Desktop Navbar */}
+      {/* ✅ Desktop Links */}
       <div className="navbar-inner">
         <div className="navbar-left">
-          <FaUserCircle className="profile-icon" onClick={goToProfile} /> {/* Fixed component name */}
+          <h2 className="navbar-logo">Malhar Cars</h2>
 
           <div className="navbar-links">
-            <Link to="/">Home</Link>
-            <Link to="/about">About</Link>
-            <Link to="/cars">Cars</Link>
+            <NavLink to="/" className={({ isActive }) => (isActive ? "active" : "")}>
+              Home
+            </NavLink>
+            <NavLink to="/about" className={({ isActive }) => (isActive ? "active" : "")}>
+              About
+            </NavLink>
+            <NavLink to="/cars" className={({ isActive }) => (isActive ? "active" : "")}>
+              Cars
+            </NavLink>
           </div>
         </div>
 
-        <div className="auth-buttons">
+        <div className="navbar-right">
           {isLoggedIn ? (
-            <button onClick={handleLogout} className="logout-btn">
-              Logout
-            </button>
+            <>
+              <FaUserCircle className="profile-icon" onClick={goToProfile} />
+              <button onClick={handleLogout}>Logout</button>
+            </>
           ) : (
-            <Link to="/login">Login</Link>
+            <Link to="/login" className="login-btn">
+              Login
+            </Link>
           )}
         </div>
       </div>
 
-      {/* Mobile Side Menu */}
+      {/* ✅ Mobile Menu */}
       <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
         <div className="mobile-close" onClick={toggleMenu}>
           ×
         </div>
-        <Link to="/" onClick={toggleMenu}>Home</Link>
-        <Link to="/about" onClick={toggleMenu}>About</Link>
-        <Link to="/cars" onClick={toggleMenu}>Cars</Link>
+        <NavLink to="/" className={({ isActive }) => (isActive ? "active" : "")} onClick={toggleMenu}>
+          Home
+        </NavLink>
+        <NavLink to="/about" className={({ isActive }) => (isActive ? "active" : "")} onClick={toggleMenu}>
+          About
+        </NavLink>
+        <NavLink to="/cars" className={({ isActive }) => (isActive ? "active" : "")} onClick={toggleMenu}>
+          Cars
+        </NavLink>
         {isLoggedIn && (
-          <Link to="/profile" onClick={toggleMenu}>Profile</Link>
+          <NavLink to="/profile" className={({ isActive }) => (isActive ? "active" : "")} onClick={toggleMenu}>
+            Profile
+          </NavLink>
         )}
       </div>
     </nav>

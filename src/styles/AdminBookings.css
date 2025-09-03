@@ -1,0 +1,147 @@
+/* 🌙 Premium Dark Bookings Page */
+
+.bookings-container {
+  min-height: 100vh;
+  padding: 50px 20px;
+  background: linear-gradient(135deg, #1e1e2f, #2a2a40);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #f1f1f1;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 40px;
+  color: #ffffff;
+  letter-spacing: 1px;
+  text-shadow: 0px 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+.bookings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px;
+  width: 100%;
+  max-width: 1100px;
+}
+
+/* Booking Card */
+.booking-card {
+  background: rgba(255, 255, 255, 0.05); /* Transparent card */
+  border-radius: 16px;
+  padding: 22px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+  transition: all 0.3s ease-in-out;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.booking-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 5px;
+  width: 100%;
+  background: linear-gradient(90deg, #ff9966, #ff5e62); /* Premium accent */
+}
+
+.booking-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.8);
+}
+
+/* Header */
+.booking-header {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 12px;
+}
+
+.customer-name {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.car-name {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #ff9966;
+  margin-top: 4px;
+}
+
+/* Date */
+.date {
+  font-size: 0.95rem;
+  color: #bbb;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+}
+
+/* Buttons */
+.action-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.btn {
+  flex: 1;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.btn-edit {
+  background: linear-gradient(90deg, #36d1dc, #5b86e5);
+  color: #fff;
+}
+
+.btn-edit:hover {
+  background: linear-gradient(90deg, #5b86e5, #36d1dc);
+  transform: scale(1.05);
+}
+
+.btn-delete {
+  background: linear-gradient(90deg, #ff5858, #f857a6);
+  color: #fff;
+}
+
+.btn-delete:hover {
+  background: linear-gradient(90deg, #f857a6, #ff5858);
+  transform: scale(1.05);
+}
+
+.no-bookings{
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #ccc;
+  text-align: center;
+  margin-top: 50px;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .title{
+    font-size: 2rem;
+  }
+
+  .booking-card {
+    padding: 16px;
+  }
+
+  .customer-name {
+    font-size: 1.2rem;
+  }
+}

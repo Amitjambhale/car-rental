@@ -1,5 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+
 import "../styles/AdminNavbar.css";
 
 
@@ -7,14 +8,15 @@ import "../styles/AdminNavbar.css";
 function AdminNavbar() {
   return (
     <nav className="admin-navbar">
-     
-        <div className="admin-navbar-left">
-        <h2>Admin Panel</h2>
-      
-        <Link to="/admin/home">Admin Home</Link>
-        <Link to="/admin/dashboard">Dashboard</Link>
-       
-        <Link to="/admin/manage-bookings">Manage Bookings</Link>
+
+      <div className="admin-navbar-left">
+        <h2 className="Admin-header">Admin Panel</h2>
+
+        <NavLink to="/admin/home">Home</NavLink>
+        <NavLink to="/admin/cars">Cars</NavLink>
+        <NavLink to="/admin/bookings">Bookings</NavLink>
+        <NavLink to="/admin/registermodels">Register Models</NavLink>
+
       </div>
       <div className="admin-navbar-right">
         <button
