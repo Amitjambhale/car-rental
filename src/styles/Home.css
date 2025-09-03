@@ -702,32 +702,42 @@
 .trip-badge::after {
   right: -5px;
 }
+
 .review-carousel {
   display: flex;
   gap: 20px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  padding-bottom: 10px;
+  padding-bottom: 12px;
 
   /* Firefox */
   scrollbar-width: thin;
-  scrollbar-color: #ff9900 #eee;
+  scrollbar-color: #a15bcd #f0f0f0;
 }
 
 /* Chrome, Safari */
 .review-carousel::-webkit-scrollbar {
-  height: 6px;
+  height: 9px;
 }
 
 .review-carousel::-webkit-scrollbar-track {
-  background: #eee;
-  border-radius: 10px;
+  background: #f0f0f0;
+  border-radius: 12px;
+  box-shadow: inset 2px 2px 5px rgba(0,0,0,0.05);
 }
 
 .review-carousel::-webkit-scrollbar-thumb {
-  background: linear-gradient(90deg, #FFD700, #FF6B00);
-  border-radius: 10px;
+  background: linear-gradient(135deg, #00c6ff, #0072ff);
+  border-radius: 12px;
+  border: 2px solid #f0f0f0;  /* creates glass effect */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
+
+.review-carousel::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #009fff, #0050b3);
+}
+
+
 
 /* ✅ Responsive */
 @media (max-width: 768px) {
