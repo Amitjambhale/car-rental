@@ -11,7 +11,7 @@ const RegisterModels = () => {
     const fetchUsers = async () => {
       try {
         // ✅ Token get from localStorage
-        const token = localStorage.getItem("adminToken");
+        const token = localStorage.getItem("authToken");
 
         if (!token) {
           setError("⚠️ No admin token found. Please login first.");
@@ -22,10 +22,11 @@ const RegisterModels = () => {
 
 
         const res = await axios.get("http://192.168.1.46:8000/apis/superadmin/users/", {
-          headers: {
-            Authorization: `Bearer ${token}`, // ✅ Correct
-          },
-        });
+  headers: {
+    Authorization: `Bearer ${token}`, // ✅ Correct token now
+  },
+});
+
 
 
         setUsers(res.data);
@@ -53,7 +54,7 @@ const RegisterModels = () => {
           <table className="users-table">
             <thead>
               <tr>
-                
+
                 <th>Name</th>
                 <th>Email</th>
                 <th>Mobile No</th>
@@ -61,9 +62,8 @@ const RegisterModels = () => {
               </tr>
             </thead>
             <tbody>
-              {users.map((u) => (
-                <tr key={u.id}>
-                 
+              {users.map((u, index) => (
+                <tr key={u.Email || index}>   {/* agar Email unique hai to use karo */}
                   <td>{u.Name}</td>
                   <td>{u.Email}</td>
                   <td>{u.Mobile_no}</td>
@@ -71,6 +71,7 @@ const RegisterModels = () => {
                 </tr>
               ))}
             </tbody>
+
           </table>
         </div>
       )}

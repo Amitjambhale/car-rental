@@ -31,7 +31,7 @@ function AdminLogin() {
     };
 
     const res = await axios.post(
-      "http://192.168.1.46:8000/api/token/",
+      "http://192.168.1.46:8000/apis/superadmin/token/",
       payload,
       {
         headers: {
