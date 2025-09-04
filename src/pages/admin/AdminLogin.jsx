@@ -18,48 +18,50 @@ function AdminLogin() {
     setFormData({ ...formData, [name]: value });
   };
 
- const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  try {
-    const csrfToken = getCookie("csrftoken");
+    try {
+      const csrfToken = getCookie("csrftoken");
 
-    // ✅ backend ke hisaab se payload
-    const payload = {
-      Email: formData.email,   // 👈 Capital "E"
-      password: formData.password,
-    };
+      // ✅ backend ke hisaab se payload
+      const payload = {
+        Email: formData.email,   // 👈 Capital "E"
+        password: formData.password,
+      };
 
-    const res = await axios.post(
-      "http://192.168.1.46:8000/apis/superadmin/token/",
-      payload,
-      {
-        headers: {
-          "X-CSRFToken": csrfToken,
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
+      const res = await axios.post(
+        "http://192.168.1.46:8000/apis/superadmin/token/",
+        payload,
+        {
+          headers: {
+            "X-CSRFToken": csrfToken,
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+
+      console.log("🔑 Admin login response:", res.data.token); // 👈 check backend response
+
+      localStorage.setItem("adminToken", res.data.token.access);
+      if (res.status === 200) {
+        // ✅ Save JWT access token
+        // localStorage.setItem("adminToken", res.data.access);
+
+        alert("✅ Admin Logged In!");
+        navigate("/admin/home");
+      } else {
+        alert("❌ Invalid Admin Email or Password!");
       }
-    );
-
-    if (res.status === 200) {
-      // ✅ Save JWT access token
-      localStorage.setItem("adminToken", res.data.access);
-
-      alert("✅ Admin Logged In!");
-      navigate("/admin/home");
-    } else {
-      alert("❌ Invalid Admin Email or Password!");
+    } catch (error) {
+      console.error("Login error:", error.response?.data || error.message);
+      alert(
+        `⚠️ Login failed: ${error.response?.data?.detail || "Please check your credentials!"
+        }`
+      );
     }
-  } catch (error) {
-    console.error("Login error:", error.response?.data || error.message);
-    alert(
-      `⚠️ Login failed: ${
-        error.response?.data?.detail || "Please check your credentials!"
-      }`
-    );
-  }
-};
+  };
 
 
   return (

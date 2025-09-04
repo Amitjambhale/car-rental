@@ -15,7 +15,7 @@ function AdminNavbar() {
         <NavLink to="/admin/home">Home</NavLink>
         <NavLink to="/admin/cars">Cars</NavLink>
         <NavLink to="/admin/bookings">Bookings</NavLink>
-        <NavLink to="/admin/registermodels">Register Models</NavLink>
+        <NavLink to="/admin/registermodels">Users</NavLink>
 
       </div>
       <div className="admin-navbar-right">

@@ -6,6 +6,7 @@ const API_URL = "http://192.168.1.46:8000/apis/superadmin/bookings/";
 
 const Bookings = () => {
   const [bookings, setBookings] = useState([]);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     fetchBookings();
@@ -13,10 +14,30 @@ const Bookings = () => {
 
   const fetchBookings = async () => {
     try {
-      const res = await axios.get(API_URL);
-      setBookings(res.data); // API returns booking objects
+      // 🔑 Get admin token from localStorage
+      const token = localStorage.getItem("adminToken");
+      if (!token) {
+        setError("⚠️ No admin token found. Please login first.");
+        return;
+      }
+
+      const res = await axios.get(API_URL, {
+        headers: {
+          Authorization: `Bearer ${token}`, // ✅ Send JWT token
+        },
+      });
+
+      setBookings(res.data);
     } catch (error) {
-      console.error("Error fetching bookings:", error);
+      console.error("Error fetching bookings:", error.response?.data || error.message);
+
+      if (error.response?.status === 401) {
+        setError("⚠️ Session expired. Please login again.");
+      } else if (error.response?.status === 403) {
+        setError("🚫 You are not authorized to view bookings.");
+      } else {
+        setError("❌ Failed to load bookings.");
+      }
     }
   };
 
@@ -26,16 +47,30 @@ const Bookings = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`${API_URL}${id}/`);
+      const token = localStorage.getItem("adminToken");
+      if (!token) {
+        setError("⚠️ No admin token found.");
+        return;
+      }
+
+      await axios.delete(`${API_URL}${id}/`, {
+        headers: {
+          Authorization: `Bearer ${token}`, // ✅ Protected delete
+        },
+      });
+
       setBookings(bookings.filter((b) => b.id !== id));
     } catch (error) {
-      console.error("Error deleting booking:", error);
+      console.error("Error deleting booking:", error.response?.data || error.message);
+      setError("❌ Failed to delete booking.");
     }
   };
 
   return (
     <div className="bookings-container">
       <h2 className="title">Admin Bookings</h2>
+
+      {error && <p className="error">{error}</p>}
 
       <div className="bookings-grid">
         {bookings.length > 0 ? (

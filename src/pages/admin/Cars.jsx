@@ -1,20 +1,11 @@
 // src/admin/pages/CarsAdmin.jsx
 import React, { useEffect, useState } from "react";
-import initialCars from "../../data/cars";
-import { saveCarsToStorage } from "../../utils/storage";
+import axios from "axios";
 import "../../styles/AdminCars.css";
-
-const storageKey = "malhar_cars_v1";
-
-const loadCarsFromStorage = () => {
-  const raw = localStorage.getItem(storageKey);
-  if (raw) return JSON.parse(raw);
-  localStorage.setItem(storageKey, JSON.stringify(initialCars));
-  return initialCars;
-};
 
 const CarsAdmin = () => {
   const [cars, setCars] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [newCar, setNewCar] = useState({
@@ -27,16 +18,36 @@ const CarsAdmin = () => {
     image: "",
   });
 
+  // ✅ Load cars from backend
   useEffect(() => {
-    setCars(loadCarsFromStorage());
+    const fetchCars = async () => {
+      try {
+        const token = localStorage.getItem("adminToken");
+        if (!token) {
+          alert("⚠️ Admin not logged in!");
+          return;
+        }
+
+        const res = await axios.get(
+          "http://192.168.1.46:8000/apis/superadmin/cars/",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+
+        setCars(res.data); // 👈 backend returns list of cars
+      } catch (err) {
+        console.error("❌ Error fetching cars:", err.response?.data || err);
+        alert("Failed to load cars.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCars();
   }, []);
 
-  const save = (next) => {
-    setCars(next);
-    saveCarsToStorage(next);
-  };
-
-  // File to Base64
+  // File to Base64 (for preview before upload)
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -47,25 +58,51 @@ const CarsAdmin = () => {
     reader.readAsDataURL(file);
   };
 
-  // Add / Update Car
-  const handleSaveCar = (e) => {
+  // ✅ Add or Update Car in backend
+  const handleSaveCar = async (e) => {
     e.preventDefault();
     if (!newCar.name || !newCar.rent) {
       alert("Please fill all required fields!");
       return;
     }
 
-    let next;
-    if (editMode) {
-      next = cars.map((c) => (c.id === newCar.id ? newCar : c));
-      setEditMode(false);
-    } else {
-      const newId = Date.now();
-      next = [...cars, { ...newCar, id: newId }];
-    }
+    try {
+      const token = localStorage.getItem("adminToken");
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      };
 
-    save(next);
-    resetForm();
+      if (editMode) {
+        // Update existing car
+        await axios.put(
+          `http://192.168.1.46:8000/apis/superadmin/cars/${newCar.id}/`,
+          newCar,
+          { headers }
+        );
+        alert("✅ Car updated!");
+      } else {
+        // Create new car
+        await axios.post(
+          "http://192.168.1.46:8000/apis/superadmin/cars/",
+          newCar,
+          { headers }
+        );
+        alert("✅ Car added!");
+      }
+
+      // Refresh list
+      const res = await axios.get(
+        "http://192.168.1.46:8000/apis/superadmin/cars/",
+        { headers }
+      );
+      setCars(res.data);
+
+      resetForm();
+    } catch (err) {
+      console.error("❌ Save car error:", err.response?.data || err);
+      alert("Failed to save car.");
+    }
   };
 
   const resetForm = () => {
@@ -82,9 +119,20 @@ const CarsAdmin = () => {
     setEditMode(false);
   };
 
-  const handleDelete = (id) => {
+  // ✅ Delete car
+  const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this car?")) return;
-    save(cars.filter((c) => c.id !== id));
+    try {
+      const token = localStorage.getItem("adminToken");
+      await axios.delete(
+        `http://192.168.1.46:8000/apis/superadmin/cars/${id}/`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setCars(cars.filter((c) => c.id !== id));
+    } catch (err) {
+      console.error("❌ Delete error:", err.response?.data || err);
+      alert("Failed to delete car.");
+    }
   };
 
   const handleEdit = (car) => {
@@ -173,7 +221,9 @@ const CarsAdmin = () => {
 
       {/* Cars Table */}
       <div className="table-container">
-        {cars.length === 0 ? (
+        {loading ? (
+          <p>Loading cars...</p>
+        ) : cars.length === 0 ? (
           <p className="empty-msg">No cars found.</p>
         ) : (
           <div className="responsive-table">
@@ -213,13 +263,13 @@ const CarsAdmin = () => {
                         className="btn btn-edit"
                         onClick={() => handleEdit(car)}
                       >
-                         Edit
+                        Edit
                       </button>
                       <button
                         className="btn btn-delete"
                         onClick={() => handleDelete(car.id)}
                       >
-                         Delete
+                        Delete
                       </button>
                     </td>
                   </tr>

@@ -10,8 +10,9 @@ const RegisterModels = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        // ✅ Token get from localStorage
-        const token = localStorage.getItem("authToken");
+        // 🔑 Always read the ACCESS token (not refresh)
+        const token = localStorage.getItem("adminToken");  // 👈 must match AdminLogin
+
 
         if (!token) {
           setError("⚠️ No admin token found. Please login first.");
@@ -19,27 +20,33 @@ const RegisterModels = () => {
           return;
         }
 
-
-
         const res = await axios.get("http://192.168.1.46:8000/apis/superadmin/users/", {
-  headers: {
-    Authorization: `Bearer ${token}`, // ✅ Correct token now
-  },
-});
-
-
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
         setUsers(res.data);
         setLoading(false);
+
       } catch (err) {
-        console.error("Error fetching users:", err.response?.data || err.message);
-        setError("Failed to load users. Unauthorized.");
+        console.error("Error fetching users:", err.response?.status, err.response?.data);
+
+        if (err.response?.status === 401) {
+          setError("⚠️ Session expired. Please login again.");
+          // optional redirect to login page
+        } else {
+          setError(`Failed to load users: ${err.response?.data?.detail || "Unauthorized"}`);
+        }
+
         setLoading(false);
       }
     };
 
+
     fetchUsers();
   }, []);
+
 
   return (
     <div className="register-models">
