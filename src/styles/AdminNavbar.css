@@ -39,9 +39,9 @@
   color: #ff7e5f;
 }
 
-.admin-navbar-left a:hover::after {
+/* .admin-navbar-left a:hover::after {
   width: calc(100% - 24px);
-}
+} */
 
 
 /* ✅ Active link ke liye underline permanent */

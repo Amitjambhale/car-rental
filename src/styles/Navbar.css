@@ -72,9 +72,9 @@
   color: #feb47b;
 }
 
-.navbar-links a:hover::after {
+/* .navbar-links a:hover::after {
   width: calc(100% - 24px);
-}
+} */
 
 /* ✅ Active Link */
 .navbar-links a.active {
