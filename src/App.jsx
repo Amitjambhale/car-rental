@@ -21,7 +21,7 @@ import AdminLogin from "./pages/admin/AdminLogin";
 import Cars from "./pages/admin/Cars";
 
 import Bookings from "./pages/admin/Bookings";
-// import Registermodels from "./pages/admin/Registermodels";
+import Registermodels from "./pages/admin/Registermodels";
 
 // Admin Navbar
 import AdminNavbar from "./components/AdminNavbar";
@@ -86,14 +86,14 @@ function App() {
             </RequireAdmin>
           }
         />
-        {/* <Route
+        <Route
           path="/admin/registermodels"
           element={
             <RequireAdmin>
               <Registermodels />
             </RequireAdmin>
           }
-        /> */}
+        />
       </Routes>
     </>
   );
