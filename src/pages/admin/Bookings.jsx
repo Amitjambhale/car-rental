@@ -68,7 +68,9 @@ const Bookings = () => {
 
   return (
     <div className="bookings-container">
-      <h2 className="title">Admin Bookings</h2>
+      <h2 className="title">
+        Admin Bookings ({bookings.length})
+      </h2>
 
       {error && <p className="error">{error}</p>}
 

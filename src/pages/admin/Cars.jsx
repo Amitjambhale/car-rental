@@ -8,13 +8,15 @@ const CarsAdmin = () => {
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [editMode, setEditMode] = useState(false);
+
   const [newCar, setNewCar] = useState({
     id: "",
-    name: "",
-    rent: "",
-    fuelType: "Petrol",
+    car_name: "",
+    prize: "",
+    fuel_type: "Petrol",
     seats: "",
     transmission: "Manual",
+    imageFile: null,
     image: "",
   });
 
@@ -47,21 +49,17 @@ const CarsAdmin = () => {
     fetchCars();
   }, []);
 
-  // File to Base64 (for preview before upload)
+  // File upload
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (!file) return;
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setNewCar({ ...newCar, image: reader.result });
-    };
-    reader.readAsDataURL(file);
+    setNewCar({ ...newCar, imageFile: file });
   };
 
-  // ✅ Add or Update Car in backend
+  // ✅ Add or Update Car
   const handleSaveCar = async (e) => {
     e.preventDefault();
-    if (!newCar.name || !newCar.rent) {
+    if (!newCar.car_name || !newCar.prize) {
       alert("Please fill all required fields!");
       return;
     }
@@ -70,22 +68,28 @@ const CarsAdmin = () => {
       const token = localStorage.getItem("adminToken");
       const headers = {
         Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
+        "Content-Type": "multipart/form-data",
       };
 
+      const formData = new FormData();
+      formData.append("car_name", newCar.car_name);
+      formData.append("prize", newCar.prize);
+      formData.append("fuel_type", newCar.fuel_type);
+      formData.append("seats", newCar.seats);
+      formData.append("transmission", newCar.transmission);
+      if (newCar.imageFile) formData.append("image", newCar.imageFile);
+
       if (editMode) {
-        // Update existing car
         await axios.put(
           `http://192.168.1.46:8000/apis/superadmin/cars/${newCar.id}/`,
-          newCar,
+          formData,
           { headers }
         );
         alert("✅ Car updated!");
       } else {
-        // Create new car
         await axios.post(
           "http://192.168.1.46:8000/apis/superadmin/cars/",
-          newCar,
+          formData,
           { headers }
         );
         alert("✅ Car added!");
@@ -105,18 +109,20 @@ const CarsAdmin = () => {
     }
   };
 
+  // Reset form
   const resetForm = () => {
     setNewCar({
       id: "",
-      name: "",
-      rent: "",
-      fuelType: "Petrol",
+      car_name: "",
+      prize: "",
+      fuel_type: "Petrol",
       seats: "",
       transmission: "Manual",
+      imageFile: null,
       image: "",
     });
-    setShowForm(false);
     setEditMode(false);
+    setShowForm(false);
   };
 
   // ✅ Delete car
@@ -135,8 +141,18 @@ const CarsAdmin = () => {
     }
   };
 
+  // ✅ Edit mode
   const handleEdit = (car) => {
-    setNewCar(car);
+    setNewCar({
+      id: car.id,
+      car_name: car.car_name,
+      prize: car.prize,
+      fuel_type: car.fuel_type,
+      seats: car.seats,
+      transmission: car.transmission,
+      image: car.image,
+      imageFile: null,
+    });
     setEditMode(true);
     setShowForm(true);
   };
@@ -158,21 +174,23 @@ const CarsAdmin = () => {
             <input
               type="text"
               placeholder="Car Name"
-              value={newCar.name}
-              onChange={(e) => setNewCar({ ...newCar, name: e.target.value })}
+              value={newCar.car_name}
+              onChange={(e) =>
+                setNewCar({ ...newCar, car_name: e.target.value })
+              }
               required
             />
             <input
               type="number"
               placeholder="Rent (₹)"
-              value={newCar.rent}
-              onChange={(e) => setNewCar({ ...newCar, rent: e.target.value })}
+              value={newCar.prize}
+              onChange={(e) => setNewCar({ ...newCar, prize: e.target.value })}
               required
             />
             <select
-              value={newCar.fuelType}
+              value={newCar.fuel_type}
               onChange={(e) =>
-                setNewCar({ ...newCar, fuelType: e.target.value })
+                setNewCar({ ...newCar, fuel_type: e.target.value })
               }
             >
               <option>Petrol</option>
@@ -203,9 +221,13 @@ const CarsAdmin = () => {
                 accept="image/*"
                 onChange={handleImageUpload}
               />
-              {newCar.image && (
+              {(newCar.image || newCar.imageFile) && (
                 <img
-                  src={newCar.image}
+                  src={
+                    newCar.imageFile
+                      ? URL.createObjectURL(newCar.imageFile)
+                      : `http://192.168.1.46:8000${newCar.image}`
+                  }
                   alt="preview"
                   className="preview-img"
                 />
@@ -213,9 +235,11 @@ const CarsAdmin = () => {
             </div>
           </div>
 
-          <button type="submit" className="btn btn-save">
-            {editMode ? "Update Car ✅" : "Save Car 💾"}
-          </button>
+          <div className="form-actions">
+            <button type="submit" className="btn btn-save">
+              {editMode ? "Update Car ✅" : "Save Car 💾"}
+            </button>
+          </div>
         </form>
       )}
 
@@ -245,17 +269,17 @@ const CarsAdmin = () => {
                     <td>
                       {car.image ? (
                         <img
-                          src={car.image}
-                          alt={car.name}
+                          src={`http://192.168.1.46:8000${car.image}`}
+                          alt={car.car_name}
                           className="car-img"
                         />
                       ) : (
                         <span>No Image</span>
                       )}
                     </td>
-                    <td>{car.name}</td>
-                    <td>₹{car.rent}</td>
-                    <td>{car.fuelType}</td>
+                    <td>{car.car_name}</td>
+                    <td>₹{car.prize}</td>
+                    <td>{car.fuel_type}</td>
                     <td>{car.seats}</td>
                     <td>{car.transmission}</td>
                     <td className="action-buttons">

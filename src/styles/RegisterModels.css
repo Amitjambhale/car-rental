@@ -1,52 +1,81 @@
 .register-models {
   padding: 40px;
-background: linear-gradient(135deg, #1e1e2f, #2a2a40);
   min-height: 100vh;
+  background: linear-gradient(135deg, #1e1e2f, #2a2a40);
+  font-family: "Poppins", sans-serif;
+  color: #fff;
 }
 
 /* Title Gradient */
 .header {
-  font-size: 2.2rem;
+  font-size: 2.4rem;
   font-weight: 700;
   text-align: center;
-  margin-bottom: 30px;
-  background: linear-gradient(90deg, #f1c40f, #e8ac4d);
+  margin-bottom: 35px;
+  background: linear-gradient(90deg, #ffcc70, #ff7eb3);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  color: transparent;
+  letter-spacing: 1px;
 }
 
-/* Table Styling */
+/* Table Wrapper */
 .table-wrapper {
   overflow-x: auto;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.05); /* glass effect */
+  border-radius: 16px;
+  backdrop-filter: blur(12px);
   padding: 20px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
+/* Table */
 .users-table {
   width: 100%;
   border-collapse: collapse;
   text-align: left;
+  border-radius: 12px;
+  overflow: hidden;
 }
 
-.users-table th,
+/* Header */
+.users-table th {
+  padding: 16px 18px;
+  font-size: 1rem;
+  font-weight: 600;
+  background: linear-gradient(90deg, #dad8d3, #cac4ba);
+  color: #1e1e2f;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Rows */
 .users-table td {
   padding: 14px 18px;
-  border-bottom: 1px solid #ddd;
-  font-size: 1rem;
+  font-size: 0.95rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  color: #e6e6e6;
 }
 
-.users-table th {
-  background: #f8f8f8;
+/* Hover Row Effect */
+.users-table tr:hover td {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  transition: 0.3s ease;
+}
+
+/* Zebra striping */
+.users-table tr:nth-child(even) td {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.users-table td:first-child {
   font-weight: 600;
+  color: #ffcc70;
+  text-align: center;
 }
 
-.users-table tr:hover {
-  background: #fef6e4;
-}
 
 /* Responsive */
 @media (max-width: 768px) {
@@ -57,6 +86,10 @@ background: linear-gradient(135deg, #1e1e2f, #2a2a40);
   .users-table th,
   .users-table td {
     padding: 10px;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
+  }
+
+  .header {
+    font-size: 1.8rem;
   }
 }

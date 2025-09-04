@@ -61,7 +61,7 @@ const RegisterModels = () => {
           <table className="users-table">
             <thead>
               <tr>
-
+                <th>Sr No</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Mobile No</th>
@@ -71,6 +71,7 @@ const RegisterModels = () => {
             <tbody>
               {users.map((u, index) => (
                 <tr key={u.Email || index}>   {/* agar Email unique hai to use karo */}
+                  <td>{index + 1}</td>
                   <td>{u.Name}</td>
                   <td>{u.Email}</td>
                   <td>{u.Mobile_no}</td>
