@@ -1,5 +1,5 @@
 .carousel-wrapper {
-  width: 100%;
+   width: 100%;
   position: relative;
   padding: 0 60px; /* reduce arrow padding */
   background-color: #f9f9f9;
@@ -7,7 +7,7 @@
 }
 
 .swiper {
-  padding: 0;
+  padding-bottom: 45px; /* space for pagination */
 }
 
 .swiper-slide {
@@ -16,9 +16,8 @@
   align-items: stretch;
 }
 
-/* Custom Arrows */
 .custom-arrow {
-  font-size: 0;
+ font-size: 0;
   background-repeat: no-repeat;
   background-size: 16px; /* smaller icons */
   background-position: center;
@@ -36,6 +35,11 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.custom-arrow img {
+  width: 22px;
+  height: 22px;
+}
+
 .custom-arrow:hover {
   transform: translateY(-50%) scale(1.05);
   background-color: #f0f8ff; 
@@ -44,24 +48,15 @@
 }
 
 .custom-arrow.prev {
-  background-image: url("/assets/icons/left-arrow.png");
-  left: 5px; /* closer to edge */
+  left: -20px;
 }
 
 .custom-arrow.next {
-  background-image: url("/assets/icons/right-arrow.png");
-  right: 5px; /* closer to edge */
-}
-
-/* Pagination Dots */
-.swiper-pagination-bullets {
-  text-align: center;
-  margin-top: 30px; /* reduce gap */
-  position: relative;
+  right: -20px;
 }
 
 .swiper-pagination-bullet {
-  background: #ccc;
+   background: #ccc;
   opacity: 1;
   transition: all 0.3s;
 }
@@ -71,16 +66,17 @@
   width: 10px;
   height: 10px;
   border-radius: 50%;
+  transition: all 0.3s ease;
 }
 
-/* View All Button */
+
 .view-all-btn-container {
-  margin-top: 15px;
+   margin-top: 15px;
   text-align: center;
 }
 
 .view-all-btn {
-  background: linear-gradient(90deg, #004e92, #000428);
+   background: linear-gradient(90deg, #004e92, #000428);
   color: white;
   padding: 8px 18px;
   font-weight: 600;
@@ -93,19 +89,31 @@
 
 .view-all-btn:hover {
   opacity: 0.9;
+  transform: scale(1.03);
 }
 
-/* ✅ Mobile Responsive */
+.loading-msg,
+.no-cars-msg {
+  text-align: center;
+  font-size: 18px;
+  color: #666;
+  padding: 20px 0;
+}
+
+/* 📱 Responsive */
 @media (max-width: 768px) {
-  .carousel-wrapper {
-    padding: 0 35px; /* give less padding on small devices */
-  }
   .custom-arrow {
-    width: 27px;   /* even smaller arrows */
-    height: 27px;
-    background-size: 12px;
+    width: 38px;
+    height: 38px;
   }
-  .swiper-pagination-bullets {
-    margin-top: 20px;
+
+  .custom-arrow img {
+    width: 18px;
+    height: 18px;
+  }
+
+  .view-all-btn {
+    font-size: 14px;
+    padding: 10px 20px;
   }
 }

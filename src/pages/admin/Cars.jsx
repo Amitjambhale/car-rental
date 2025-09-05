@@ -188,16 +188,18 @@ const CarsAdmin = () => {
               required
             />
             <select
+              className="styled-select"
               value={newCar.fuel_type}
-              onChange={(e) =>
-                setNewCar({ ...newCar, fuel_type: e.target.value })
-              }
+              onChange={(e) => setNewCar({ ...newCar, fuel_type: e.target.value })}
             >
               <option>Petrol</option>
               <option>Diesel</option>
               <option>CNG</option>
               <option>Electric</option>
+              <option>Petrol + CNG</option>
+              <option>Diesel + CNG</option>
             </select>
+
             <input
               type="number"
               placeholder="Seats"
@@ -221,18 +223,9 @@ const CarsAdmin = () => {
                 accept="image/*"
                 onChange={handleImageUpload}
               />
-              {(newCar.image || newCar.imageFile) && (
-                <img
-                  src={
-                    newCar.imageFile
-                      ? URL.createObjectURL(newCar.imageFile)
-                      : `http://192.168.1.46:8000${newCar.image}`
-                  }
-                  alt="preview"
-                  className="preview-img"
-                />
-              )}
             </div>
+
+
           </div>
 
           <div className="form-actions">

@@ -1,7 +1,7 @@
 /* ===== Wrapper with background image ===== */
 .login-container-wrapper {
   min-height: 100vh;
-  background: url('../assets/login-bg5.jpg') no-repeat center center/cover;
+  background: url('../assets/Userlogin.png') no-repeat center center/cover;
   display: flex;
   justify-content: flex-start;  /* align left */
   align-items: center;

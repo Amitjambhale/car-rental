@@ -8,26 +8,24 @@
   width: 100%;
   max-width: 340px;
   margin: auto;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   transition: box-shadow 0.3s ease, border 0.3s ease;
   border: 1px solid transparent;
   position: relative;
 }
 
-/* Hover effect without moving card */
 .car-card:hover {
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
   border: 1px solid #007bff;
 }
 
 .car-image {
   width: 100%;
   aspect-ratio: 4 / 3;
-  background-color: #f2f2f2;
+  background-color: #f8f9fa;
   display: flex;
   align-items: center;
   justify-content: center;
-  
 }
 
 .car-image img {
@@ -45,42 +43,58 @@
   padding: 16px 14px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 5px;
   flex: 1;
 }
 
-.car-info h3{
-font-size: 17px;
+/* Car name */
+.car-info h3 {
+  font-size: 18px;
   font-weight: 600;
   text-align: center;
   margin: 0;
-  color: #000;
+  color: #000; /* Dark blue */
 }
 
+/* Rent */
 .car-rent {
   font-size: 16px;
   text-align: center;
-  color: #555;
+  font-weight: 400;
+  color: #333; /* Orange highlight */
 }
 
-.car-bottom-row {
+/* Fuel + View Details row */
+.car-top-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
 }
 
+/* Fuel style with icon */
 .car-fuel {
   font-size: 14px;
-  color: #444;
+   color: red;
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
+  font-weight: 500;
 }
 
+.fuel-icon {
+  background: #7fcdd7; 
+   
+  font-size: 21px;      /* Teal icon */
+  padding: 5px;
+  border-radius: 50%;
+  
+}
+
+/* View details */
 .view-link {
   font-size: 14px;
-  color: #007bff;
+  color: #1976d2;
+  font-weight: 500;
   text-decoration: none;
   transition: 0.2s;
 }
@@ -90,12 +104,33 @@ font-size: 17px;
   color: #0056b3;
 }
 
+/* Status badge at bottom */
+.car-status {
+  margin-top: 10px;
+  padding: 6px;
+  border-radius: 6px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.car-status.available {
+  background-color: #e6f9e6;
+  color: #0f9d58;
+  border: 1px solid #0f9d58;
+}
+
+.car-status.booked {
+  background-color: #ffe6e6;
+  color: #d93025;
+  border: 1px solid #d93025;
+}
+
 @media (max-width: 768px) {
   .car-card {
     max-width: 90%;
   }
-
-  .car-bottom-row {
+  .car-top-row {
     flex-direction: column;
     align-items: center;
     gap: 6px;

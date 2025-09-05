@@ -1,3 +1,4 @@
+// src/pages/admin/Bookings.jsx
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../../styles/AdminBookings.css";
@@ -14,7 +15,6 @@ const Bookings = () => {
 
   const fetchBookings = async () => {
     try {
-      // 🔑 Get admin token from localStorage
       const token = localStorage.getItem("adminToken");
       if (!token) {
         setError("⚠️ No admin token found. Please login first.");
@@ -23,7 +23,7 @@ const Bookings = () => {
 
       const res = await axios.get(API_URL, {
         headers: {
-          Authorization: `Bearer ${token}`, // ✅ Send JWT token
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -43,6 +43,7 @@ const Bookings = () => {
 
   const handleEdit = (booking) => {
     console.log("Edit booking:", booking);
+    // 👉 yahan edit functionality add karna hai future me
   };
 
   const handleDelete = async (id) => {
@@ -55,22 +56,22 @@ const Bookings = () => {
 
       await axios.delete(`${API_URL}${id}/`, {
         headers: {
-          Authorization: `Bearer ${token}`, // ✅ Protected delete
+          Authorization: `Bearer ${token}`,
         },
       });
 
+      // Remove deleted booking from state
       setBookings(bookings.filter((b) => b.id !== id));
     } catch (error) {
       console.error("Error deleting booking:", error.response?.data || error.message);
       setError("❌ Failed to delete booking.");
     }
   };
+  console.log("Current bookings:", bookings);
 
   return (
     <div className="bookings-container">
-      <h2 className="title">
-        Admin Bookings ({bookings.length})
-      </h2>
+      <h2 className="title">Admin Bookings ({bookings.length})</h2>
 
       {error && <p className="error">{error}</p>}
 
@@ -94,31 +95,51 @@ const Bookings = () => {
                 <ul>
                   <li>
                     DL:{" "}
-                    <a href={b.documents?.driving_licence} target="_blank" rel="noreferrer">
+                    <a
+                      href={`http://192.168.1.46:8000${b.driving_licence}`}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
                       View
                     </a>
                   </li>
                   <li>
                     Residence Proof:{" "}
-                    <a href={b.documents?.residence_proof} target="_blank" rel="noreferrer">
+                    <a
+                      href={`http://192.168.1.46:8000${b.residence_proof}`}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
                       View
                     </a>
                   </li>
                   <li>
                     PAN:{" "}
-                    <a href={b.documents?.pan_card} target="_blank" rel="noreferrer">
+                    <a
+                      href={`http://192.168.1.46:8000${b.pan_card}`}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
                       View
                     </a>
                   </li>
                   <li>
                     Aadhaar:{" "}
-                    <a href={b.documents?.aadhaar_card} target="_blank" rel="noreferrer">
+                    <a
+                      href={`http://192.168.1.46:8000${b.aadhaar_card}`}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
                       View
                     </a>
                   </li>
                   <li>
                     Payment:{" "}
-                    <a href={b.documents?.payment_screenshot} target="_blank" rel="noreferrer">
+                    <a
+                      href={`http://192.168.1.46:8000${b.payment_screenshot}`}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
                       View
                     </a>
                   </li>

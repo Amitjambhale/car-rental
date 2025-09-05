@@ -4,11 +4,11 @@ import aboutImage from "/assets/about-hero.jpg"; // apna image path
 import { useNavigate } from "react-router-dom";
 
 const AboutUs = () => {
- const navigate = useNavigate();
+    const navigate = useNavigate();
     const handleBookNow = () => {
-    // ✅ Navigate to Home page
-    navigate("/");
-  };
+        // ✅ Navigate to Home page
+        navigate("/");
+    };
     return (
         <div className="about-page">
             {/* Hero Section */}
@@ -32,7 +32,7 @@ const AboutUs = () => {
                 <h2>Who We Are</h2>
                 <p>
                     We are passionate about making your travels smooth, convenient, and
-                    affordable. At <strong>DriveEasy Rentals</strong>, we provide
+                    affordable. At <strong>Malhar car rentals</strong>, we provide
                     top-quality self-drive cars for all your travel needs — from quick
                     city rides to long road trips. Our goal is to give you the freedom to
                     explore, without any compromises.
@@ -46,13 +46,14 @@ const AboutUs = () => {
                     <p>Happy Customers</p>
                 </div>
                 <div className="stat-card">
-                    <h3>200+</h3>
+                    <h3>30+</h3>
                     <p>Cars Available</p>
                 </div>
                 <div className="stat-card">
-                    <h3>50+</h3>
-                    <p>Locations Served</p>
+                    <h3>Pune</h3>
+                    <p>Location Served</p>
                 </div>
+
             </section>
 
             {/* Team Section */}

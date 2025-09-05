@@ -213,6 +213,46 @@
 .view-btn:hover {
   background: #e68a00;
 }
+.carousel-arrows {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+/* custom arrow buttons */
+.custom-arrow {
+  position: absolute;
+  top: 40%;
+  z-index: 10;
+  background: #fff;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  cursor: pointer;
+  border: none;
+  transition: 0.3s;
+}
+
+.custom-arrow img {
+  width: 22px;
+  height: 22px;
+}
+
+.custom-arrow.left {
+  left: -20px; /* thoda bahar left */
+}
+
+.custom-arrow.right {
+  right: -20px; /* thoda bahar right */
+}
+
+.custom-arrow:hover {
+  background: #ff9800;
+}
+
 
 /* ====== Responsive Design ====== */
 @media (max-width: 992px) {

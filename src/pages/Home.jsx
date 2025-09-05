@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+
 import "../styles/Home.css";
 import axios from "axios";
-import cars from "../data/cars";
+import React, { useState, useEffect } from "react";
+
 import { useNavigate } from "react-router-dom";
 
 
@@ -25,7 +26,7 @@ const reviews = [
     comment:
       "Booked a Swift Dzire for a weekend trip to Nashik. The car was clean, well-maintained, and super smooth on the highway. Pickup and drop were hassle-free.",
     image: "/assets/users/amit.jpg",
-     rating: 4,
+    rating: 4,
   },
   {
     name: "Vaibhav Sagar",
@@ -69,13 +70,27 @@ const reviews = [
   },
 ];
 
-                    
+
 
 const Home = () => {
   const navigate = useNavigate();
 
   const [expandedReviewIndex, setExpandedReviewIndex] = useState(null);
+  const [cars, setCars] = useState([]);   // ✅ removed duplicate import conflict
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    fetch("http://192.168.1.46:8000/api/cars/")
+      .then((res) => res.json())
+      .then((data) => {
+        setCars(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Error fetching cars:", err);
+        setLoading(false);
+      });
+  }, []);
 
   // Contact form state
   const [contactForm, setContactForm] = useState({
@@ -95,6 +110,7 @@ const Home = () => {
     setContactForm({ name: "", email: "", message: "" });
   };
 
+  // Booking form
   const [formData, setFormData] = useState({
     bookingType: "",
     pickupDate: "",
@@ -107,7 +123,6 @@ const Home = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // helper: convert YYYY-MM-DD → DD-MM-YYYY
   const formatDate = (dateStr) => {
     const [year, month, day] = dateStr.split("-");
     return `${day}-${month}-${year}`;
@@ -117,13 +132,11 @@ const Home = () => {
     e.preventDefault();
 
     const payload = {
-      pick_up_date: formatDate(formData.pickupDate),   // ✅ correct key + format
+      pick_up_date: formatDate(formData.pickupDate),
       pick_time: formData.pickupTime,
       drop_off_date: formatDate(formData.dropDate),
       drop_time: formData.dropTime,
     };
-
-    console.log("🔍 Sending payload:", payload);
 
     try {
       const response = await axios.post(
@@ -131,7 +144,6 @@ const Home = () => {
         payload
       );
 
-      console.log("✅ API response:", response.data);
       navigate("/available-cars", {
         state: { availableCars: response.data, formData },
       });
@@ -265,10 +277,11 @@ const Home = () => {
 
 
       {/* Car Carousel */}
-      <section className="cars section-spacing-bottom">
+       <section className="cars section-spacing-bottom">
         <h2 className="section-heading">Find Your Perfect Self Drive Car</h2>
-        <CarCarousel cars={cars} />
+        {loading ? <p>Loading cars...</p> : <CarCarousel cars={cars} loading={loading} />}
       </section>
+
 
       {/* Benefits Section */}
       <section className="benefits-section">
@@ -355,9 +368,22 @@ const Home = () => {
               placeholder="Your Name"
               required
             />
-
-            <input type="email" name="email" placeholder="Your Email" required />
-            <textarea name="message" placeholder="Your Message" rows="4" required />
+            <input
+              type="email"
+              name="email"
+              value={contactForm.email}
+              onChange={handleContactChange}
+              placeholder="Your Email"
+              required
+            />
+            <textarea
+              name="message"
+              value={contactForm.message}
+              onChange={handleContactChange}
+              placeholder="Your Message"
+              rows="4"
+              required
+            />
             <button type="submit">Send Message</button>
           </form>
         </div>

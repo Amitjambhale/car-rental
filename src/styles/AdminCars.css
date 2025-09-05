@@ -1,4 +1,4 @@
-/* Background same as Home */
+/* Admin Dashboard */
 .admin-dashboard {
   min-height: 100vh;
   padding: 30px 20px;
@@ -23,23 +23,19 @@
   text-align: center;
   margin-bottom: 30px;
   background: linear-gradient(90deg, #f1c40f, #f39c12);
-
-  /* ✅ Gradient text fix with compatibility */
-  background-clip: text;                /* Standard */
-  -webkit-background-clip: text;        /* Safari, old Chrome */
-  
-  color: transparent;                   /* Standard */
-  -webkit-text-fill-color: transparent; /* Safari fix */
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
 }
-
 
 /* Buttons */
 .action-buttons {
   display: flex;
-  flex-direction: row;  /* 👈 Buttons vertical aayenge */
-  gap: 8px;                /* Buttons ke beech thoda gap */
-  align-items: center;  
-  justify-content: center;   /* Center align karne ke liye */
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
 }
 
 .action-buttons .btn {
@@ -69,7 +65,6 @@
   background-color: #c0392b;
 }
 
-
 /* Form */
 .add-car-form {
   background: rgba(255, 255, 255, 0.08);
@@ -78,32 +73,44 @@
   margin-bottom: 30px;
   backdrop-filter: blur(12px);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-   width: 100%;
-  max-width: 100%;  /* 👈 overflow na ho */
+  width: 100%;
+  max-width: 100%;
   box-sizing: border-box;
 }
 
+.form-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.form-grid > * {
+  flex: 1;
+  min-width: 180px;
+}
+
+/* Inputs & Select */
+.add-car-form input,
+.add-car-form select {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+/* Styled Dropdown with PNG */
 .add-car-form select {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-
-  background-color: rgba(255, 255, 255, 0.12);
-
-  /* 👇 arrow */
-  background-image: url("data:image/svg+xml;base64,PHN2ZyBmaWxsPSJ3aGl0ZSIgaGVpZ2h0PSIyNCIgd2lkdGg9IjI0IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Ik03IDEwbDUgNSA1LTV6Ii8+PC9zdmc+");
-  background-repeat: no-repeat;
-  background-position: right 12px center;
-  background-size: 18px;
-
-  padding: 12px;
-  padding-right: 40px; /* arrow ke liye space */
-  border-radius: 8px;
-  border: none;
-  outline: none;
-  color: #fff;
+  background: rgba(255, 255, 255, 0.12) url("/assets/dropdown1.png") no-repeat right 12px center;
+  background-size: 14px;
+  padding-right: 40px;
   cursor: pointer;
-  font-size: 14px;
 }
 
 .add-car-form select option {
@@ -111,51 +118,45 @@
   color: #fff;
 }
 
-
-
-.form-grid {
- display: flex;
-  flex-wrap: wrap;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 15px;
-    grid-template-columns: 1fr; 
-}
-
-.form-grid > * {
-  flex: 1; /* sab fields equal width */
-  min-width: 180px; /* chhote screen pe break ho */
-}
-
-.add-car-form input,
-.add-car-form select {
-  padding: 12px;
-  border-radius: 8px;
-  border: none;
+/* Focus */
+.add-car-form input:focus,
+.add-car-form select:focus {
+  border-color: #4a00e0;
+  box-shadow: 0 0 5px rgba(74, 0, 224, 0.3);
   outline: none;
-  background: rgba(255, 255, 255, 0.12);
-  color: #fff;
-  
 }
-
-
-
 
 .add-car-form input::placeholder {
   color: rgba(255, 255, 255, 0.7);
 }
 
-.upload-box {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+/* Upload Box */
+.upload-box input[type="file"] {
+  padding: 8px;
+ /* Short form */
+border: 2px solid #888;
+
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
 }
 
-.preview-img {
-  width: 100px;
-  height: auto;
-  border-radius: 8px;
-  border: 2px solid #fff;
+.upload-box input[type="file"]::-webkit-file-upload-button {
+  background: #ff8c00;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
 }
+
+.upload-box input[type="file"]::-webkit-file-upload-button:hover {
+  background: #e67600;
+}
+
 
 /* Table */
 .table-container {
@@ -203,11 +204,12 @@
   margin-top: 20px;
   opacity: 0.8;
 }
+
 /* Save button row */
 .form-actions {
   margin-top: 15px;
   display: flex;
-  justify-content: flex-start; /* left aligned */
+  justify-content: flex-start;
 }
 
 .btn-save {
@@ -226,16 +228,11 @@
   background: #0056b3;
 }
 
-
 /* Responsive */
 @media (max-width: 768px) {
   .admin-header {
     flex-direction: column;
     align-items: flex-start;
-  }
-
-   .form-grid {
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   }
 
   .car-table th,
@@ -255,10 +252,6 @@
 }
 
 @media (max-width: 480px) {
-  .form-grid {
-    grid-template-columns: 1fr;
-  }
-
   .car-img {
     width: 60px;
   }
