@@ -1,17 +1,42 @@
-// src/pages/admin/Bookings.jsx
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import "../../styles/AdminBookings.css";
 
 const API_URL = "http://192.168.1.46:8000/apis/superadmin/bookings/";
+const CAR_API_URL = "http://192.168.1.46:8000/api/cars/";
 
 const Bookings = () => {
+  const navigate = useNavigate();
   const [bookings, setBookings] = useState([]);
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    fetchBookings();
-  }, []);
+  const refreshToken = async () => {
+    try {
+      const refreshToken = localStorage.getItem("adminRefreshToken");
+      if (!refreshToken) {
+        throw new Error("No refresh token available");
+      }
+
+      const res = await axios.post("http://192.168.1.46:8000/api/refresh/", {
+        refresh: refreshToken,
+      });
+
+      if (res.status === 200) {
+        localStorage.setItem("adminToken", res.data.access);
+        window.dispatchEvent(new Event("storageChange"));
+        return res.data.access;
+      } else {
+        throw new Error("Failed to refresh token");
+      }
+    } catch (err) {
+      console.error("Token refresh error:", err.response?.data || err.message);
+      localStorage.removeItem("adminToken");
+      localStorage.removeItem("adminRefreshToken");
+      navigate("/admin/login");
+      return null;
+    }
+  };
 
   const fetchBookings = async () => {
     try {
@@ -27,12 +52,59 @@ const Bookings = () => {
         },
       });
 
-      setBookings(res.data);
+      // Fetch car details for each booking
+      const bookingsWithCarNames = await Promise.all(
+        res.data.map(async (booking) => {
+          try {
+            const carRes = await axios.get(`${CAR_API_URL}${booking.car}/`, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            });
+            return { ...booking, car_name: carRes.data.car_name };
+          } catch (carError) {
+            console.error(`Error fetching car ${booking.car}:`, carError);
+            return { ...booking, car_name: "Unknown Car" }; // Fallback
+          }
+        })
+      );
+
+      setBookings(bookingsWithCarNames);
     } catch (error) {
       console.error("Error fetching bookings:", error.response?.data || error.message);
-
       if (error.response?.status === 401) {
-        setError("⚠️ Session expired. Please login again.");
+        const newToken = await refreshToken();
+        if (newToken) {
+          try {
+            const res = await axios.get(API_URL, {
+              headers: {
+                Authorization: `Bearer ${newToken}`,
+              },
+            });
+
+            const bookingsWithCarNames = await Promise.all(
+              res.data.map(async (booking) => {
+                try {
+                  const carRes = await axios.get(`${CAR_API_URL}${booking.car}/`, {
+                    headers: {
+                      Authorization: `Bearer ${newToken}`,
+                    },
+                  });
+                  return { ...booking, car_name: carRes.data.car_name };
+                } catch (carError) {
+                  console.error(`Error fetching car ${booking.car}:`, carError);
+                  return { ...booking, car_name: "Unknown Car" };
+                }
+              })
+            );
+
+            setBookings(bookingsWithCarNames);
+          } catch (retryError) {
+            setError("⚠️ Session expired. Please login again.");
+          }
+        } else {
+          setError("⚠️ Session expired. Please login again.");
+        }
       } else if (error.response?.status === 403) {
         setError("🚫 You are not authorized to view bookings.");
       } else {
@@ -43,7 +115,7 @@ const Bookings = () => {
 
   const handleEdit = (booking) => {
     console.log("Edit booking:", booking);
-    // 👉 yahan edit functionality add karna hai future me
+    // TODO: Implement edit functionality
   };
 
   const handleDelete = async (id) => {
@@ -60,14 +132,34 @@ const Bookings = () => {
         },
       });
 
-      // Remove deleted booking from state
       setBookings(bookings.filter((b) => b.id !== id));
     } catch (error) {
       console.error("Error deleting booking:", error.response?.data || error.message);
-      setError("❌ Failed to delete booking.");
+      if (error.response?.status === 401) {
+        const newToken = await refreshToken();
+        if (newToken) {
+          try {
+            await axios.delete(`${API_URL}${id}/`, {
+              headers: {
+                Authorization: `Bearer ${newToken}`,
+              },
+            });
+            setBookings(bookings.filter((b) => b.id !== id));
+          } catch (retryError) {
+            setError("❌ Failed to delete booking. Session expired.");
+          }
+        } else {
+          setError("⚠️ Session expired. Please login again.");
+        }
+      } else {
+        setError("❌ Failed to delete booking.");
+      }
     }
   };
-  console.log("Current bookings:", bookings);
+
+  useEffect(() => {
+    fetchBookings();
+  }, []);
 
   return (
     <div className="bookings-container">
@@ -82,7 +174,7 @@ const Bookings = () => {
               <div className="booking-header">
                 <h3>Booking ID: {b.id}</h3>
                 <p><strong>User:</strong> {b.user}</p>
-                <p><strong>Car:</strong> {b.car}</p>
+                <p><strong>Car:</strong> {b.car_name} (ID: {b.car})</p>
               </div>
 
               <div className="booking-dates">

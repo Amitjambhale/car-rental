@@ -1,18 +1,18 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import axiosInstance from "../../src/utils/axiosInstance"; // ✅ Use our interceptor axios
+import { Link, useParams } from "react-router-dom";
+import axiosInstance from "../../src/utils/axiosInstance";
 import "../styles/Booking.css";
 
 function Booking() {
+  const { id } = useParams();
   const [bookingSuccess, setBookingSuccess] = useState(false);
   const [message, setMessage] = useState("");
 
   const [formData, setFormData] = useState({
-    car_id: "",
-    pick_up_date: "",
-    pick_time: "",
-    drop_off_date: "",
-    drop_time: "",
+    pickup_date: "",
+    pickup_time: "",
+    dropoff_date: "",
+    dropoff_time: "",
     driving_licence: null,
     residence_proof: null,
     pan_card: null,
@@ -20,7 +20,6 @@ function Booking() {
     aadhaar_card: null,
   });
 
-  // ✅ handle form field changes
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     setFormData((prev) => ({
@@ -29,21 +28,37 @@ function Booking() {
     }));
   };
 
-  // ✅ submit handler
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
+      const formatDate = (dateStr) => {
+        if (!dateStr) return "";
+        const [yyyy, mm, dd] = dateStr.split("-");
+        return `${dd}-${mm}-${yyyy}`;
+      };
+
+      const formatTime = (timeStr) => {
+        if (!timeStr) return "";
+        return timeStr.slice(0, 5);
+      };
+
       const data = new FormData();
-      Object.keys(formData).forEach((key) => {
-        if (formData[key] !== null && formData[key] !== "") {
-          data.append(key, formData[key]);
-        }
+      data.append("pickup_date", formatDate(formData.pickup_date));
+      data.append("pickup_time", formatTime(formData.pickup_time));
+      data.append("dropoff_date", formatDate(formData.dropoff_date));
+      data.append("dropoff_time", formatTime(formData.dropoff_time));
+
+      ["driving_licence", "residence_proof", "pan_card", "payment_screenshot", "aadhaar_card"].forEach((key) => {
+        if (formData[key]) data.append(key, formData[key]);
       });
 
-      const res = await axiosInstance.post("bookcar/", data, {
+      const token = localStorage.getItem("authToken");
+
+      const res = await axiosInstance.post(`/cars/${id}/book/`, data, {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -54,115 +69,84 @@ function Booking() {
     } catch (err) {
       console.error("Booking error:", err.response?.data || err.message);
       setMessage(
-        err.response?.data?.message || "Booking failed. Please check your details."
+        err.response?.data?.error ||
+          err.response?.data?.message ||
+          "Booking failed. Please check your details."
       );
     }
   };
 
   return (
-    <div className="booking-container">
+    <div className="booking-page-container">
+      <div className="booking-wrapper">
+        <h2 className="booking-heading">Book Your Car</h2>
+      </div>
       {bookingSuccess ? (
-        <div className="thankyou-box">
+        <div className="booking-thankyou-box">
           <h2>🎉 Booking Confirmed!</h2>
           <p>You’ll receive a WhatsApp confirmation shortly.</p>
-          <Link to="/" className="btn">
+          <Link to="/" className="booking-btn">
             🏠 Go to Home
           </Link>
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className="booking-form">
-          {message && <p className="form-message">{message}</p>}
+        <form onSubmit={handleSubmit} className="booking-form-wrapper">
+          {message && <p className="booking-form-message">{message}</p>}
 
-          <input
-            type="text"
-            name="car_id"
-            placeholder="Car ID"
-            value={formData.car_id}
-            onChange={handleChange}
-            required
-          />
-
-          <div className="form-row">
+          {/* Pickup Date & Time */}
+          <div className="booking-form-row">
             <input
               type="date"
-              name="pick_up_date"
-              value={formData.pick_up_date}
+              name="pickup_date"
+              value={formData.pickup_date}
               onChange={handleChange}
               required
             />
             <input
               type="time"
-              name="pick_time"
-              value={formData.pick_time}
+              name="pickup_time"
+              value={formData.pickup_time}
               onChange={handleChange}
               required
             />
           </div>
 
-          <div className="form-row">
+          {/* Dropoff Date & Time */}
+          <div className="booking-form-row">
             <input
               type="date"
-              name="drop_off_date"
-              value={formData.drop_off_date}
+              name="dropoff_date"
+              value={formData.dropoff_date}
               onChange={handleChange}
               required
             />
             <input
               type="time"
-              name="drop_time"
-              value={formData.drop_time}
+              name="dropoff_time"
+              value={formData.dropoff_time}
               onChange={handleChange}
               required
             />
           </div>
 
-          <label>Driving Licence:</label>
-          <input
-            type="file"
-            name="driving_licence"
-            accept="image/*"
-            onChange={handleChange}
-            required
-          />
+          {/* File Uploads */}
+          <label className="booking-label">Driving Licence:</label>
+          <input type="file" name="driving_licence" accept="image/*" onChange={handleChange} required />
 
-          <label>Residence Proof:</label>
-          <input
-            type="file"
-            name="residence_proof"
-            accept="image/*"
-            onChange={handleChange}
-            required
-          />
+          <label className="booking-label">Residence Proof:</label>
+          <input type="file" name="residence_proof" accept="image/*" onChange={handleChange} required />
 
-          <label>PAN Card:</label>
-          <input
-            type="file"
-            name="pan_card"
-            accept="image/*"
-            onChange={handleChange}
-            required
-          />
+          <label className="booking-label">PAN Card:</label>
+          <input type="file" name="pan_card" accept="image/*" onChange={handleChange} required />
 
-          <label>Payment Screenshot:</label>
-          <input
-            type="file"
-            name="payment_screenshot"
-            accept="image/*"
-            onChange={handleChange}
-            required
-          />
+          <label className="booking-label">Payment Screenshot:</label>
+          <input type="file" name="payment_screenshot" accept="image/*" onChange={handleChange} required />
 
-          <label>Aadhaar Card:</label>
-          <input
-            type="file"
-            name="aadhaar_card"
-            accept="image/*"
-            onChange={handleChange}
-            required
-          />
+          <label className="booking-label">Aadhaar Card:</label>
+          <input type="file" name="aadhaar_card" accept="image/*" onChange={handleChange} required />
 
-          <button type="submit" className="btn">
-            🚗 Book Now
+          <button type="submit" className="booking-submit-btn">
+            Book Now →
           </button>
         </form>
       )}

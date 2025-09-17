@@ -16,38 +16,42 @@ const CarsAdmin = () => {
     fuel_type: "Petrol",
     seats: "",
     transmission: "Manual",
+    is_booked: false,
+    available_from_date: "",
+    available_from_time: "",
     imageFile: null,
     image: "",
   });
 
   // ✅ Load cars from backend
   useEffect(() => {
-    const fetchCars = async () => {
-      try {
-        const token = localStorage.getItem("adminToken");
-        if (!token) {
-          alert("⚠️ Admin not logged in!");
-          return;
-        }
-
-        const res = await axios.get(
-          "http://192.168.1.46:8000/apis/superadmin/cars/",
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-
-        setCars(res.data); // 👈 backend returns list of cars
-      } catch (err) {
-        console.error("❌ Error fetching cars:", err.response?.data || err);
-        alert("Failed to load cars.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchCars();
   }, []);
+
+  const fetchCars = async () => {
+    try {
+      const token = localStorage.getItem("adminToken");
+      if (!token) {
+        alert("⚠️ Admin not logged in!");
+        return;
+      }
+
+      const res = await axios.get(
+        "http://192.168.1.46:8000/apis/superadmin/cars/",
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      setCars(Array.isArray(res.data) ? res.data : []);
+    } catch (err) {
+      console.error("❌ Error fetching cars:", err.response?.data || err);
+      setCars([]); // prevent crash on error
+      if (err.response?.status === 401) {
+        alert("⚠️ Unauthorized! Please log in again.");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // File upload
   const handleImageUpload = (e) => {
@@ -59,8 +63,8 @@ const CarsAdmin = () => {
   // ✅ Add or Update Car
   const handleSaveCar = async (e) => {
     e.preventDefault();
-    if (!newCar.car_name || !newCar.prize) {
-      alert("Please fill all required fields!");
+    if (!newCar.car_name || !newCar.prize || !newCar.seats) {
+      alert("Please fill all required fields (Name, Rent, Seats)!");
       return;
     }
 
@@ -73,10 +77,13 @@ const CarsAdmin = () => {
 
       const formData = new FormData();
       formData.append("car_name", newCar.car_name);
-      formData.append("prize", newCar.prize);
+      formData.append("prize", parseInt(newCar.prize, 10));
       formData.append("fuel_type", newCar.fuel_type);
-      formData.append("seats", newCar.seats);
+      formData.append("seats", parseInt(newCar.seats, 10));
       formData.append("transmission", newCar.transmission);
+      formData.append("is_booked", newCar.is_booked);
+      formData.append("available_from_date", newCar.available_from_date);
+      formData.append("available_from_time", newCar.available_from_time);
       if (newCar.imageFile) formData.append("image", newCar.imageFile);
 
       if (editMode) {
@@ -95,17 +102,15 @@ const CarsAdmin = () => {
         alert("✅ Car added!");
       }
 
-      // Refresh list
-      const res = await axios.get(
-        "http://192.168.1.46:8000/apis/superadmin/cars/",
-        { headers }
-      );
-      setCars(res.data);
-
+      await fetchCars(); // refresh list
       resetForm();
     } catch (err) {
       console.error("❌ Save car error:", err.response?.data || err);
-      alert("Failed to save car.");
+      if (err.response?.status === 401) {
+        alert("⚠️ Unauthorized! Please log in again.");
+      } else {
+        alert("Failed to save car.");
+      }
     }
   };
 
@@ -118,6 +123,9 @@ const CarsAdmin = () => {
       fuel_type: "Petrol",
       seats: "",
       transmission: "Manual",
+      is_booked: false,
+      available_from_date: "",
+      available_from_time: "",
       imageFile: null,
       image: "",
     });
@@ -137,7 +145,11 @@ const CarsAdmin = () => {
       setCars(cars.filter((c) => c.id !== id));
     } catch (err) {
       console.error("❌ Delete error:", err.response?.data || err);
-      alert("Failed to delete car.");
+      if (err.response?.status === 401) {
+        alert("⚠️ Unauthorized! Please log in again.");
+      } else {
+        alert("Failed to delete car.");
+      }
     }
   };
 
@@ -150,6 +162,9 @@ const CarsAdmin = () => {
       fuel_type: car.fuel_type,
       seats: car.seats,
       transmission: car.transmission,
+      is_booked: car.is_booked,
+      available_from_date: car.available_from_date || "",
+      available_from_time: car.available_from_time || "",
       image: car.image,
       imageFile: null,
     });
@@ -180,17 +195,31 @@ const CarsAdmin = () => {
               }
               required
             />
+
             <input
               type="number"
               placeholder="Rent (₹)"
               value={newCar.prize}
               onChange={(e) => setNewCar({ ...newCar, prize: e.target.value })}
               required
+              min="100"
             />
+
+            <input
+              type="number"
+              placeholder="Seats"
+              value={newCar.seats}
+              onChange={(e) => setNewCar({ ...newCar, seats: e.target.value })}
+              required
+              min="1"
+            />
+
             <select
               className="styled-select"
               value={newCar.fuel_type}
-              onChange={(e) => setNewCar({ ...newCar, fuel_type: e.target.value })}
+              onChange={(e) =>
+                setNewCar({ ...newCar, fuel_type: e.target.value })
+              }
             >
               <option>Petrol</option>
               <option>Diesel</option>
@@ -200,12 +229,6 @@ const CarsAdmin = () => {
               <option>Diesel + CNG</option>
             </select>
 
-            <input
-              type="number"
-              placeholder="Seats"
-              value={newCar.seats}
-              onChange={(e) => setNewCar({ ...newCar, seats: e.target.value })}
-            />
             <select
               value={newCar.transmission}
               onChange={(e) =>
@@ -216,16 +239,38 @@ const CarsAdmin = () => {
               <option>Automatic</option>
             </select>
 
+            {/* ✅ Booked */}
+            <label className="checkbox-label">
+              <input
+                type="checkbox"
+                checked={newCar.is_booked}
+                onChange={(e) =>
+                  setNewCar({ ...newCar, is_booked: e.target.checked })
+                }
+              />
+              Is booked
+            </label>
+
+            {/* ✅ Available From */}
+            <input
+              type="date"
+              value={newCar.available_from_date}
+              onChange={(e) =>
+                setNewCar({ ...newCar, available_from_date: e.target.value })
+              }
+            />
+            <input
+              type="time"
+              value={newCar.available_from_time}
+              onChange={(e) =>
+                setNewCar({ ...newCar, available_from_time: e.target.value })
+              }
+            />
+
             {/* Image Upload */}
             <div className="upload-box">
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageUpload}
-              />
+              <input type="file" accept="image/*" onChange={handleImageUpload} />
             </div>
-
-
           </div>
 
           <div className="form-actions">
@@ -253,6 +298,8 @@ const CarsAdmin = () => {
                   <th>Fuel</th>
                   <th>Seats</th>
                   <th>Transmission</th>
+                  <th>Booked</th>
+                  <th>Available From</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -275,6 +322,10 @@ const CarsAdmin = () => {
                     <td>{car.fuel_type}</td>
                     <td>{car.seats}</td>
                     <td>{car.transmission}</td>
+                    <td>{car.is_booked ? "Yes" : "No"}</td>
+                    <td>
+                      {car.available_from_date} {car.available_from_time}
+                    </td>
                     <td className="action-buttons">
                       <button
                         className="btn btn-edit"

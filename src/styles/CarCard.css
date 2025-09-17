@@ -1,139 +1,237 @@
+/* CarCard.css */
 .car-card {
-  background-color: #fff;
-  border-radius: 12px;
+  background: linear-gradient(145deg, #ffffff, #f8f9fa);
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.05);
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  width: 100%;
-  max-width: 340px;
-  margin: auto;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition: box-shadow 0.3s ease, border 0.3s ease;
-  border: 1px solid transparent;
+  transition: transform 0.4s ease, box-shadow 0.4s ease, background 0.3s ease;
   position: relative;
+  max-width: 360px;
+  margin: 0 auto;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .car-card:hover {
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-  border: 1px solid #007bff;
+  transform: translateY(-8px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(145deg, #ffffff, #e6e9ec);
 }
 
+/* Status Tag with Glassmorphism */
+.status-tag {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  z-index: 10;
+  transition: transform 0.3s ease;
+}
+
+.status-tag.booked {
+  background: rgba(255, 77, 79, 0.8);
+  color: #fff;
+}
+
+.status-tag.available {
+  background: rgba(82, 196, 26, 0.8);
+  color: #fff;
+}
+
+.status-tag:hover {
+  transform: scale(1.05);
+}
+
+/* Car Image with Subtle Overlay */
 .car-image {
   width: 100%;
-  aspect-ratio: 4 / 3;
-  background-color: #f8f9fa;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  height: 220px;
+  position: relative;
+  overflow: hidden;
+}
+
+.car-image::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), transparent);
+  z-index: 1;
 }
 
 .car-image img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  transition: transform 0.3s ease;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
 }
 
 .car-card:hover .car-image img {
-  transform: scale(1.04);
+  transform: scale(1.05);
 }
 
+/* Car Info */
 .car-info {
-  padding: 16px 14px;
+  padding: 24px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.02), transparent);
+}
+
+.car-names {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 10px;
+  font-family: 'Inter', sans-serif;
+}
+
+.car-price {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #d4a017;
+  margin-bottom: 14px;
+}
+
+/* Car Features */
+.car-features {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.car-features span {
   display: flex;
-  flex-direction: column;
-  gap: 5px;
+  align-items: center;
+  font-size: 0.95rem;
+  color: #4a4a4a;
+  font-weight: 500;
+}
+
+.car-features svg {
+  margin-right: 8px;
+  color: #d4a017;
+  font-size: 1.1rem;
+}
+
+/* Availability Info */
+.available-from {
+  font-size: 0.95rem;
+  color: #4a4a4a;
+  margin-bottom: 20px;
+  font-style: italic;
+}
+
+/* Car Actions */
+.car-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.details-btns,
+.books-btns {
   flex: 1;
-}
-
-/* Car name */
-.car-info h3 {
-  font-size: 18px;
+  text-align: center;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 1rem;
   font-weight: 600;
-  text-align: center;
-  margin: 0;
-  color: #000; /* Dark blue */
-}
-
-/* Rent */
-.car-rent {
-  font-size: 16px;
-  text-align: center;
-  font-weight: 400;
-  color: #333; /* Orange highlight */
-}
-
-/* Fuel + View Details row */
-.car-top-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-/* Fuel style with icon */
-.car-fuel {
-  font-size: 14px;
-   color: red;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-weight: 500;
-}
-
-.fuel-icon {
-  background: #7fcdd7; 
-   
-  font-size: 21px;      /* Teal icon */
-  padding: 5px;
-  border-radius: 50%;
-  
-}
-
-/* View details */
-.view-link {
-  font-size: 14px;
-  color: #1976d2;
-  font-weight: 500;
   text-decoration: none;
-  transition: 0.2s;
+  transition: all 0.3s ease;
+  font-family: 'Inter', sans-serif;
 }
 
-.view-link:hover {
-  text-decoration: underline;
-  color: #0056b3;
+.details-btns {
+  background: linear-gradient(90deg, #f0f0f0, #e0e0e0);
+  color: #1a1a1a;
+  border: 1px solid #d4a017;
 }
 
-/* Status badge at bottom */
-.car-status {
-  margin-top: 10px;
-  padding: 6px;
-  border-radius: 6px;
-  text-align: center;
-  font-weight: 600;
-  font-size: 14px;
+.details-btns:hover {
+  background: linear-gradient(90deg, #e0e0e0, #d0d0d0);
+  transform: translateY(-2px);
 }
 
-.car-status.available {
-  background-color: #e6f9e6;
-  color: #0f9d58;
-  border: 1px solid #0f9d58;
+.books-btns {
+  background: linear-gradient(90deg, #d4a017, #b88c14);
+  color: #fff;
+  border: none;
 }
 
-.car-status.booked {
-  background-color: #ffe6e6;
-  color: #d93025;
-  border: 1px solid #d93025;
+.books-btns:hover {
+  background: linear-gradient(90deg, #e0b022, #c49a1a);
+  transform: translateY(-2px);
 }
 
+/* Responsive Design */
 @media (max-width: 768px) {
   .car-card {
-    max-width: 90%;
+    max-width: 100%;
   }
-  .car-top-row {
+
+  .car-image {
+    height: 200px;
+  }
+
+  .car-names {
+    font-size: 1.4rem;
+  }
+
+  .car-price {
+    font-size: 1.2rem;
+  }
+
+  .car-features {
+    gap: 10px;
+  }
+
+  .car-features span {
+    font-size: 0.9rem;
+  }
+
+  .details-btns,
+  .books-btns {
+    padding: 10px;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .car-image {
+    height: 180px;
+  }
+
+  .car-info {
+    padding: 18px;
+  }
+
+  .car-names {
+    font-size: 1.3rem;
+  }
+
+  .car-price {
+    font-size: 1.1rem;
+  }
+
+  .car-features {
+    grid-template-columns: 1fr;
+  }
+
+  .car-actions {
     flex-direction: column;
-    align-items: center;
-    gap: 6px;
-    margin-top: 8px;
+    gap: 10px;
+  }
+
+  .details-btns,
+  .books-btns {
+    padding: 10px;
   }
 }

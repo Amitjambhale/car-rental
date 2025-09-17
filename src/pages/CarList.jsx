@@ -17,8 +17,22 @@ const CarList = () => {
   const fetchCars = async () => {
     try {
       const res = await axios.get(API_URL);
-      console.log("🚗 Cars data:", res.data);
-      setCars(res.data);
+      console.log("🚗 Raw Cars data:", res.data);
+
+      // ✅ Normalize backend data
+      const formatted = res.data.map((car) => ({
+        id: car.id,
+        name: car.car_name,
+        fuelType: car.fuel_type,
+        rent: parseFloat(car.prize),
+        // 👉 सही URL बनाना (base URL + relative path)
+        image: `http://192.168.1.46:8000${car.image}`,
+        isBooked: car.is_booked,
+        availableFrom: car.available_from,
+      }));
+
+      console.log("✅ Formatted Cars:", formatted);
+      setCars(formatted);
     } catch (err) {
       console.error("❌ Error fetching cars:", err.response?.data || err.message);
       setError("Failed to load cars. Please try again later.");
@@ -31,7 +45,7 @@ const CarList = () => {
         <h2 className="section-heading">Cars Collection</h2>
       </div>
 
-      {/* {error && <p className="error">{error}</p>} */}
+      {error && <p className="error">{error}</p>}
 
       <div className="car-grid">
         {cars.length > 0 ? (

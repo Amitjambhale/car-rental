@@ -11,7 +11,6 @@ import CarDetails from "./pages/CarDetails.jsx";
 import AvailableCars from "./pages/AvailableCars.jsx";
 import AboutUs from "./pages/AboutUs.jsx";
 
-
 // User Navbar
 import Navbar from "./components/Navbar";
 
@@ -37,7 +36,7 @@ function App() {
 
   return (
     <>
-      {/* ✅ Show Navbar for users only (not login/register) */}
+      {/* ✅ Show Navbar for users only (not login/register or admin) */}
       {!isUserLogin && !isUserRegister && !location.pathname.startsWith("/admin") && (
         <Navbar />
       )}
@@ -52,14 +51,13 @@ function App() {
         <Route path="/cars/:id" element={<CarDetails />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/booking" element={<Booking />} />
+        <Route path="/booking/:id" element={<Booking />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/available-cars" element={<AvailableCars />} />
         <Route path="/about" element={<AboutUs />} />
 
         {/* ===== Admin Routes ===== */}
         <Route path="/admin/login" element={<AdminLogin />} />
-
         <Route
           path="/admin"
           element={
@@ -75,7 +73,7 @@ function App() {
         </Route>
 
         {/* 404 fallback */}
-        <Route path="*" element={<h2 style={{ textAlign: "center"  }}>Page Not Found</h2>} />
+        <Route path="*" element={<h2 style={{ textAlign: "center" }}>Page Not Found</h2>} />
       </Routes>
     </>
   );

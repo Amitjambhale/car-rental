@@ -1,110 +1,230 @@
+/* CarCarousel.css */
 .carousel-wrapper {
-   width: 100%;
   position: relative;
-  padding: 0 60px; /* reduce arrow padding */
-  background-color: #f9f9f9;
-  box-sizing: border-box;
+  padding: 30px 0;
+  max-width: 1280px;
+  margin: 0 auto;
+  background: linear-gradient(to bottom, #F8F9FA, #FFFFFF);
 }
 
-.swiper {
-  padding-bottom: 45px; /* space for pagination */
-}
-
-.swiper-slide {
-  display: flex;
-  justify-content: center;
-  align-items: stretch;
-}
-
+/* Custom Arrows with Premium Look */
 .custom-arrow {
- font-size: 0;
-  background-repeat: no-repeat;
-  background-size: 16px; /* smaller icons */
-  background-position: center;
   position: absolute;
-  top: 40%;
+  top: 45%;
   transform: translateY(-50%);
-  width: 39px; /* smaller button size */
-  height: 39px;
+  background: linear-gradient(145deg, #FFFFFF, #E6E9EC);
+  border: 1px solid rgba(13, 71, 161, 0.3);
   border-radius: 50%;
-  background-color: white;
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  z-index: 10;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.custom-arrow img {
-  width: 22px;
-  height: 22px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  transition: all 0.4s ease;
 }
 
 .custom-arrow:hover {
-  transform: translateY(-50%) scale(1.05);
-  background-color: #f0f8ff; 
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
-  border-color: #007bff;
+  background: linear-gradient(145deg, #E6E9EC, #FFD700);
+  transform: translateY(-50%) scale(1.15);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15), 0 0 8px rgba(255, 215, 0, 0.4);
 }
 
 .custom-arrow.prev {
-  left: -20px;
+  left: 5px;
 }
 
 .custom-arrow.next {
-  right: -20px;
+  right: 5px;
 }
 
-.swiper-pagination-bullet {
-   background: #ccc;
-  opacity: 1;
-  transition: all 0.3s;
+.custom-arrow img {
+  width: 24px;
+  height: 24px;
+  filter: invert(20%) sepia(100%) saturate(2000%) hue-rotate(210deg);
+  transition: filter 0.3s ease;
 }
 
-.swiper-pagination-bullet-active {
-  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  transition: all 0.3s ease;
+.custom-arrow:hover img {
+  filter: invert(80%) sepia(100%) saturate(1000%) hue-rotate(40deg);
 }
 
-
-.view-all-btn-container {
-   margin-top: 15px;
-  text-align: center;
-}
-
-.view-all-btn {
-   background: linear-gradient(90deg, #004e92, #000428);
-  color: white;
-  padding: 8px 18px;
-  font-weight: 600;
-  font-size: 15px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: 0.3s ease;
-}
-
-.view-all-btn:hover {
-  opacity: 0.9;
-  transform: scale(1.03);
-}
-
+/* Loading and No Cars Messages */
 .loading-msg,
 .no-cars-msg {
   text-align: center;
-  font-size: 18px;
-  color: #666;
-  padding: 20px 0;
+  font-size: 1.3rem;
+  color: #595959;
+  padding: 30px;
+  font-family: 'Inter', sans-serif;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 12px;
+  backdrop-filter: blur(4px);
 }
 
-/* 📱 Responsive */
-@media (max-width: 768px) {
+/* Swiper Pagination with Premium Design */
+.swiper-pagination {
+  position: relative;
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.swiper-pagination-bullet {
+  background: #0D47A1;
+  opacity: 0.6;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  transition: all 0.4s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.swiper-pagination-bullet:hover {
+  opacity: 0.8;
+  transform: scale(1.1);
+}
+
+.swiper-pagination-bullet-active {
+  opacity: 1;
+  background: linear-gradient(45deg, #0D47A1, #1976D2);
+  transform: scale(1.3);
+  box-shadow: 0 0 8px rgba(13, 71, 161, 0.5), 0 0 12px rgba(255, 215, 0, 0.3);
+}
+
+/* View All Button with Premium Design */
+.view-all-btn-container {
+  text-align: center;
+  margin-top: 35px;
+}
+
+.view-all-btn {
+  background: linear-gradient(90deg, #0D47A1, #1976D2);
+  color: #fff;
+  border: none;
+  padding: 16px 36px;
+  border-radius: 12px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  font-family: 'Inter', sans-serif;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15), 0 0 8px rgba(13, 71, 161, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.view-all-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.view-all-btn:hover::before {
+  left: 100%;
+}
+
+.view-all-btn:hover {
+  background: linear-gradient(90deg, #1976D2, #FFD700);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2), 0 0 12px rgba(255, 215, 0, 0.4);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .carousel-wrapper {
+    padding: 20px 0;
+  }
+
   .custom-arrow {
-    width: 38px;
-    height: 38px;
+    width: 44px;
+    height: 44px;
+  }
+
+  .custom-arrow img {
+    width: 22px;
+    height: 22px;
+  }
+
+  .custom-arrow.prev {
+    left: 10px;
+  }
+
+  .custom-arrow.next {
+    right: 10px;
+  }
+
+  .view-all-btn {
+    padding: 14px 32px;
+    font-size: 1.05rem;
+  }
+
+  .swiper-pagination-bullet {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .carousel-wrapper {
+    padding: 15px 0;
+  }
+
+  .custom-arrow {
+    width: 40px;
+    height: 40px;
+  }
+
+  .custom-arrow.prev {
+    left: 5px;
+  }
+
+  .custom-arrow.next {
+    right: 5px;
+  }
+
+  .custom-arrow img {
+    width: 20px;
+    height: 20px;
+  }
+
+  .loading-msg,
+  .no-cars-msg {
+    font-size: 1.2rem;
+    padding: 20px;
+  }
+
+  .view-all-btn {
+    padding: 12px 28px;
+    font-size: 1rem;
+  }
+
+  .swiper-pagination {
+    margin-top: 25px;
+  }
+
+  .swiper-pagination-bullet {
+    width: 10px;
+    height: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .carousel-wrapper {
+    padding: 10px 0;
+  }
+
+  .custom-arrow {
+    width: 36px;
+    height: 36px;
   }
 
   .custom-arrow img {
@@ -112,8 +232,31 @@
     height: 18px;
   }
 
+  .custom-arrow.prev {
+    left: 5px;
+  }
+
+  .custom-arrow.next {
+    right: 5px;
+  }
+
+  .loading-msg,
+  .no-cars-msg {
+    font-size: 1.1rem;
+    padding: 15px;
+  }
+
   .view-all-btn {
-    font-size: 14px;
-    padding: 10px 20px;
+    padding: 10px 24px;
+    font-size: 0.95rem;
+  }
+
+  .swiper-pagination {
+    margin-top: 20px;
+  }
+
+  .swiper-pagination-bullet {
+    width: 8px;
+    height: 8px;
   }
 }

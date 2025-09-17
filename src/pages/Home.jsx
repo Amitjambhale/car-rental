@@ -83,7 +83,18 @@ const Home = () => {
     fetch("http://192.168.1.46:8000/api/cars/")
       .then((res) => res.json())
       .then((data) => {
-        setCars(data);
+        const formatted = data.map((car) => ({
+          id: car.id,
+          name: car.car_name,
+          fuelType: car.fuel_type,
+          rent: parseFloat(car.prize),
+          image: car.image.startsWith("http") ? car.image : `http://192.168.1.46:8000${car.image}`,
+          isBooked: car.is_booked,
+          availableFrom: car.available_from,
+        }));
+
+
+        setCars(formatted);
         setLoading(false);
       })
       .catch((err) => {
@@ -91,6 +102,7 @@ const Home = () => {
         setLoading(false);
       });
   }, []);
+
 
   // Contact form state
   const [contactForm, setContactForm] = useState({
@@ -277,7 +289,7 @@ const Home = () => {
 
 
       {/* Car Carousel */}
-       <section className="cars section-spacing-bottom">
+      <section className="carss section-spacing-bottom">
         <h2 className="section-heading">Find Your Perfect Self Drive Car</h2>
         {loading ? <p>Loading cars...</p> : <CarCarousel cars={cars} loading={loading} />}
       </section>
@@ -353,41 +365,49 @@ const Home = () => {
       </section>
 
 
-
-
       {/* Contact Section */}
-      <section className="contact-section">
-        <h2 className="section-heading">Contact Us</h2>
-        <div className="contact-container">
-          <form className="contact-form" onSubmit={handleContactSubmit}>
-            <input
-              type="text"
-              name="name"
-              value={contactForm.name}
-              onChange={handleContactChange}
-              placeholder="Your Name"
-              required
-            />
-            <input
-              type="email"
-              name="email"
-              value={contactForm.email}
-              onChange={handleContactChange}
-              placeholder="Your Email"
-              required
-            />
-            <textarea
-              name="message"
-              value={contactForm.message}
-              onChange={handleContactChange}
-              placeholder="Your Message"
-              rows="4"
-              required
-            />
-            <button type="submit">Send Message</button>
-          </form>
+
+
+      <section className="contact-premium">
+        <div className="contact-container-premium">
+          <h2 className="contact-title">Get in Touch</h2>
+          <p className="contact-subtitle">
+            Have questions or need assistance? We’re here to help you 24/7.
+          </p>
+
+          <div className="contact-cards">
+            <div className="contact-card">
+              <i className="fas fa-phone-alt"></i>
+              <h4>Call Us</h4>
+              <p>+91 98765 43210</p>
+            </div>
+
+            <div className="contact-card">
+              <i className="fas fa-envelope"></i>
+              <h4>Email</h4>
+              <p>support@malharcarrental.com</p>
+            </div>
+
+            <div className="contact-card">
+              <i className="fas fa-map-marker-alt"></i>
+              <h4>Visit Us</h4>
+              <p>Pune, Maharashtra, India</p>
+            </div>
+          </div>
+
+          <div className="contact-extra">
+            <a href="https://wa.me/918010345589" target="_blank" rel="noreferrer">
+              <i className="fab fa-whatsapp"></i> Chat on WhatsApp
+            </a>
+            <div className="social-icons">
+              <i className="fab fa-facebook-f"></i>
+              <i className="fab fa-instagram"></i>
+              <i className="fab fa-linkedin-in"></i>
+            </div>
+          </div>
         </div>
       </section>
+
 
     </div>
   );

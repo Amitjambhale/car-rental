@@ -1,295 +1,183 @@
-/* ====== Page Container ====== */
 .car-details-page {
-  font-family: "Poppins", sans-serif;
-  background: #f8f9fa;
-  padding-bottom: 50px;
+  font-family: 'Poppins', sans-serif;
+  color: #263238;
 }
 
-/* ====== Hero Section ====== */
+/* Hero Section */
 .car-hero {
   position: relative;
-  height: 420px;
+  height: 70vh;
+  width: 100%;
   overflow: hidden;
+  border-radius: 0 0 20px 20px;
 }
 
 .car-hero-img {
   width: 100%;
   height: 100%;
-  object-fit: contain; /* poori image dikhegi */
-  background-color: #f5f5f5; /* gap ka background */
+  object-fit:contain;
+  filter: brightness(0.75);
 }
 
 .car-hero-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.4); /* dark overlay */
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent);
 }
 
 .hero-text {
   position: absolute;
-  top: 50%;
+  bottom: 30px;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
   text-align: center;
-  color: white;
+  color: #fff;
 }
 
 .hero-text h1 {
-  font-size: 48px;
-  font-weight: 800;
-  background: linear-gradient(to right, #ff9800, #ffc107);
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
+  font-size: 2.5rem;
+  margin-bottom: 8px;
 }
 
 .hero-text p {
-  font-size: 20px;
+  font-size: 1.2rem;
   font-weight: 500;
-  margin-top: 8px;
+  color: #e0f2f1;
 }
 
-/* ====== Specs Section ====== */
+/* Specs Section */
 .car-specs {
   display: flex;
   justify-content: center;
   gap: 20px;
+  margin: 30px auto;
   flex-wrap: wrap;
-  margin: 30px 0;
 }
 
 .spec-card {
+  background: #fff;
+  padding: 15px 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-size: 0.95rem;
+  font-weight: 600;
   display: flex;
   align-items: center;
   gap: 8px;
-  background: #ffffff;
-  padding: 12px 18px;
-  border-radius: 10px;
-  font-weight: 500;
-  font-size: 16px;
-  color: #444;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+  min-width: 120px;
+  transition: transform 0.2s ease;
 }
 
-/* ====== Description ====== */
+.spec-card:hover {
+  transform: translateY(-4px);
+}
+
+.spec-card .icon {
+  color: #00897b;
+  font-size: 1.2rem;
+}
+
+/* Description */
 .car-description {
-  max-width: 900px;
-  margin: 0 auto;
+  max-width: 800px;
+  margin: 20px auto;
   padding: 0 20px;
   text-align: center;
 }
 
 .car-description h2 {
-  font-size: 28px;
-  font-weight: 700;
+  font-size: 1.5rem;
   margin-bottom: 10px;
-  color: #333;
+  color: #00695c;
 }
 
 .car-description p {
-  font-size: 16px;
+  font-size: 1rem;
   line-height: 1.6;
-  color: #666;
+  color: #555;
 }
 
-/* ====== Actions ====== */
+/* Actions */
 .car-actions {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  max-width: 900px;
-  margin: 30px auto;
-  padding: 0 20px;
-}
-
-.back-btn {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  color: #555;
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.3s ease;
-}
-
-.back-btn:hover {
-  color: #ff9800;
-}
-
-.book-now-btn {
-  background: linear-gradient(to right, #ff9800, #ffc107);
-  border: none;
-  padding: 12px 24px;
-  border-radius: 8px;
-  color: white;
-  font-weight: bold;
-  font-size: 16px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.book-now-btn:hover {
-  background: linear-gradient(to right, #e68a00, #e6b800);
-  transform: scale(1.05);
-}
-
-/* ====== Similar Cars ====== */
-.similar-cars {
-  max-width: 1000px;
-  margin: 50px auto 0;
-  padding: 0 20px;
-}
-
-.similar-cars h2 {
-  font-size: 28px;
-  font-weight: 700;
-  margin-bottom: 20px;
-  color: #333;
-}
-
-.similar-cars-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 20px;
-}
-
-.similar-car-card {
-  background: white;
-  border-radius: 10px;
-  overflow: hidden;
-  text-align: center;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-  padding-bottom: 15px;
-  transition: transform 0.3s ease;
-}
-
-.similar-car-card:hover {
-  transform: translateY(-5px);
-}
-
-.similar-car-card img {
-  width: 100%;
-  height: 160px;
-  object-fit: contain;
-  background: #f8f8f8;
-}
-
-.similar-car-card h3 {
-  font-size: 18px;
-  font-weight: 600;
-  margin: 10px 0 5px;
-}
-
-.similar-car-card p {
-  font-size: 14px;
-  color: #555;
-}
-.similar-cars {
-  margin-top: 40px;
-  padding: 0 20px;
-}
-
-.similar-cars h2 {
-  font-size: 28px;
-  font-weight: 700;
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-
-.view-btn {
-  display: inline-block;
-  margin-top: 8px;
-  padding: 8px 14px;
-  background: #ff9800;
-  color: white;
-  border-radius: 6px;
-  font-size: 14px;
-  text-decoration: none;
-  transition: background 0.3s ease;
-}
-
-.view-btn:hover {
-  background: #e68a00;
-}
-.carousel-arrows {
-  text-align: center;
-  margin-bottom: 10px;
-}
-
-/* custom arrow buttons */
-.custom-arrow {
-  position: absolute;
-  top: 40%;
-  z-index: 10;
-  background: #fff;
-  border-radius: 50%;
-  width: 45px;
-  height: 45px;
-  display: flex;
-  align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-  cursor: pointer;
+  gap: 15px;
+  margin: 30px auto;
+}
+
+/* Buttons (shared look) */
+.details-btn,
+.book-btns {
+  padding: 12px 28px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Back (secondary button) */
+.details-btn {
+  background: transparent;
+  border: 2px solid #00897b;
+  color: #00897b;
+}
+
+.details-btn:hover {
+  background: #00897b;
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+/* Book Now (primary button) */
+.book-btns {
+  background: linear-gradient(135deg, #00897b, #26a69a, #4db6ac);
+  color: #fff;
   border: none;
-  transition: 0.3s;
+  box-shadow: 0 4px 10px rgba(0, 137, 123, 0.3);
 }
 
-.custom-arrow img {
-  width: 22px;
-  height: 22px;
+.book-btns:hover {
+  background: linear-gradient(135deg, #26a69a, #00897b, #00796b);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0, 137, 123, 0.4);
 }
 
-.custom-arrow.left {
-  left: -20px; /* thoda bahar left */
+/* Loading/Error */
+.loading-msg {
+  text-align: center;
+  font-size: 1.2rem;
+  margin: 40px 0;
+  color: #555;
 }
 
-.custom-arrow.right {
-  right: -20px; /* thoda bahar right */
-}
-
-.custom-arrow:hover {
-  background: #ff9800;
-}
-
-
-/* ====== Responsive Design ====== */
-@media (max-width: 992px) {
+/* Responsive */
+@media (max-width: 768px) {
   .hero-text h1 {
-    font-size: 38px;
+    font-size: 1.8rem;
   }
   .hero-text p {
-    font-size: 18px;
-  }
-}
-
-@media (max-width: 768px) {
-  .car-actions {
-    flex-direction: column;
-    gap: 15px;
+    font-size: 1rem;
   }
   .car-specs {
     gap: 12px;
   }
   .spec-card {
-    font-size: 14px;
-    padding: 10px 14px;
+    flex: 1 1 calc(50% - 20px);
+    justify-content: center;
   }
-}
-
-@media (max-width: 576px) {
-  .hero-text h1 {
-    font-size: 30px;
+  .car-actions {
+    flex-direction: column;
+    gap: 12px;
   }
-  .hero-text p {
-    font-size: 16px;
-  }
-  .car-description h2 {
-    font-size: 22px;
-  }
-  .book-now-btn {
-    width: 100%;
-    text-align: center;
+  .details-btn,
+  .book-btns {
+    width: 90%;
+    justify-content: center;
   }
 }
