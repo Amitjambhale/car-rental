@@ -1,147 +1,328 @@
-/* 🌙 Premium Dark Bookings Page */
-
+/* Bookings Container */
 .bookings-container {
+  font-family: Arial, sans-serif;
+  padding:7rem 2rem;
+  background: linear-gradient(180deg, #4b5563 0%, #1f2937 100%); /* Darkened gradient */
   min-height: 100vh;
-  padding: 50px 20px;
-  background: linear-gradient(135deg, #1e1e2f, #2a2a40);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: #f1f1f1;
+  max-width: 1600px;
+  margin: 0 auto;
 }
 
-.title {
-  font-size: 2.5rem;
+/* Booking Title */
+.booking-title {
+ font-size: 2.75rem;
   font-weight: 700;
+  background: linear-gradient(90deg, #ffd700, #f39c12); /* Matches AdminCars and AdminBookings */
+  background-clip: text;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+  color: transparent;
   text-align: center;
-  margin-bottom: 40px;
-  color: #ffffff;
-  letter-spacing: 1px;
-  text-shadow: 0px 2px 8px rgba(0, 0, 0, 0.6);
-}
-
-.bookings-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 25px;
-  width: 100%;
-  max-width: 1100px;
-}
-
-/* Booking Card */
-.booking-card {
-  background: rgba(255, 255, 255, 0.05); /* Transparent card */
-  border-radius: 16px;
-  padding: 22px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
-  transition: all 0.3s ease-in-out;
+  margin-bottom: 2.5rem;
   position: relative;
-  overflow: hidden;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 1;
 }
 
-.booking-card::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 5px;
+/* Error Message */
+.error {
+  color: #dc2626;
+  font-size: 1.125rem;
+  font-weight: 500;
+  text-align: center;
+  margin: 1rem 0;
+  padding: 1rem;
+  background: rgba(220, 38, 38, 0.1);
+  border-radius: 0.5rem;
+}
+
+/* No Bookings Message */
+.no-bookings {
+  font-size: 1.25rem;
+  color: #e5e7eb; /* Adjusted for contrast on darker background */
+  text-align: center;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.05); /* Adjusted for darker theme */
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Table Wrapper */
+.table-wrapper {
   width: 100%;
-  background: linear-gradient(90deg, #ff9966, #ff5e62); /* Premium accent */
+  overflow-x: auto;
 }
 
-.booking-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.8);
+/* Bookings Table */
+.bookings-table {
+  width: 100%;
+  min-width: 1000px; /* Ensures table stretches horizontally */
+  border-collapse: collapse;
+  background: #ffffff;
+  /* border-radius: 0.75rem; */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  margin: 1rem 0;
 }
 
-/* Header */
-.booking-header {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 12px;
-}
+.bookings-table thead {
+   background:  #396a81;
 
-.customer-name {
-  font-size: 1.4rem;
-  font-weight: 600;
   color: #ffffff;
 }
 
-.car-name {
-  font-size: 1rem;
-  font-weight: 500;
-  color: #ff9966;
-  margin-top: 4px;
+.bookings-table th {
+  padding: 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-align: left;
 }
 
-/* Date */
-.date {
-  font-size: 0.95rem;
-  color: #bbb;
-  margin-bottom: 18px;
-  display: flex;
-  align-items: center;
+.bookings-table tbody tr {
+  border-bottom: 1px solid #e5e7eb;
+  transition: background 0.3s ease;
+}
+
+.bookings-table tbody tr:nth-child(even) {
+  background: #f9fafb;
+}
+
+.bookings-table tbody tr:hover {
+  background: rgba(6, 78, 59, 0.1);
+}
+
+.bookings-table td {
+  padding: 1rem;
+  font-size: 1rem;
+  color: #1f2937;
 }
 
 /* Buttons */
-.action-buttons {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-}
-
 .btn {
-  flex: 1;
-  padding: 10px 14px;
-  border-radius: 10px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  cursor: pointer;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
   border: none;
-  transition: all 0.3s ease;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: transform 0.3s ease, background 0.3s ease;
 }
 
-.btn-edit {
-  background: linear-gradient(90deg, #36d1dc, #5b86e5);
-  color: #fff;
+.btn-view {
+  background: #34d399;
+  color: #ffffff;
 }
 
-.btn-edit:hover {
-  background: linear-gradient(90deg, #5b86e5, #36d1dc);
-  transform: scale(1.05);
+.btn-view:hover {
+  background: #10b981;
+  transform: translateY(-0.2rem);
 }
 
 .btn-delete {
-  background: linear-gradient(90deg, #ff5858, #f857a6);
-  color: #fff;
+  background: #dc2626;
+  color: #ffffff;
 }
 
 .btn-delete:hover {
-  background: linear-gradient(90deg, #f857a6, #ff5858);
-  transform: scale(1.05);
+  background: #b91c1c;
+  transform: translateY(-0.2rem);
 }
 
-.no-bookings{
-  font-size: 1.4rem;
-  font-weight: 600;
-  color: #ccc;
-  text-align: center;
-  margin-top: 50px;
+.btn-close {
+  background: #4b5563;
+  color: #ffffff;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
 }
 
-/* Responsive */
-@media (max-width: 600px) {
-  .title{
+.btn-close:hover {
+  background: #374151;
+  transform: translateY(-0.2rem);
+}
+
+/* Document Modal */
+.document-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-in;
+}
+
+.modal-content {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  padding: 2rem;
+  max-width: 500px;
+  width: 90%;
+  position: relative;
+  color: #ffffff;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.modal-content h3 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #34d399;
+}
+
+.modal-content ul {
+  list-style: none;
+  padding: 0;
+}
+
+.modal-content li {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  color: #e5e7eb;
+}
+
+.modal-content a {
+  color: #34d399;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.modal-content a:hover {
+  text-decoration: underline;
+  color: #10b981;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Responsive Design */
+
+/* Tablet (max-width: 992px) */
+@media (max-width: 992px) {
+  .bookings-container {
+    padding: 1.5rem;
+  }
+
+  .booking-title {
     font-size: 2rem;
   }
 
-  .booking-card {
-    padding: 16px;
+  .bookings-table th,
+  .bookings-table td {
+    padding: 0.75rem;
+    font-size: 0.9rem;
   }
 
-  .customer-name {
-    font-size: 1.2rem;
+  .btn {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+  }
+
+  .modal-content {
+    padding: 1.5rem;
+    max-width: 450px;
+  }
+
+  .modal-content h3 {
+    font-size: 1.5rem;
+  }
+
+  .modal-content li {
+    font-size: 1rem;
+  }
+}
+
+/* Mobile (max-width: 768px) */
+@media (max-width: 768px) {
+  .bookings-container {
+    padding: 1rem;
+  }
+
+  .booking-title {
+    font-size: 1.75rem;
+  }
+
+  .bookings-table {
+    min-width: 800px; /* Ensures horizontal scroll */
+  }
+
+  .bookings-table th,
+  .bookings-table td {
+    padding: 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  .btn {
+    padding: 0.35rem 0.7rem;
+    font-size: 0.8rem;
+  }
+
+  .modal-content {
+    width: 95%;
+    padding: 1.25rem;
+  }
+
+  .modal-content h3 {
+    font-size: 1.25rem;
+  }
+
+  .modal-content li {
+    font-size: 0.9rem;
+  }
+}
+
+/* Small Mobile (max-width: 480px) */
+@media (max-width: 480px) {
+  .bookings-container {
+    padding: 0.75rem;
+  }
+
+  .booking-title {
+    font-size: 1.5rem;
+  }
+
+  .error,
+  .no-bookings {
+    font-size: 1rem;
+    padding: 1rem;
+  }
+
+  .bookings-table th,
+  .bookings-table td {
+    padding: 0.4rem;
+    font-size: 0.75rem;
+  }
+
+  .btn {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.75rem;
+  }
+
+  .modal-content {
+    padding: 1rem;
+  }
+
+  .modal-content h3 {
+    font-size: 1.1rem;
+  }
+
+  .modal-content li {
+    font-size: 0.85rem;
+    margin-bottom: 0.75rem;
   }
 }

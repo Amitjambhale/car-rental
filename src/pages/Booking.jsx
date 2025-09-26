@@ -7,6 +7,7 @@ function Booking() {
   const { id } = useParams();
   const [bookingSuccess, setBookingSuccess] = useState(false);
   const [message, setMessage] = useState("");
+  const [showScanner, setShowScanner] = useState(false); // ✅ state for QR modal
 
   const [formData, setFormData] = useState({
     pickup_date: "",
@@ -30,18 +31,13 @@ function Booking() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       const formatDate = (dateStr) => {
         if (!dateStr) return "";
         const [yyyy, mm, dd] = dateStr.split("-");
         return `${dd}-${mm}-${yyyy}`;
       };
-
-      const formatTime = (timeStr) => {
-        if (!timeStr) return "";
-        return timeStr.slice(0, 5);
-      };
+      const formatTime = (timeStr) => (timeStr ? timeStr.slice(0, 5) : "");
 
       const data = new FormData();
       data.append("pickup_date", formatDate(formData.pickup_date));
@@ -55,12 +51,16 @@ function Booking() {
 
       const token = localStorage.getItem("authToken");
 
-      const res = await axiosInstance.post(`/cars/${id}/book/`, data, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await axiosInstance.post(
+        `http://10.181.222.14:8000/api/cars/${id}/book/`,
+        data,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       if (res.status === 201 || res.status === 200) {
         setBookingSuccess(true);
@@ -70,8 +70,8 @@ function Booking() {
       console.error("Booking error:", err.response?.data || err.message);
       setMessage(
         err.response?.data?.error ||
-          err.response?.data?.message ||
-          "Booking failed. Please check your details."
+        err.response?.data?.message ||
+        "Booking failed. Please check your details."
       );
     }
   };
@@ -95,38 +95,14 @@ function Booking() {
 
           {/* Pickup Date & Time */}
           <div className="booking-form-row">
-            <input
-              type="date"
-              name="pickup_date"
-              value={formData.pickup_date}
-              onChange={handleChange}
-              required
-            />
-            <input
-              type="time"
-              name="pickup_time"
-              value={formData.pickup_time}
-              onChange={handleChange}
-              required
-            />
+            <input type="date" name="pickup_date" value={formData.pickup_date} onChange={handleChange} required />
+            <input type="time" name="pickup_time" value={formData.pickup_time} onChange={handleChange} required />
           </div>
 
           {/* Dropoff Date & Time */}
           <div className="booking-form-row">
-            <input
-              type="date"
-              name="dropoff_date"
-              value={formData.dropoff_date}
-              onChange={handleChange}
-              required
-            />
-            <input
-              type="time"
-              name="dropoff_time"
-              value={formData.dropoff_time}
-              onChange={handleChange}
-              required
-            />
+            <input type="date" name="dropoff_date" value={formData.dropoff_date} onChange={handleChange} required />
+            <input type="time" name="dropoff_time" value={formData.dropoff_time} onChange={handleChange} required />
           </div>
 
           {/* File Uploads */}
@@ -139,7 +115,22 @@ function Booking() {
           <label className="booking-label">PAN Card:</label>
           <input type="file" name="pan_card" accept="image/*" onChange={handleChange} required />
 
-          <label className="booking-label">Payment Screenshot:</label>
+          {/* ✅ Payment QR Scanner Section */}
+          <div className="payment-section">
+            <h3>📲 Make Payment</h3>
+            <p>Scan the QR code below to complete your payment.</p>
+            <div className="qr-box">
+              <img
+                src="/assets/admin-scanner.jpg"
+                alt="Payment QR"
+                className="qr-image"
+                onClick={() => setShowScanner(true)} // ✅ open modal
+              />
+            </div>
+            <p className="qr-hint">Click the QR to enlarge</p>
+          </div>
+
+          <label className="booking-label">Upload Payment Screenshot:</label>
           <input type="file" name="payment_screenshot" accept="image/*" onChange={handleChange} required />
 
           <label className="booking-label">Aadhaar Card:</label>
@@ -150,6 +141,17 @@ function Booking() {
           </button>
         </form>
       )}
+
+      {/* ✅ QR Modal */}
+      {showScanner && (
+        <div className="qr-modal" onClick={() => setShowScanner(false)}>
+          <div className="qr-modal-content">
+            <img src="/assets/admin-scanner.jpg" alt="QR Full" className="qr-full" />
+          </div>
+        </div>
+      )}
+
+
     </div>
   );
 }

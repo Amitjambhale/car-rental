@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import "../styles/Login.css";
 
 export default function Login() {
@@ -10,26 +11,29 @@ export default function Login() {
     password: "",
   });
   const [message, setMessage] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const res = await axios.post("http://192.168.1.46:8000/api/login/", formData, {
+      const res = await axios.post("http://10.181.222.14:8000/api/login/", formData, {
         headers: { "Content-Type": "application/json" },
       });
       if (res.status === 200) {
         localStorage.setItem("authToken", res.data.Token.access);
         localStorage.setItem("refresh_token", res.data.Token.Refresh);
-
         window.dispatchEvent(new Event("storageChange"));
         setMessage("Login successful!");
         navigate("/");
-
       } else {
         setMessage(res.data.message || "Invalid login credentials.");
       }
@@ -48,8 +52,7 @@ export default function Login() {
     <div className="login-container-wrapper">
       <div className="login-container">
         <h2>Login</h2>
-        {message && <p>{message}</p>}
-
+        {message && <p className={`login-message ${message.includes("Invalid") || message.includes("failed") ? "error" : ""}`}>{message}</p>}
         <form onSubmit={handleSubmit}>
           <input
             type="email"
@@ -59,26 +62,27 @@ export default function Login() {
             onChange={handleChange}
             required
           />
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
+          <div className="login-password-input-wrapper">
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+            <span className="login-password-toggle-icons" onClick={togglePasswordVisibility}>
+              {showPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
+            </span>
+          </div>
           <button type="submit">Login</button>
         </form>
-
-        <p className="toggle-text">
+        <p className="login-toggle-text">
           Don’t have an account?{" "}
-          <Link to="/register" className="toggle-link">
-            Register
-          </Link>
+          <Link to="/register" className="login-toggle-link">Register</Link>
         </p>
-
-        <div className="back-home-wrapper">
-          <Link to="/" className="back-home-btn">⬅ Back to Home</Link>
+        <div className="login-back-home-wrapper">
+          <Link to="/" className="login-back-home-btn">⬅ Back to Home</Link>
         </div>
       </div>
     </div>

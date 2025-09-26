@@ -4,7 +4,7 @@ import axios from "axios";
 import CarCard from "../components/CarCard";
 import "../styles/CarList.css";
 
-const API_URL = "http://192.168.1.46:8000/api/cars/";
+const API_URL = "http://10.181.222.14:8000/api/cars/";
 
 const CarList = () => {
   const [cars, setCars] = useState([]);
@@ -17,7 +17,7 @@ const CarList = () => {
   const fetchCars = async () => {
     try {
       const res = await axios.get(API_URL);
-      console.log("🚗 Raw Cars data:", res.data);
+    
 
       // ✅ Normalize backend data
       const formatted = res.data.map((car) => ({
@@ -26,12 +26,12 @@ const CarList = () => {
         fuelType: car.fuel_type,
         rent: parseFloat(car.prize),
         // 👉 सही URL बनाना (base URL + relative path)
-        image: `http://192.168.1.46:8000${car.image}`,
+        image: `http://10.181.222.14:8000${car.image}`,
         isBooked: car.is_booked,
         availableFrom: car.available_from,
       }));
 
-      console.log("✅ Formatted Cars:", formatted);
+     
       setCars(formatted);
     } catch (err) {
       console.error("❌ Error fetching cars:", err.response?.data || err.message);

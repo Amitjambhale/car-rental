@@ -22,7 +22,7 @@ const mapCarData = (car) => ({
   name: car.car_name,
   fuelType: car.fuel_type,
   rent: parseFloat(car.prize), // "2200.00" → 2200
-  image: `http://192.168.1.46:8000${car.image}`, // correct field
+  image: `http://10.181.222.14:8000${car.image}`, // correct field
   isBooked: car.is_booked,
   availableFrom: car.available_from,
   transmission: car.transmission || "manual", // fallback agar backend na bheje
@@ -48,7 +48,7 @@ const mapCarData = (car) => ({
         const tomorrow = new Date();
         tomorrow.setDate(today.getDate() + 1);
 
-        const res = await fetch("http://192.168.1.46:8000/api/findcar/", {
+        const res = await fetch("http://10.181.222.14:8000/api/findcar/", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

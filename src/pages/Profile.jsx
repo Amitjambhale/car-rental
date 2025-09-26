@@ -11,7 +11,7 @@ function Profile() {
     const fetchProfile = async () => {
       try {
         // ✅ Call your profile API
-        const res = await axiosInstance.get("profile/",{
+        const res = await axiosInstance.get("http://10.181.222.14:8000/api/profile/",{
   headers: {
     Authorization: `Bearer ${localStorage.getItem("authToken")}`,  // 👈 Bearer Token goes here
   },

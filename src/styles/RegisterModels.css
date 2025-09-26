@@ -1,95 +1,208 @@
+/* Register Models Container */
 .register-models {
-  padding: 40px;
+  font-family: Arial, sans-serif;
+  padding: 6.5rem 2rem;
+  background: linear-gradient(180deg, #4b5563 0%, #1f2937 100%);
   min-height: 100vh;
-  background: linear-gradient(135deg, #1e1e2f, #2a2a40);
-  font-family: "Poppins", sans-serif;
-  color: #fff;
+  max-width: 1600px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
 }
 
-/* Title Gradient */
+.register-models::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
+}
+
+/* Header */
 .header {
-  font-size: 2.4rem;
+  font-size: 2.75rem;
   font-weight: 700;
-  text-align: center;
-  margin-bottom: 35px;
-  background: linear-gradient(90deg, #ffcc70, #ff7eb3);
+  background: linear-gradient(90deg, #ffd700, #f39c12);
   background-clip: text;
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  letter-spacing: 1px;
+  color: transparent;
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+/* Error Message */
+.error {
+  font-size: 1.25rem;
+  color: #dc2626;
+  font-weight: 500;
+  text-align: center;
+  margin: 1.5rem 0;
+  padding: 1.5rem;
+  background: rgba(220, 38, 38, 0.1);
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Loading Message */
+.register-models p {
+  font-size: 1.25rem;
+  color: #e5e7eb;
+  text-align: center;
+  padding: 2.5rem;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 0.75rem;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  margin: 1.5rem 0;
 }
 
 /* Table Wrapper */
 .table-wrapper {
+  width: 100%;
   overflow-x: auto;
-  background: rgba(255, 255, 255, 0.05); /* glass effect */
-  border-radius: 16px;
-  backdrop-filter: blur(12px);
-  padding: 20px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-/* Table */
+/* Users Table */
 .users-table {
   width: 100%;
+  min-width: 900px; /* Reduced for better responsiveness */
   border-collapse: collapse;
-  text-align: left;
-  border-radius: 12px;
-  overflow: hidden;
+  background: #ffffff;
+  border-radius: 1rem; /* Uncommented for consistency */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  margin: 1.5rem 0;
+  border: 2px solid rgba(52, 211, 153, 0.2);
+  animation: fadeIn 0.5s ease-in-out; /* Applied fadeIn animation */
 }
 
-/* Header */
+.users-table thead {
+  background: #396a81;
+  color: #ffffff;
+}
+
 .users-table th {
-  padding: 16px 18px;
-  font-size: 1rem;
-  font-weight: 600;
-  background: linear-gradient(90deg, #dad8d3, #cac4ba);
-  color: #1e1e2f;
+  padding: 1.25rem;
+  font-size: 1.15rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.06em;
+  text-align: left;
 }
 
-/* Rows */
+.users-table tbody tr {
+  border-bottom: 1px solid #e5e7eb;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.users-table tbody tr:nth-child(even) {
+  background: #f9fafb;
+}
+
+.users-table tbody tr:hover {
+  background: rgba(6, 78, 59, 0.15);
+  transform: translateY(-2px); /* Subtle lift effect on hover */
+}
+
 .users-table td {
-  padding: 14px 18px;
-  font-size: 0.95rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  color: #e6e6e6;
+  padding: 1.25rem;
+  font-size: 1.1rem;
+  color: #1f2937;
 }
 
-/* Hover Row Effect */
-.users-table tr:hover td {
-  background: rgba(255, 255, 255, 0.08);
-  color: #fff;
-  transition: 0.3s ease;
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-/* Zebra striping */
-.users-table tr:nth-child(even) td {
-  background: rgba(255, 255, 255, 0.03);
-}
+/* Responsive Design */
 
-.users-table td:first-child {
-  font-weight: 600;
-  color: #ffcc70;
-  text-align: center;
-}
-
-
-/* Responsive */
-@media (max-width: 768px) {
+/* Tablet (max-width: 992px) */
+@media (max-width: 992px) {
   .register-models {
-    padding: 20px;
+    padding: 5rem 1.5rem;
+  }
+
+  .header {
+    font-size: 2.25rem;
+  }
+
+  .users-table {
+    min-width: 700px; /* Adjusted for tablets */
   }
 
   .users-table th,
   .users-table td {
-    padding: 10px;
-    font-size: 0.85rem;
+    padding: 0.85rem;
+    font-size: 0.95rem;
+  }
+
+  .error,
+  .register-models p {
+    font-size: 1.1rem;
+    padding: 2rem;
+  }
+}
+
+/* Mobile (max-width: 768px) */
+@media (max-width: 768px) {
+  .register-models {
+    padding: 4rem 1rem;
   }
 
   .header {
-    font-size: 1.8rem;
+    font-size: 1.75rem;
+  }
+
+  .users-table {
+    min-width: 600px; /* Adjusted for mobile */
+  }
+
+  .users-table th,
+  .users-table td {
+    padding: 0.6rem;
+    font-size: 0.85rem;
+  }
+
+  .error,
+  .register-models p {
+    font-size: 1rem;
+    padding: 1.5rem;
+  }
+}
+
+/* Small Mobile (max-width: 480px) */
+@media (max-width: 480px) {
+  .register-models {
+    padding: 3rem 0.75rem;
+  }
+
+  .header {
+    font-size: 1.5rem;
+  }
+
+  .users-table {
+    min-width: 500px; /* Adjusted for small mobile */
+  }
+
+  .users-table th,
+  .users-table td {
+    padding: 0.5rem;
+    font-size: 0.75rem;
+  }
+
+  .error,
+  .register-models p {
+    font-size: 0.9rem;
+    padding: 1rem;
   }
 }

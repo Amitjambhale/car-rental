@@ -13,7 +13,7 @@ const CarDetails = () => {
     const fetchCarData = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`http://192.168.1.46:8000/api/cars/`);
+        const res = await fetch(`http://10.181.222.14:8000/api/cars/`);
         if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
         const allCars = await res.json();
         const foundCar = allCars.find((c) => c.id === parseInt(id));
@@ -37,7 +37,7 @@ const CarDetails = () => {
       {/* Hero Section */}
       <div className="car-hero">
         <img
-          src={`http://192.168.1.46:8000${car.image}`}
+          src={`http://10.181.222.14:8000${car.image}`}
           alt={car.car_name || "Car"}
           className="car-hero-img"
         />

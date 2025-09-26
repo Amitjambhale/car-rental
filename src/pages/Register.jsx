@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import "../styles/Login.css";
+import { BiShow, BiHide } from "react-icons/bi";
+import "../styles/Register.css";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -13,12 +14,20 @@ export default function Register() {
     password: "",
     password2: ""
   });
-
   const [message, setMessage] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword2, setShowPassword2] = useState(false);
 
   const handleChange = (e) => {
-    // name ko exact state ke keys ke sath match karna hai
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const togglePassword2Visibility = () => {
+    setShowPassword2(!showPassword2);
   };
 
   const handleSubmit = async (e) => {
@@ -39,37 +48,33 @@ export default function Register() {
         password2: formData.password2
       };
 
-      const res = await axios.post("http://192.168.1.46:8000/api/register/", payload, {
+      const res = await axios.post("http://10.181.222.14:8000/api/register/", payload, {
         headers: { "Content-Type": "application/json" },
       });
 
       if (res.status === 200 || res.status === 201) {
-        setMessage(res.data.message || "Registration successful!");
-        navigate("/login");
+        setMessage("Registration successful!"); // Set success message
+        navigate("/login"); // Immediate navigation to login
       } else {
         setMessage(res.data.message || "Something went wrong.");
       }
-    }
-
-    catch (err) {
+    } catch (err) {
       if (err.response) {
         console.error("Backend status:", err.response.status);
-        console.error("Backend data:", JSON.stringify(err.response.data, null, 2)); // 👈 JSON format me dekhne ke liye
+        console.error("Backend data:", JSON.stringify(err.response.data, null, 2));
         setMessage("Registration failed. Check inputs.");
       } else {
         console.error("Request error:", err);
         setMessage("Network or server is down.");
       }
     }
-
   };
 
-
   return (
-    <div className="login-container-wrapper">
-      <div className="login-container">
+    <div className="register-container-wrapper">
+      <div className="register-container">
         <h2>Register</h2>
-        {message && <p>{message}</p>}
+        {message && <p className={`register-message ${message.includes("failed") || message.includes("Passwords") || message.includes("wrong") ? "error" : ""}`}>{message}</p>}
         <form onSubmit={handleSubmit}>
           <input
             type="email"
@@ -103,32 +108,40 @@ export default function Register() {
             onChange={handleChange}
             required
           />
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-          <input
-            type="password"
-            name="password2"
-            placeholder="Confirm Password"
-            value={formData.password2}
-            onChange={handleChange}
-            required
-          />
+          <div className="register-password-input-wrapper">
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+            <span className="register-password-toggle-icon" onClick={togglePasswordVisibility}>
+              {showPassword ? <BiHide /> : <BiShow />}
+            </span>
+          </div>
+          <div className="register-password-input-wrapper">
+            <input
+              type={showPassword2 ? "text" : "password"}
+              name="password2"
+              placeholder="Confirm Password"
+              value={formData.password2}
+              onChange={handleChange}
+              required
+            />
+            <span className="register-password-toggle-icon" onClick={togglePassword2Visibility}>
+              {showPassword2 ? <BiHide /> : <BiShow />}
+            </span>
+          </div>
           <button type="submit">Register</button>
         </form>
-
-        <p className="toggle-text">
+        <p className="register-toggle-text">
           Already have an account?{" "}
-          <Link to="/login" className="toggle-link">Login</Link>
+          <Link to="/login" className="register-toggle-link">Login</Link>
         </p>
-
-        <div className="back-home-wrapper">
-          <Link to="/" className="back-home-btn">⬅ Back to Home</Link>
+        <div className="register-back-home-wrapper">
+          <Link to="/" className="register-back-home-btn">⬅ Back to Home</Link>
         </div>
       </div>
     </div>

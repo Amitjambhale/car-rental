@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../../styles/AdminLogin.css";
 import { getCookie } from "../../utils/csrf";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai"; // 👈 import eye icons
 
 function AdminLogin() {
   const navigate = useNavigate();
@@ -13,9 +14,15 @@ function AdminLogin() {
     password: ""
   });
 
+  const [showPassword, setShowPassword] = useState(false); // 👈 toggle password visibility
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   const handleSubmit = async (e) => {
@@ -24,14 +31,13 @@ function AdminLogin() {
     try {
       const csrfToken = getCookie("csrftoken");
 
-      // ✅ backend ke hisaab se payload
       const payload = {
-        Email: formData.email,   // 👈 Capital "E"
+        Email: formData.email,
         password: formData.password,
       };
 
       const res = await axios.post(
-        "http://192.168.1.46:8000/apis/superadmin/token/",
+        "http://10.181.222.14:8000/apis/superadmin/token/",
         payload,
         {
           headers: {
@@ -42,13 +48,8 @@ function AdminLogin() {
         }
       );
 
-      console.log("🔑 Admin login response:", res.data.token); // 👈 check backend response
-
       localStorage.setItem("adminToken", res.data.token.access);
       if (res.status === 200) {
-        // ✅ Save JWT access token
-        // localStorage.setItem("adminToken", res.data.access);
-
         alert("✅ Admin Logged In!");
         navigate("/admin/home");
       } else {
@@ -57,12 +58,10 @@ function AdminLogin() {
     } catch (error) {
       console.error("Login error:", error.response?.data || error.message);
       alert(
-        `⚠️ Login failed: ${error.response?.data?.detail || "Please check your credentials!"
-        }`
+        `⚠️ Login failed: ${error.response?.data?.detail || "Please check your credentials!"}`
       );
     }
   };
-
 
   return (
     <div className="admin-login-container-wrapper">
@@ -77,14 +76,24 @@ function AdminLogin() {
             required
             onChange={handleChange}
           />
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={formData.password}
-            required
-            onChange={handleChange}
-          />
+
+          <div className="passwords-input-wrapper">
+            <input
+              type={showPassword ? "text" : "password"} // 👈 toggle
+              name="password"
+              placeholder="Password"
+              value={formData.password}
+              required
+              onChange={handleChange}
+            />
+            <span
+              className="passwords-toggle-icon"
+              onClick={togglePasswordVisibility}
+            >
+              {showPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
+            </span>
+          </div>
+
           <button type="submit">Login</button>
         </form>
 

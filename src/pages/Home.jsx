@@ -80,7 +80,7 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://192.168.1.46:8000/api/cars/")
+    fetch("http://10.181.222.14:8000/api/cars/")
       .then((res) => res.json())
       .then((data) => {
         const formatted = data.map((car) => ({
@@ -88,7 +88,7 @@ const Home = () => {
           name: car.car_name,
           fuelType: car.fuel_type,
           rent: parseFloat(car.prize),
-          image: car.image.startsWith("http") ? car.image : `http://192.168.1.46:8000${car.image}`,
+          image: car.image.startsWith("http") ? car.image : `http://10.181.222.14:8000${car.image}`,
           isBooked: car.is_booked,
           availableFrom: car.available_from,
         }));
@@ -152,7 +152,7 @@ const Home = () => {
 
     try {
       const response = await axios.post(
-        "http://192.168.1.46:8000/api/findcar/",
+        "http://10.181.222.14:8000/api/findcar/",
         payload
       );
 
@@ -396,7 +396,7 @@ const Home = () => {
           </div>
 
           <div className="contact-extra">
-            <a href="https://wa.me/918010345589" target="_blank" rel="noreferrer">
+            <a href="https://wa.me/9356837185" target="_blank" rel="noreferrer">
               <i className="fab fa-whatsapp"></i> Chat on WhatsApp
             </a>
             <div className="social-icons">
